@@ -51,7 +51,7 @@ public class BrewingstationBlock extends HorizontalDirectionalBlock {
     public @NotNull ItemStack getCloneItemStack(LevelReader levelReader, BlockPos pos, BlockState state) {
         BrewstationBlockEntity blockEntity = getController(pos, levelReader);
         if (blockEntity != null) {
-            ItemStack beerStack = blockEntity.getBeer();
+            ItemStack beerStack = blockEntity.peekBeer();
             if (beerStack != null && !beerStack.isEmpty()) {
                 return beerStack;
             }

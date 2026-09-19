@@ -9,7 +9,6 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
@@ -34,17 +33,19 @@ public class BrewingRecipe implements Recipe<RecipeInput> {
 
     @Override
     public boolean matches(RecipeInput inventory, Level world) {
-        StackedContents recipeMatcher = new StackedContents();
-        int matchingStacks = 0;
-
-        for (int i = 0; i < 3; ++i) {
-            ItemStack itemStack = inventory.getItem(i);
-            if (!itemStack.isEmpty()) {
-                ++matchingStacks;
-                recipeMatcher.accountStack(itemStack, 1);
+        boolean[] used = new boolean[inventory.size()];
+        for (Ingredient ingredient : this.ingredients) {
+            boolean found = false;
+            for (int i = 0; i < inventory.size(); i++) {
+                if (!used[i] && ingredient.test(inventory.getItem(i))) {
+                    used[i] = true;
+                    found = true;
+                    break;
+                }
             }
+            if (!found) return false;
         }
-        return matchingStacks == this.ingredients.size() && recipeMatcher.canCraft(this, null);
+        return true;
     }
 
     @Override

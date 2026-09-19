@@ -141,7 +141,7 @@ public class BrewHelper {
                 Supplier<BrewEvent> type = BrewEvents.byId(location);
                 if (type == null) continue;
                 BrewEvent event = type.get();
-                event.load(compoundTag);
+                event.load(cTag);
                 event.setTimeForEvent(cTag.getInt("timeLeft"));
                 entity.getRunningEvents().add(event);
             }

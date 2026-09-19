@@ -16,10 +16,10 @@
               "type": "minecraft:item",
               "conditions": [
                 {
-                  "block": "brewery:hops_crop",
+                  "block": "brewery:hops_crop_body",
                   "condition": "minecraft:block_state_property",
                   "properties": {
-                    "age": "3"
+                    "age": "4"
                   }
                 }
               ],
@@ -38,10 +38,10 @@
       "bonus_rolls": 0.0,
       "conditions": [
         {
-          "block": "brewery:hops_crop",
+          "block": "brewery:hops_crop_body",
           "condition": "minecraft:block_state_property",
           "properties": {
-            "age": "3"
+            "age": "4"
           }
         }
       ],

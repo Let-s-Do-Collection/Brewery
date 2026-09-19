@@ -87,7 +87,7 @@ public class DrinkBlockItem extends BlockItem {
             var holder = BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect);
             var current = serverPlayer.getEffect(holder);
             int currentAmp = current != null ? current.getAmplifier() : -1;
-            int newAmp = Mth.clamp(currentAmp + 1, 0, 5);
+            int newAmp = Mth.clamp(Math.max(mainEffect.getAmplifier(), currentAmp + 1), 0, 5);
             serverPlayer.addEffect(new MobEffectInstance(holder, mainEffect.getDuration(), newAmp));
 
             var drunkHolder = MobEffectRegistry.holder(MobEffectRegistry.DRUNK);

@@ -35,10 +35,7 @@ public class BrewTimerBlock extends BrewingstationBlock {
     public static final BooleanProperty ACTIVATED;
     public static final BooleanProperty PRESSED;
     public static final Map<Direction, VoxelShape> SHAPE;
-    private static final int PRESS_DURATION = 3 * 20;
-    private static final boolean canBePressed = false;
     private static final Supplier<VoxelShape> voxelShapeSupplier;
-    private static int pressedTime;
 
     static {
         TIME = BlockStateRegistry.TIME;

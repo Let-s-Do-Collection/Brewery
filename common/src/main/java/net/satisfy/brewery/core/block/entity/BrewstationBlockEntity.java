@@ -103,6 +103,14 @@ public class BrewstationBlockEntity extends BlockEntity implements ImplementedIn
     }
 
     @Nullable
+    public ItemStack peekBeer() {
+        if (this.beer.isEmpty()) return null;
+        ItemStack beerStack = this.beer.copy();
+        beerStack.setCount(1);
+        return beerStack;
+    }
+
+    @Nullable
     public ItemStack removeIngredient() {
         for (int i = 0; i < 3; i++) {
             ItemStack itemStack = this.ingredients.get(i);

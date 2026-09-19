@@ -53,7 +53,6 @@ public class BeerMugBlockEntity extends BlockEntity {
     }
 
     public Item readFlower(CompoundTag nbt, HolderLookup.Provider provider) {
-        super.loadAdditional(nbt, provider);
         if (nbt.contains(FLOWER_KEY)) {
             CompoundTag nbtCompound = nbt.getCompound(FLOWER_KEY);
             if (!nbtCompound.isEmpty()) {

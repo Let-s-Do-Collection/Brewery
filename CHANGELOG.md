@@ -1,3 +1,19 @@
+[2.1.10]
+
+**Added**
+* Wild Hops can now be grown using bonemeal
+
+**Fixed**
+* Beer and Whiskey no longer always apply the weakest potion effect level regardless of brew quality
+* Hops now correctly drop items when harvested with Create's Harvester or Deployer
+* Patterned Carpet no longer drops nothing when broken
+* Picking up a Brewing Station no longer secretly consumes already-brewed beer
+
+**Changed**
+* Updated ru_ru translation (thanks to Tefny)
+
+***
+
 [2.1.9]
 
 **Fixed**
