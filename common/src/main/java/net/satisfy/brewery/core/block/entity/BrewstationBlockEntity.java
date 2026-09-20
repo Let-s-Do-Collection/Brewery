@@ -222,20 +222,25 @@ public class BrewstationBlockEntity extends BlockEntity implements ImplementedIn
             int totalBrewEvents = this.totalEvents;
 
             int quality;
+            int count;
             if (material == BrewMaterial.NETHERITE) {
                 quality = 3;
-            } else if (solvedEvents <= 0) {
-                quality = 0;
-            } else if (totalBrewEvents > 0 && solvedEvents >= totalBrewEvents) {
-                quality = 3;
-            } else if (solvedEvents >= 2 && solvedEvents <= 4) {
-                quality = 2;
+                count = 3;
             } else {
-                quality = 1;
+                if (solvedEvents <= 0) {
+                    quality = 0;
+                } else if (totalBrewEvents > 0 && solvedEvents >= totalBrewEvents) {
+                    quality = 3;
+                } else if (solvedEvents >= 2 && solvedEvents <= 4) {
+                    quality = 2;
+                } else {
+                    quality = 1;
+                }
+                count = solvedEvents == 0 ? 1 : solvedEvents + 1;
             }
 
             DrinkBlockItem.addQuality(resultStack, quality);
-            drinkItem.addCount(resultStack, solvedEvents == 0 ? 1 : solvedEvents + 1);
+            drinkItem.addCount(resultStack, count);
         }
         this.beer = resultStack;
         spawnElementals();

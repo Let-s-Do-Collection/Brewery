@@ -1,3 +1,10 @@
+[2.1.11]
+
+**Fixed**
+* Netherite Brewingstation no longer always yields only 1 beer despite maximum quality
+
+***
+
 [2.1.10]
 
 **Added**
