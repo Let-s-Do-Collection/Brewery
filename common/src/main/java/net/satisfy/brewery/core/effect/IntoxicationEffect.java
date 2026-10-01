@@ -13,12 +13,12 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.satisfy.brewery.platform.PlatformHelper;
 import net.satisfy.brewery.Brewery;
 import net.satisfy.brewery.core.registry.MobEffectRegistry;
 
 public class IntoxicationEffect extends MobEffect {
     private static final ResourceLocation SPEED_ID = Brewery.identifier("effect.intoxication.speed");
-    private static final double BLACKOUT_CHANCE = 0.0015D;
     private static final int BLACKOUT_DURATION = 240;
 
     public IntoxicationEffect() {
@@ -34,8 +34,8 @@ public class IntoxicationEffect extends MobEffect {
     @Override
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
         int lvl = Math.max(0, amplifier);
-        if (lvl >= 5 && !entity.level().isClientSide()) {
-            if (entity.getRandom().nextDouble() < BLACKOUT_CHANCE) {
+        if (lvl >= 5 && PlatformHelper.isBlackoutEnabled() && !entity.level().isClientSide()) {
+            if (entity.getRandom().nextDouble() < PlatformHelper.getBlackoutChance() / 100.0D) {
                 Holder<MobEffect> intox = BuiltInRegistries.MOB_EFFECT.wrapAsHolder(MobEffectRegistry.DRUNK.get());
                 Holder<MobEffect> blackout = BuiltInRegistries.MOB_EFFECT.wrapAsHolder(MobEffectRegistry.BLACKOUT.get());
                 entity.removeEffect(intox);
@@ -43,7 +43,7 @@ public class IntoxicationEffect extends MobEffect {
                 return true;
             }
         }
-        if (lvl > 1) {
+        if (lvl > 1 && PlatformHelper.isDrunkSwayEnabled()) {
             if (entity.level().isClientSide()) {
                 float t = entity.tickCount * 0.03F;
                 float f = 0.45F + 0.15F * lvl;
@@ -77,7 +77,7 @@ public class IntoxicationEffect extends MobEffect {
         AttributeInstance inst = attributeMap.getInstance(Attributes.MOVEMENT_SPEED);
         if (inst != null) {
             inst.removeModifier(SPEED_ID);
-            double amount = amplifier <= 1 ? 0.0D : -0.05D * (amplifier - 1);
+            double amount = amplifier <= 1 || !PlatformHelper.isDrunkSlownessEnabled() ? 0.0D : -0.05D * (amplifier - 1);
             if (amount != 0.0D) {
                 inst.addPermanentModifier(new AttributeModifier(SPEED_ID, amount, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
             }

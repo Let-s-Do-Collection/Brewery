@@ -5,6 +5,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Monster;
+import net.satisfy.brewery.platform.PlatformHelper;
 
 public class CombustionEffect extends MobEffect {
     public CombustionEffect(MobEffectCategory statusEffectCategory, int color) {
@@ -15,8 +16,8 @@ public class CombustionEffect extends MobEffect {
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
         if (entity.getCommandSenderWorld() instanceof ServerLevel) {
             entity.blockPosition();
-            entity.level().getEntities(entity, entity.getBoundingBox().inflate(4)).forEach(e -> {
-                if (e instanceof Monster && entity.getRandom().nextFloat() < 0.02) {
+            entity.level().getEntities(entity, entity.getBoundingBox().inflate(PlatformHelper.getCombustionEffectRadius())).forEach(e -> {
+                if (e instanceof Monster && entity.getRandom().nextFloat() * 100.0F < PlatformHelper.getCombustionEffectIgniteChance()) {
                     e.igniteForSeconds(5);
                 }
             });

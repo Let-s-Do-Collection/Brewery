@@ -5,6 +5,7 @@
     "brewery:netherite_brewingstation",
     "brewery:brew_whistle",
     "brewery:brew_oven",
+    "brewery:brew_kettle_top",
     "brewery:brew_timer"
   ]
 }

@@ -12,6 +12,7 @@ import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.core.Holder;
 import org.jetbrains.annotations.NotNull;
+import net.satisfy.brewery.platform.PlatformHelper;
 
 public class PacifyEffect extends MobEffect {
     public PacifyEffect(MobEffectCategory category, int color) {
@@ -36,7 +37,7 @@ public class PacifyEffect extends MobEffect {
     @Override
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
         if (entity instanceof Player player) {
-            player.level().getEntitiesOfClass(EnderMan.class, player.getBoundingBox().inflate(32.0D)).forEach(e -> e.setTarget(null));
+            player.level().getEntitiesOfClass(EnderMan.class, player.getBoundingBox().inflate(PlatformHelper.getPacifyEffectRange())).forEach(e -> e.setTarget(null));
         }
         return true;
     }

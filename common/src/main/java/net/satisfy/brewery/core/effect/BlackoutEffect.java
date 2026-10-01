@@ -18,6 +18,7 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.satisfy.brewery.platform.PlatformHelper;
 import net.satisfy.brewery.core.registry.MobEffectRegistry;
 
 public class BlackoutEffect extends MobEffect {
@@ -73,9 +74,10 @@ public class BlackoutEffect extends MobEffect {
                     livingEntity.setPose(Pose.SLEEPING);
                 }
             }
-            if (remaining == TELEPORT_AT_REMAINING && livingEntity.level() instanceof ServerLevel serverLevel) {
-                double x = livingEntity.getX() + Mth.nextInt(livingEntity.getRandom(), -30, 30);
-                double z = livingEntity.getZ() + Mth.nextInt(livingEntity.getRandom(), -30, 30);
+            if (remaining == TELEPORT_AT_REMAINING && PlatformHelper.isBlackoutTeleportEnabled() && livingEntity.level() instanceof ServerLevel serverLevel) {
+                int range = PlatformHelper.getBlackoutTeleportRange();
+                double x = livingEntity.getX() + Mth.nextInt(livingEntity.getRandom(), -range, range);
+                double z = livingEntity.getZ() + Mth.nextInt(livingEntity.getRandom(), -range, range);
                 int gx = Mth.floor(x);
                 int gz = Mth.floor(z);
                 int gy = serverLevel.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, gx, gz);

@@ -1,5 +1,6 @@
 package net.satisfy.brewery.core.block;
 
+import net.satisfy.foundation.util.ShapeUtil;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -21,7 +22,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.satisfy.brewery.core.block.property.BrewMaterial;
 import net.satisfy.brewery.core.registry.BlockStateRegistry;
 import net.satisfy.brewery.core.registry.SoundEventRegistry;
-import net.satisfy.farm_and_charm.core.util.GeneralUtil;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
@@ -54,7 +54,7 @@ public class BrewTimerBlock extends BrewingstationBlock {
         };
         SHAPE = Util.make(new HashMap<>(), map -> {
             for (Direction direction : Direction.Plane.HORIZONTAL.stream().toList()) {
-                map.put(direction, GeneralUtil.rotateShape(Direction.NORTH, direction, voxelShapeSupplier.get()));
+                map.put(direction, ShapeUtil.rotateShape(Direction.NORTH, direction, voxelShapeSupplier.get()));
             }
         });
     }

@@ -1,5 +1,6 @@
 package net.satisfy.brewery.core.block.entity;
 
+import net.satisfy.foundation.util.LibUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
@@ -20,9 +21,11 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.state.BlockState;
+import net.satisfy.brewery.platform.PlatformHelper;
 import net.satisfy.brewery.core.block.property.BrewMaterial;
 import net.satisfy.brewery.core.block.property.Heat;
 import net.satisfy.brewery.core.block.property.Liquid;
@@ -37,8 +40,7 @@ import net.satisfy.brewery.core.registry.EntityTypeRegistry;
 import net.satisfy.brewery.core.registry.ObjectRegistry;
 import net.satisfy.brewery.core.registry.RecipeTypeRegistry;
 import net.satisfy.brewery.core.registry.SoundEventRegistry;
-import net.satisfy.farm_and_charm.core.util.GeneralUtil;
-import net.satisfy.farm_and_charm.core.world.ImplementedInventory;
+import net.satisfy.foundation.util.ImplementedInventory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -50,9 +52,6 @@ import java.util.Set;
 public class BrewstationBlockEntity extends BlockEntity implements ImplementedInventory, BlockEntityTicker<BrewstationBlockEntity> {
     @NotNull
     private Set<BlockPos> components = new HashSet<>(4);
-    private static final int MAX_BREW_TIME = 60 * 20;
-    private static final int MIN_TIME_FOR_EVENT = 5 * 20;
-    private static final int MAX_TIME_FOR_EVENT = 15 * 20;
     private static final int SOUND_DURATION = 3 * 20;
     private int soundTime;
     private int brewTime;
@@ -73,7 +72,7 @@ public class BrewstationBlockEntity extends BlockEntity implements ImplementedIn
     }
 
     public void setComponents(BlockPos... components) {
-        if (components.length != 4) {
+        if (components.length < 4) {
             return;
         }
         this.components.addAll(Arrays.asList(components));
@@ -99,6 +98,7 @@ public class BrewstationBlockEntity extends BlockEntity implements ImplementedIn
         if (this.beer.isEmpty() && this.level != null) {
             this.level.setBlockAndUpdate(this.getBlockPos(), this.getBlockState().setValue(BlockStateRegistry.LIQUID, Liquid.EMPTY));
         }
+        this.setChanged();
         return beerStack;
     }
 
@@ -135,8 +135,9 @@ public class BrewstationBlockEntity extends BlockEntity implements ImplementedIn
 
         BrewMaterial material = this.getBlockState().getValue(BlockStateRegistry.MATERIAL);
         boolean isNetherite = material == BrewMaterial.NETHERITE;
+        boolean eventsEnabled = PlatformHelper.isBrewEventsEnabled();
 
-        if (isNetherite) {
+        if (isNetherite || !eventsEnabled) {
             if (!this.runningEvents.isEmpty()) {
                 BrewHelper.finishEvents(this);
                 this.runningEvents.clear();
@@ -154,17 +155,17 @@ public class BrewstationBlockEntity extends BlockEntity implements ImplementedIn
         }
         soundTime++;
 
-        if (!isNetherite) {
+        if (!isNetherite && eventsEnabled) {
             if (timeToNextEvent == Integer.MIN_VALUE) setTimeToEvent();
 
             BrewHelper.checkRunningEvents(this);
 
-            int timeLeft = MAX_BREW_TIME - brewTime;
+            int timeLeft = maxBrewTime() - brewTime;
 
-            if (brewTime >= MAX_BREW_TIME) {
+            if (brewTime >= maxBrewTime()) {
                 RegistryAccess access = level.registryAccess();
                 this.brew(active.value(), access);
-            } else if (timeLeft >= MIN_TIME_FOR_EVENT && timeToNextEvent <= 0 && totalEvents < eventQuota && runningEvents.size() < BrewEvents.BREW_EVENTS.size()) {
+            } else if (timeLeft >= minTimeForEvent() && timeToNextEvent <= 0 && totalEvents < eventQuota && runningEvents.size() < BrewEvents.BREW_EVENTS.size()) {
                 BrewEvent event = BrewHelper.getRdmEvent(this);
                 if (event != null) {
                     ResourceLocation eventId = BrewEvents.getId(event);
@@ -183,7 +184,7 @@ public class BrewstationBlockEntity extends BlockEntity implements ImplementedIn
             return;
         }
 
-        if (brewTime >= MAX_BREW_TIME) {
+        if (brewTime >= maxBrewTime()) {
             RegistryAccess access = level.registryAccess();
             this.brew(active.value(), access);
             return;
@@ -192,9 +193,17 @@ public class BrewstationBlockEntity extends BlockEntity implements ImplementedIn
         brewTime++;
     }
 
+    private static int maxBrewTime() {
+        return PlatformHelper.getBrewTime() * 20;
+    }
+
+    private static int minTimeForEvent() {
+        return PlatformHelper.getMinBrewEventInterval() * 20;
+    }
+
     private void setTimeToEvent() {
         if (this.level != null) {
-            timeToNextEvent = getRandomHighNumber(this.level.getRandom(), MIN_TIME_FOR_EVENT, MAX_TIME_FOR_EVENT);
+            timeToNextEvent = getRandomHighNumber(this.level.getRandom(), minTimeForEvent(), Math.max(minTimeForEvent(), PlatformHelper.getMaxBrewEventInterval() * 20));
         }
     }
 
@@ -226,6 +235,9 @@ public class BrewstationBlockEntity extends BlockEntity implements ImplementedIn
             if (material == BrewMaterial.NETHERITE) {
                 quality = 3;
                 count = 3;
+            } else if (!PlatformHelper.isBrewEventsEnabled()) {
+                quality = -1;
+                count = 2;
             } else {
                 if (solvedEvents <= 0) {
                     quality = 0;
@@ -239,7 +251,9 @@ public class BrewstationBlockEntity extends BlockEntity implements ImplementedIn
                 count = solvedEvents == 0 ? 1 : solvedEvents + 1;
             }
 
-            DrinkBlockItem.addQuality(resultStack, quality);
+            if (quality >= 0) {
+                DrinkBlockItem.addQuality(resultStack, quality);
+            }
             drinkItem.addCount(resultStack, count);
         }
         this.beer = resultStack;
@@ -283,7 +297,7 @@ public class BrewstationBlockEntity extends BlockEntity implements ImplementedIn
             count = 0;
         }
 
-        if (count <= 0) return;
+        if (count <= 0 || !PlatformHelper.isBeerElementalsEnabled()) return;
 
         BlockPos base = BrewHelper.getBlock(ObjectRegistry.BREW_OVEN.get(), this.components, level);
         if (base == null) return;
@@ -340,7 +354,7 @@ public class BrewstationBlockEntity extends BlockEntity implements ImplementedIn
     @Override
     public void saveAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
         if (!this.components.isEmpty()) {
-            GeneralUtil.putBlockPoses(compoundTag, this.components);
+            LibUtil.putBlockPoses(compoundTag, this.components);
         }
         ContainerHelper.saveAllItems(compoundTag, this.ingredients, provider);
         if (!this.beer.isEmpty()) {
@@ -358,7 +372,7 @@ public class BrewstationBlockEntity extends BlockEntity implements ImplementedIn
 
     @Override
     public void loadAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
-        this.components = GeneralUtil.readBlockPoses(compoundTag);
+        this.components = LibUtil.readBlockPoses(compoundTag);
         this.ingredients = NonNullList.withSize(3, ItemStack.EMPTY);
         ContainerHelper.loadAllItems(compoundTag, this.ingredients, provider);
         if (compoundTag.contains("beer")) {
@@ -385,6 +399,14 @@ public class BrewstationBlockEntity extends BlockEntity implements ImplementedIn
         CompoundTag compoundTag = new CompoundTag();
         this.saveAdditional(compoundTag, provider);
         return compoundTag;
+    }
+
+    @Override
+    public void setChanged() {
+        super.setChanged();
+        if (this.level != null && !this.level.isClientSide) {
+            this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), Block.UPDATE_CLIENTS);
+        }
     }
 
     public void growSolved() {

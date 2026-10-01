@@ -42,3 +42,10 @@ mandatory = true
 versionRange = "[1.1.0,)"
 ordering = "AFTER"
 side = "BOTH"
+
+[[dependencies.brewery]]
+modId = "foundation"
+type = "required"
+versionRange = "[1.0.0,)"
+ordering = "AFTER"
+side = "BOTH"

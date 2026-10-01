@@ -5,6 +5,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.satisfy.brewery.platform.PlatformHelper;
 
 public class HaleyEffect extends MobEffect {
     public HaleyEffect(MobEffectCategory statusEffectCategory, int color) {
@@ -18,7 +19,7 @@ public class HaleyEffect extends MobEffect {
 
     @Override
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
-        if (entity instanceof Player player) {
+        if (PlatformHelper.isHaleyEffectFlightEnabled() && entity instanceof Player player) {
             if (!player.level().isClientSide) {
                 player.getAbilities().mayfly = true;
                 player.getAbilities().flying = true;

@@ -1,5 +1,6 @@
 package net.satisfy.brewery.core.block.entity;
 
+import net.satisfy.foundation.util.LibUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -13,7 +14,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.satisfy.brewery.core.registry.EntityTypeRegistry;
-import net.satisfy.farm_and_charm.core.util.GeneralUtil;
 
 public class BeerMugBlockEntity extends BlockEntity {
     public static final String FLOWER_KEY = "flower";
@@ -78,7 +78,7 @@ public class BeerMugBlockEntity extends BlockEntity {
         if (level instanceof ServerLevel serverLevel) {
             Packet<ClientGamePacketListener> updatePacket = getUpdatePacket();
 
-            for (ServerPlayer player : GeneralUtil.tracking(serverLevel, getBlockPos())) {
+            for (ServerPlayer player : LibUtil.tracking(serverLevel, getBlockPos())) {
                 player.connection.send(updatePacket);
             }
         }

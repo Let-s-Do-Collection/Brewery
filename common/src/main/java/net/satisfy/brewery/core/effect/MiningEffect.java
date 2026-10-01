@@ -6,6 +6,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.satisfy.brewery.platform.PlatformHelper;
 
 public class MiningEffect extends MobEffect {
     public MiningEffect(MobEffectCategory statusEffectCategory, int color) {
@@ -28,13 +29,13 @@ public class MiningEffect extends MobEffect {
     }
 
     private MobEffectInstance determineEffectByYLevel(int y) {
-        if (y >= 50) {
+        if (y >= PlatformHelper.getMiningEffectHasteOneHeight()) {
             return new MobEffectInstance(MobEffects.DIG_SPEED, 200, 0, false, false);
-        } else if (y >= 30) {
+        } else if (y >= PlatformHelper.getMiningEffectHasteTwoHeight()) {
             return new MobEffectInstance(MobEffects.DIG_SPEED, 200, 1, false, false);
-        } else if (y >= 0) {
+        } else if (y >= PlatformHelper.getMiningEffectHasteThreeHeight()) {
             return new MobEffectInstance(MobEffects.DIG_SPEED, 200, 2, false, false);
-        } else if (y >= -20) {
+        } else if (y >= PlatformHelper.getMiningEffectHasteFourHeight()) {
             return new MobEffectInstance(MobEffects.DIG_SPEED, 200, 3, false, false);
         } else {
             return new MobEffectInstance(MobEffects.DIG_SPEED, 200, 4, false, false);

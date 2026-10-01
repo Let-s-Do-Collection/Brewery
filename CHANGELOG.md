@@ -1,3 +1,25 @@
+[2.1.12]
+
+**Added**
+* Brewing Station now shows an info tooltip once something is in the Kettle: the ingredients, the next valid or missing ingredients, the possible drinks and what is still needed to start brewing (water, heat or a better Brewing Station)
+* New config with the categories Effects, Brewing, Drunkenness, Info Tooltips and Food:
+  * Effects: fine-tuning of Combustion, Repulsion, Stoutheart, Mining and Pacify, and flying with Amorous Glide on or off
+  * Brewing: brew time, brew events on or off, time between brew events, Beer Elementals on or off
+  * Drunkenness: turn drunkenness, swaying, slowness, blackouts and the blackout teleport on or off, blackout chance and teleport range
+  * Info Tooltips: turn off the Brewing Station info tooltip or only show it while wearing Dungarees from Farm & Charm
+  * Food: hunger and saturation of all food items
+* VanillaBlend: an optional built-in resource pack with muted, vanilla-friendly colors for beers, whiskeys, food, the Brewing Station, Breathalyzer, Mob Effect icons and more. 
+
+**Changed**
+* The Kettle of the Brewing Station is now two blocks tall and has a collision box at its back wall. Needs one more free block above the Kettle when placing
+* Beer and Whiskey quality is now shown with three beer barrel icons instead of a number
+
+**Fixed**
+* Placed Beer and Whiskey can be stacked again: right-click with another bottle to add it, right-click with an empty hand to take one
+* German tooltip of the Brewery Banner now correctly says it grants Haste II
+
+***
+
 [2.1.11]
 
 **Fixed**

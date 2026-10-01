@@ -7,6 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.satisfy.brewery.Brewery;
+import net.satisfy.brewery.platform.PlatformHelper;
 
 public class StoutHeartEffect extends MobEffect {
     private static final ResourceLocation KNOCKBACK_ID = Brewery.identifier("stoutheart_knockback");
@@ -23,14 +24,14 @@ public class StoutHeartEffect extends MobEffect {
         }
 
         float maxHealth = livingEntity.getMaxHealth();
-        float capHealth = maxHealth * 0.75F;
+        float capHealth = maxHealth * PlatformHelper.getStoutHeartEffectHealthCap() / 100.0F;
         float currentHealth = livingEntity.getHealth();
 
         if (currentHealth >= capHealth) {
             return true;
         }
 
-        float healPerTick = 0.2F + (0.1F * amplifier);
+        float healPerTick = (float) PlatformHelper.getStoutHeartEffectHealAmount() + (0.1F * amplifier);
         float missingToCap = capHealth - currentHealth;
 
         livingEntity.heal(Math.min(healPerTick, missingToCap));

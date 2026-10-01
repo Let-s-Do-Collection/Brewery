@@ -6,6 +6,9 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.satisfy.brewery.Brewery;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
@@ -22,7 +25,8 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.satisfy.brewery.core.block.entity.StorageBlockEntity;
+import net.satisfy.foundation.storage.StorageBlockEntity;
+import net.satisfy.brewery.platform.PlatformHelper;
 import net.satisfy.brewery.core.registry.MobEffectRegistry;
 import net.satisfy.brewery.core.registry.ObjectRegistry;
 import org.jetbrains.annotations.NotNull;
@@ -36,6 +40,11 @@ public class DrinkBlockItem extends BlockItem {
     private final MobEffect effect;
     private final int baseDuration;
 
+    private static final int MAX_QUALITY = 3;
+    private static final ResourceLocation QUALITY_FONT = Brewery.identifier("quality");
+    private static final String QUALITY_FULL = "\uE000";
+    private static final String QUALITY_EMPTY = "\uE001";
+
     public DrinkBlockItem(MobEffect effect, int duration, Block block, Properties settings) {
         super(block, settings);
         this.effect = effect;
@@ -45,7 +54,7 @@ public class DrinkBlockItem extends BlockItem {
     public static void addQuality(ItemStack itemStack, int quality) {
         CustomData customData = itemStack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
         CompoundTag tag = customData.copyTag();
-        tag.putInt("brewery.beer_quality", Mth.clamp(quality, 0, 3));
+        tag.putInt("brewery.beer_quality", Mth.clamp(quality, 0, MAX_QUALITY));
         itemStack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
     }
 
@@ -81,7 +90,7 @@ public class DrinkBlockItem extends BlockItem {
         if (livingEntity instanceof ServerPlayer serverPlayer) {
             int quality = itemStack.has(DataComponents.CUSTOM_DATA) && Objects.requireNonNull(itemStack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)).contains("brewery.beer_quality")
                     ? itemStack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().getInt("brewery.beer_quality")
-                    : 1;
+                    : MAX_QUALITY;
 
             MobEffectInstance mainEffect = calculateEffectForQuality(quality);
             var holder = BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect);
@@ -90,23 +99,25 @@ public class DrinkBlockItem extends BlockItem {
             int newAmp = Mth.clamp(Math.max(mainEffect.getAmplifier(), currentAmp + 1), 0, 5);
             serverPlayer.addEffect(new MobEffectInstance(holder, mainEffect.getDuration(), newAmp));
 
-            var drunkHolder = MobEffectRegistry.holder(MobEffectRegistry.DRUNK);
-            var drunkCurrent = serverPlayer.getEffect(drunkHolder);
-            int drunkAmp = drunkCurrent != null ? drunkCurrent.getAmplifier() : -1;
-            int newDrunkAmp = Mth.clamp(drunkAmp + 1, 0, 5);
+            if (PlatformHelper.isDrunkennessEnabled()) {
+                var drunkHolder = MobEffectRegistry.holder(MobEffectRegistry.DRUNK);
+                var drunkCurrent = serverPlayer.getEffect(drunkHolder);
+                int drunkAmp = drunkCurrent != null ? drunkCurrent.getAmplifier() : -1;
+                int newDrunkAmp = Mth.clamp(drunkAmp + 1, 0, 5);
 
-            int min = 1800;
-            int max;
-            if (quality <= 1) {
-                max = 9600;
-            } else if (quality == 2) {
-                max = 6000;
-            } else {
-                max = 3600;
+                int min = 1800;
+                int max;
+                if (quality <= 1) {
+                    max = 9600;
+                } else if (quality == 2) {
+                    max = 6000;
+                } else {
+                    max = 3600;
+                }
+
+                int drunkDuration = Mth.nextInt(level.getRandom(), min, max);
+                serverPlayer.addEffect(new MobEffectInstance(drunkHolder, drunkDuration, newDrunkAmp));
             }
-
-            int drunkDuration = Mth.nextInt(level.getRandom(), min, max);
-            serverPlayer.addEffect(new MobEffectInstance(drunkHolder, drunkDuration, newDrunkAmp));
         }
         return returnStack;
     }
@@ -161,12 +172,13 @@ public class DrinkBlockItem extends BlockItem {
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-        int beerQuality = 1;
-        if (stack.has(DataComponents.CUSTOM_DATA)) {
-            CustomData customData = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
-            if (customData.contains("brewery.beer_quality")) {
-                beerQuality = customData.copyTag().getInt("brewery.beer_quality");
-            }
+        int beerQuality = MAX_QUALITY;
+        CustomData customData = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
+        if (customData.contains("brewery.beer_quality")) {
+            beerQuality = customData.copyTag().getInt("brewery.beer_quality");
+            String mugs = QUALITY_FULL.repeat(beerQuality) + QUALITY_EMPTY.repeat(Math.max(0, MAX_QUALITY - beerQuality));
+            Component icons = Component.literal(mugs).withStyle(Style.EMPTY.withFont(QUALITY_FONT).withColor(ChatFormatting.WHITE));
+            tooltip.add(Component.translatable("tooltip.brewery.beer_quality", icons).withStyle(ChatFormatting.GOLD));
         }
 
         MobEffectInstance instance = calculateEffectForQuality(beerQuality);
@@ -184,10 +196,6 @@ public class DrinkBlockItem extends BlockItem {
             tooltip.add(line.withStyle(this.effect.getCategory().getTooltipFormatting()));
         } else {
             tooltip.add(Component.translatable("effect.none").withStyle(ChatFormatting.GRAY));
-        }
-
-        if (beerQuality != 1) {
-            tooltip.add(Component.translatable("tooltip.brewery.beer_quality", beerQuality).withStyle(ChatFormatting.GOLD));
         }
     }
 }

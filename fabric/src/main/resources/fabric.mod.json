@@ -30,12 +30,16 @@
     ],
     "jei_mod_plugin": [
       "net.satisfy.brewery.core.compat.jei.BreweryJEIClientPlugin"
+    ],
+    "modmenu": [
+      "net.satisfy.brewery.fabric.core.config.ModMenu"
     ]
   },
   "mixins": [
     "brewery-common.mixins.json"
   ],
   "depends": {
+    "foundation": ">=1.0.0",
     "fabric": "*",
     "minecraft": ">=1.21.1",
     "architectury": ">=6.5.82"

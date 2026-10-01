@@ -1,5 +1,6 @@
 package net.satisfy.brewery.client.renderer.block;
 
+import net.satisfy.foundation.storage.StorageTypeRenderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.fabricmc.api.EnvType;
@@ -9,9 +10,9 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.satisfy.brewery.core.block.BeverageBlock;
-import net.satisfy.brewery.core.block.entity.StorageBlockEntity;
+import net.satisfy.foundation.storage.StorageBlockEntity;
 import net.satisfy.brewery.core.item.DrinkBlockItem;
-import net.satisfy.farm_and_charm.client.util.ClientUtil;
+import net.satisfy.foundation.render.ClientUtil;
 
 @Environment(EnvType.CLIENT)
 public class BeverageRenderer implements StorageTypeRenderer {

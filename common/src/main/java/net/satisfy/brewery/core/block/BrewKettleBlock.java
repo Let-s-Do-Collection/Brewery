@@ -1,5 +1,6 @@
 package net.satisfy.brewery.core.block;
 
+import net.satisfy.foundation.util.ShapeUtil;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -38,7 +39,6 @@ import net.satisfy.brewery.core.block.property.Liquid;
 import net.satisfy.brewery.core.registry.BlockStateRegistry;
 import net.satisfy.brewery.core.registry.ObjectRegistry;
 import net.satisfy.brewery.core.registry.SoundEventRegistry;
-import net.satisfy.farm_and_charm.core.util.GeneralUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -65,7 +65,7 @@ public class BrewKettleBlock extends BrewingstationBlock implements EntityBlock 
         };
         SHAPE = Util.make(new HashMap<>(), map -> {
             for (Direction direction : Direction.Plane.HORIZONTAL.stream().toList()) {
-                map.put(direction, GeneralUtil.rotateShape(Direction.NORTH, direction, voxelShapeSupplier.get()));
+                map.put(direction, ShapeUtil.rotateShape(Direction.NORTH, direction, voxelShapeSupplier.get()));
             }
         });
     }
@@ -214,7 +214,7 @@ public class BrewKettleBlock extends BrewingstationBlock implements EntityBlock 
         BlockPos sidePos = mainPos.relative(facing.getCounterClockWise());
         BlockPos diagonalPos = sidePos.relative(facing.getOpposite());
         BlockPos topPos = diagonalPos.above();
-        boolean placeable = canPlace(level, backPos, sidePos, diagonalPos, topPos);
+        boolean placeable = canPlace(level, backPos, sidePos, diagonalPos, topPos, mainPos.above());
         return placeable ? blockState : null;
     }
 
@@ -227,14 +227,16 @@ public class BrewKettleBlock extends BrewingstationBlock implements EntityBlock 
         BlockPos sidePos = blockPos.relative(facing.getCounterClockWise());
         BlockPos diagonalPos = sidePos.relative(facing.getOpposite());
         BlockPos topPos = diagonalPos.above();
-        if (!canPlace(level, backPos, sidePos, diagonalPos, topPos)) return;
+        BlockPos kettleTopPos = blockPos.above();
+        if (!canPlace(level, backPos, sidePos, diagonalPos, topPos, kettleTopPos)) return;
         level.setBlock(backPos, ObjectRegistry.BREW_TIMER.get().defaultBlockState().setValue(FACING, facing).setValue(MATERIAL, this.brewMaterial), 3);
         level.setBlock(sidePos, ObjectRegistry.BREW_WHISTLE.get().defaultBlockState().setValue(FACING, facing).setValue(MATERIAL, this.brewMaterial), 3);
         level.setBlock(diagonalPos, ObjectRegistry.BREW_OVEN.get().defaultBlockState().setValue(FACING, facing).setValue(MATERIAL, this.brewMaterial), 3);
+        level.setBlock(kettleTopPos, ObjectRegistry.BREW_KETTLE_TOP.get().defaultBlockState().setValue(FACING, facing).setValue(MATERIAL, this.brewMaterial), 3);
 
         BlockEntity blockEntity = level.getBlockEntity(blockPos);
         if (blockEntity instanceof BrewstationBlockEntity brewKettleEntity) {
-            brewKettleEntity.setComponents(blockPos, backPos, sidePos, diagonalPos);
+            brewKettleEntity.setComponents(blockPos, backPos, sidePos, diagonalPos, kettleTopPos);
         }
     }
 

@@ -1,5 +1,8 @@
 package net.satisfy.brewery.core.block;
 
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.satisfy.brewery.core.registry.EntityTypeRegistry;
+import net.satisfy.foundation.storage.StorageBlock;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -13,6 +16,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -30,7 +34,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.satisfy.brewery.Brewery;
-import net.satisfy.brewery.core.block.entity.StorageBlockEntity;
+import net.satisfy.foundation.storage.StorageBlockEntity;
 import net.satisfy.brewery.core.item.DrinkBlockItem;
 import net.satisfy.brewery.core.registry.StorageTypeRegistry;
 import org.jetbrains.annotations.NotNull;
@@ -38,6 +42,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class BeverageBlock extends StorageBlock {
+    @Override
+    public BlockEntityType<?> blockEntityType() {
+        return EntityTypeRegistry.STORAGE_ENTITY.get();
+    }
+
     private static final VoxelShape SHAPE = Shapes.box(0.125, 0, 0.125, 0.875, 0.875, 0.875);
     public static final TagKey<Item> SMALL_BOTTLE = TagKey.create(Registries.ITEM, Brewery.identifier("small_bottle"));
     public static final BooleanProperty FAKE_MODEL = BooleanProperty.create("fake_model");
@@ -51,41 +60,46 @@ public class BeverageBlock extends StorageBlock {
     }
 
     @Override
-    public @NotNull InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        final ItemStack stack = player.getItemInHand(hand);
-        BlockEntity blockEntity = world.getBlockEntity(pos);
-
-        if(blockEntity instanceof StorageBlockEntity beerEntity){
-            NonNullList<ItemStack> inventory = beerEntity.getInventory();
-
-            if (canInsertStack(stack) && willFitStack(stack, inventory)) {
-                int posInE = getFirstEmptySlot(inventory);
-                if(posInE == Integer.MIN_VALUE) return InteractionResult.PASS;
-                if(!world.isClientSide()){
-                    beerEntity.setStack(posInE, stack.split(1));
-                    if (player.isCreative()) {
-                        stack.grow(1);
-                    }
-                    world.playSound(null, pos, SoundEvents.BOTTLE_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
-                }
-                return InteractionResult.sidedSuccess(world.isClientSide());
-            } else if (stack.isEmpty() && !isEmpty(inventory)) {
-                int posInE = getLastFullSlot(inventory);
-                if(posInE == Integer.MIN_VALUE) return InteractionResult.PASS;
-                if(!world.isClientSide()){
-                    ItemStack beer = beerEntity.removeStack(posInE);
-                    if (!player.getInventory().add(beer)) {
-                        player.drop(beer, false);
-                    }
-                    if (isEmpty(inventory)) {
-                        world.destroyBlock(pos, false);
-                    }
-                    world.playSound(null, pos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
-                }
-                return InteractionResult.sidedSuccess(world.isClientSide());
-            }
+    protected @NotNull ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        if (!(world.getBlockEntity(pos) instanceof StorageBlockEntity beerEntity) || !canInsertStack(stack)) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
-        return InteractionResult.PASS;
+        NonNullList<ItemStack> inventory = beerEntity.getInventory();
+        int posInE = getFirstEmptySlot(inventory);
+        if (!willFitStack(stack, inventory) || posInE == Integer.MIN_VALUE) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        }
+        if (!world.isClientSide()) {
+            beerEntity.setStack(posInE, stack.split(1));
+            if (player.isCreative()) {
+                stack.grow(1);
+            }
+            world.playSound(null, pos, SoundEvents.BOTTLE_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+        }
+        return ItemInteractionResult.sidedSuccess(world.isClientSide());
+    }
+
+    @Override
+    protected @NotNull InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        if (!(world.getBlockEntity(pos) instanceof StorageBlockEntity beerEntity)) {
+            return InteractionResult.PASS;
+        }
+        NonNullList<ItemStack> inventory = beerEntity.getInventory();
+        int posInE = getLastFullSlot(inventory);
+        if (posInE == Integer.MIN_VALUE) {
+            return InteractionResult.PASS;
+        }
+        if (!world.isClientSide()) {
+            ItemStack beer = beerEntity.removeStack(posInE);
+            if (!player.getInventory().add(beer)) {
+                player.drop(beer, false);
+            }
+            if (isEmpty(inventory)) {
+                world.destroyBlock(pos, false);
+            }
+            world.playSound(null, pos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
+        }
+        return InteractionResult.sidedSuccess(world.isClientSide());
     }
 
     public boolean isEmpty(NonNullList<ItemStack> inventory){

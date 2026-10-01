@@ -1,0 +1,40 @@
+{
+  "variants": {
+    "facing=north,material=wood": {
+      "model": "brewery:block/brew_kettle_top_wood"
+    },
+    "facing=east,material=wood": {
+      "model": "brewery:block/brew_kettle_top_wood"
+    },
+    "facing=south,material=wood": {
+      "model": "brewery:block/brew_kettle_top_wood"
+    },
+    "facing=west,material=wood": {
+      "model": "brewery:block/brew_kettle_top_wood"
+    },
+    "facing=north,material=copper": {
+      "model": "brewery:block/brew_kettle_top_copper"
+    },
+    "facing=east,material=copper": {
+      "model": "brewery:block/brew_kettle_top_copper"
+    },
+    "facing=south,material=copper": {
+      "model": "brewery:block/brew_kettle_top_copper"
+    },
+    "facing=west,material=copper": {
+      "model": "brewery:block/brew_kettle_top_copper"
+    },
+    "facing=north,material=netherite": {
+      "model": "brewery:block/brew_kettle_top_netherite"
+    },
+    "facing=east,material=netherite": {
+      "model": "brewery:block/brew_kettle_top_netherite"
+    },
+    "facing=south,material=netherite": {
+      "model": "brewery:block/brew_kettle_top_netherite"
+    },
+    "facing=west,material=netherite": {
+      "model": "brewery:block/brew_kettle_top_netherite"
+    }
+  }
+}

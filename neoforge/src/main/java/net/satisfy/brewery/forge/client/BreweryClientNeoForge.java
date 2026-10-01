@@ -15,7 +15,7 @@ import net.satisfy.brewery.forge.client.extensions.BrewfestChestplateExtensions;
 import net.satisfy.brewery.forge.client.extensions.BrewfestHatExtensions;
 import net.satisfy.brewery.forge.client.extensions.BrewfestLeggingsExtensions;
 
-@EventBusSubscriber(modid = Brewery.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = Brewery.MOD_ID, value = Dist.CLIENT)
 public class BreweryClientNeoForge {
 
     @SubscribeEvent

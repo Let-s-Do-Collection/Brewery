@@ -1,0 +1,218 @@
+package net.satisfy.brewery.forge.core.config;
+
+import net.neoforged.fml.event.config.ModConfigEvent;
+import net.neoforged.neoforge.common.ModConfigSpec;
+
+public class BreweryNeoForgeConfig {
+    public static final ModConfigSpec COMMON_CONFIG;
+    public static final ModConfigSpec.IntValue BREW_TIME;
+    public static final ModConfigSpec.BooleanValue ENABLE_BREW_EVENTS;
+    public static final ModConfigSpec.IntValue MIN_BREW_EVENT_INTERVAL;
+    public static final ModConfigSpec.IntValue MAX_BREW_EVENT_INTERVAL;
+    public static final ModConfigSpec.BooleanValue ENABLE_BEER_ELEMENTALS;
+    public static final ModConfigSpec.BooleanValue ENABLE_DRUNKENNESS;
+    public static final ModConfigSpec.BooleanValue ENABLE_DRUNK_SWAY;
+    public static final ModConfigSpec.BooleanValue ENABLE_DRUNK_SLOWNESS;
+    public static final ModConfigSpec.BooleanValue ENABLE_BLACKOUT;
+    public static final ModConfigSpec.DoubleValue BLACKOUT_CHANCE;
+    public static final ModConfigSpec.BooleanValue ENABLE_BLACKOUT_TELEPORT;
+    public static final ModConfigSpec.IntValue BLACKOUT_TELEPORT_RANGE;
+    public static final ModConfigSpec.IntValue COMBUSTION_EFFECT_RADIUS;
+    public static final ModConfigSpec.IntValue COMBUSTION_EFFECT_IGNITE_CHANCE;
+    public static final ModConfigSpec.IntValue REPULSION_EFFECT_RADIUS;
+    public static final ModConfigSpec.DoubleValue REPULSION_EFFECT_STRENGTH;
+    public static final ModConfigSpec.IntValue STOUT_HEART_EFFECT_HEALTH_CAP;
+    public static final ModConfigSpec.DoubleValue STOUT_HEART_EFFECT_HEAL_AMOUNT;
+    public static final ModConfigSpec.IntValue MINING_EFFECT_HASTE_ONE_HEIGHT;
+    public static final ModConfigSpec.IntValue MINING_EFFECT_HASTE_TWO_HEIGHT;
+    public static final ModConfigSpec.IntValue MINING_EFFECT_HASTE_THREE_HEIGHT;
+    public static final ModConfigSpec.IntValue MINING_EFFECT_HASTE_FOUR_HEIGHT;
+    public static final ModConfigSpec.IntValue PACIFY_EFFECT_RANGE;
+    public static final ModConfigSpec.BooleanValue HALEY_EFFECT_FLIGHT;
+    public static final ModConfigSpec.BooleanValue SHOW_BREWINGSTATION_INFO;
+    public static final ModConfigSpec.BooleanValue INFO_TOOLTIPS_NEED_DUNGAREES;
+    public static final ModConfigSpec.IntValue SAUSAGE_NUTRITION;
+    public static final ModConfigSpec.DoubleValue SAUSAGE_SATURATION_MOD;
+    public static final ModConfigSpec.IntValue PRETZEL_NUTRITION;
+    public static final ModConfigSpec.DoubleValue PRETZEL_SATURATION_MOD;
+    public static final ModConfigSpec.IntValue PORK_KNUCKLE_NUTRITION;
+    public static final ModConfigSpec.DoubleValue PORK_KNUCKLE_SATURATION_MOD;
+    public static final ModConfigSpec.IntValue FRIED_CHICKEN_NUTRITION;
+    public static final ModConfigSpec.DoubleValue FRIED_CHICKEN_SATURATION_MOD;
+    public static final ModConfigSpec.IntValue HALF_CHICKEN_NUTRITION;
+    public static final ModConfigSpec.DoubleValue HALF_CHICKEN_SATURATION_MOD;
+    public static final ModConfigSpec.IntValue MASHED_POTATOES_NUTRITION;
+    public static final ModConfigSpec.DoubleValue MASHED_POTATOES_SATURATION_MOD;
+    public static final ModConfigSpec.IntValue POTATO_SALAD_NUTRITION;
+    public static final ModConfigSpec.DoubleValue POTATO_SALAD_SATURATION_MOD;
+    public static final ModConfigSpec.IntValue DUMPLINGS_NUTRITION;
+    public static final ModConfigSpec.DoubleValue DUMPLINGS_SATURATION_MOD;
+    public static int brewTime = 60;
+    public static boolean enableBrewEvents = true;
+    public static int minBrewEventInterval = 5;
+    public static int maxBrewEventInterval = 15;
+    public static boolean enableBeerElementals = true;
+    public static boolean enableDrunkenness = true;
+    public static boolean enableDrunkSway = true;
+    public static boolean enableDrunkSlowness = true;
+    public static boolean enableBlackout = true;
+    public static double blackoutChance = 0.15;
+    public static boolean enableBlackoutTeleport = true;
+    public static int blackoutTeleportRange = 30;
+    public static int combustionEffectRadius = 4;
+    public static int combustionEffectIgniteChance = 2;
+    public static int repulsionEffectRadius = 4;
+    public static double repulsionEffectStrength = 0.2;
+    public static int stoutHeartEffectHealthCap = 75;
+    public static double stoutHeartEffectHealAmount = 0.2;
+    public static int miningEffectHasteOneHeight = 50;
+    public static int miningEffectHasteTwoHeight = 30;
+    public static int miningEffectHasteThreeHeight = 0;
+    public static int miningEffectHasteFourHeight = -20;
+    public static int pacifyEffectRange = 32;
+    public static boolean haleyEffectFlight = true;
+    public static boolean showBrewingstationInfo = true;
+    public static boolean infoTooltipsNeedDungarees = false;
+    public static int sausageNutrition = 6;
+    public static double sausageSaturationMod = 0.5;
+    public static int pretzelNutrition = 3;
+    public static double pretzelSaturationMod = 0.4;
+    public static int porkKnuckleNutrition = 6;
+    public static double porkKnuckleSaturationMod = 0.6;
+    public static int friedChickenNutrition = 6;
+    public static double friedChickenSaturationMod = 0.6;
+    public static int halfChickenNutrition = 6;
+    public static double halfChickenSaturationMod = 0.6;
+    public static int mashedPotatoesNutrition = 3;
+    public static double mashedPotatoesSaturationMod = 0.5;
+    public static int potatoSaladNutrition = 6;
+    public static double potatoSaladSaturationMod = 0.7;
+    public static int dumplingsNutrition = 6;
+    public static double dumplingsSaturationMod = 0.5;
+
+    static {
+        ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
+        builder.comment("Fine-tuning of the drink effects.").push("Effects");
+        builder.push("Combustion Effect");
+        COMBUSTION_EFFECT_RADIUS = builder.comment("Radius in blocks in which monsters can catch fire.").defineInRange("combustionEffectRadius", 4, 1, 16);
+        COMBUSTION_EFFECT_IGNITE_CHANCE = builder.comment("Chance in percent per tick that a monster nearby catches fire.").defineInRange("combustionEffectIgniteChance", 2, 0, 100);
+        builder.pop();
+        builder.push("Repulsion Effect");
+        REPULSION_EFFECT_RADIUS = builder.comment("Radius in blocks in which entities are pushed away.").defineInRange("repulsionEffectRadius", 4, 1, 16);
+        REPULSION_EFFECT_STRENGTH = builder.comment("How hard entities are pushed away. Grows with the effect level.").defineInRange("repulsionEffectStrength", 0.2, 0.0, 2.0);
+        builder.pop();
+        builder.push("Stoutheart Effect");
+        STOUT_HEART_EFFECT_HEALTH_CAP = builder.comment("Up to how many percent of your max health the effect heals.").defineInRange("stoutHeartEffectHealthCap", 75, 1, 100);
+        STOUT_HEART_EFFECT_HEAL_AMOUNT = builder.comment("Health points healed every half second. Grows with the effect level. 2 points = 1 heart.").defineInRange("stoutHeartEffectHealAmount", 0.2, 0.0, 5.0);
+        builder.pop();
+        builder.push("Mining Effect");
+        MINING_EFFECT_HASTE_ONE_HEIGHT = builder.comment("From this height up you get Haste I.").defineInRange("miningEffectHasteOneHeight", 50, -64, 320);
+        MINING_EFFECT_HASTE_TWO_HEIGHT = builder.comment("From this height up you get Haste II.").defineInRange("miningEffectHasteTwoHeight", 30, -64, 320);
+        MINING_EFFECT_HASTE_THREE_HEIGHT = builder.comment("From this height up you get Haste III.").defineInRange("miningEffectHasteThreeHeight", 0, -64, 320);
+        MINING_EFFECT_HASTE_FOUR_HEIGHT = builder.comment("From this height up you get Haste IV. Below it you get Haste V.").defineInRange("miningEffectHasteFourHeight", -20, -64, 320);
+        builder.pop();
+        builder.push("Pacify Effect");
+        PACIFY_EFFECT_RANGE = builder.comment("Radius in blocks in which endermen stop attacking you.").defineInRange("pacifyEffectRange", 32, 1, 64);
+        builder.pop();
+        builder.push("Haley Effect");
+        HALEY_EFFECT_FLIGHT = builder.comment("Amorous Glide lets you fly.").define("haleyEffectFlight", true);
+        builder.pop();
+        builder.pop();
+
+        builder.comment("Brewing Station, brew events and Beer Elementals.").push("Brewing");
+        BREW_TIME = builder.comment("How many seconds brewing takes.").defineInRange("brewTime", 60, 5, 600);
+        ENABLE_BREW_EVENTS = builder.comment("The kettle, oven, timer and whistle need your attention while brewing. Without events, beer has no quality.").define("enableBrewEvents", true);
+        MIN_BREW_EVENT_INTERVAL = builder.comment("Shortest time in seconds between two brew events.").defineInRange("minBrewEventInterval", 5, 1, 120);
+        MAX_BREW_EVENT_INTERVAL = builder.comment("Longest time in seconds between two brew events.").defineInRange("maxBrewEventInterval", 15, 1, 120);
+        ENABLE_BEER_ELEMENTALS = builder.comment("Badly brewed beer can spawn Beer Elementals.").define("enableBeerElementals", true);
+        builder.pop();
+
+        builder.comment("Drunk effects of beer and whiskey.").push("Drunkenness");
+        ENABLE_DRUNKENNESS = builder.comment("Beer and whiskey make you drunk. Turns off all drunk effects below.").define("enableDrunkenness", true);
+        ENABLE_DRUNK_SWAY = builder.comment("The camera sways and you stagger while drunk.").define("enableDrunkSway", true);
+        ENABLE_DRUNK_SLOWNESS = builder.comment("You walk slower the more drunk you are.").define("enableDrunkSlowness", true);
+        ENABLE_BLACKOUT = builder.comment("Very drunk players can black out and wake up somewhere else.").define("enableBlackout", true);
+        BLACKOUT_CHANCE = builder.comment("Chance in percent per tick that a very drunk player blacks out.").defineInRange("blackoutChance", 0.15, 0.0, 5.0);
+        ENABLE_BLACKOUT_TELEPORT = builder.comment("After a blackout you wake up a few blocks away.").define("enableBlackoutTeleport", true);
+        BLACKOUT_TELEPORT_RANGE = builder.comment("How many blocks away you can wake up after a blackout.").defineInRange("blackoutTeleportRange", 30, 1, 128);
+        builder.pop();
+
+        builder.comment("Info tooltips that appear when looking at a block. Only affects your own screen.").push("Info Tooltips");
+        SHOW_BREWINGSTATION_INFO = builder.comment("Shows an info tooltip when looking at the kettle of a Brewing Station.").define("showBrewingstationInfo", true);
+        INFO_TOOLTIPS_NEED_DUNGAREES = builder.comment("Info tooltips only show while wearing Dungarees from Farm & Charm.").define("needDungarees", false);
+        builder.pop();
+
+        builder.comment("Hunger and saturation of the food items. Changes need a game restart.").push("Food");
+        SAUSAGE_NUTRITION = builder.defineInRange("sausageNutrition", 6, 0, Integer.MAX_VALUE);
+        SAUSAGE_SATURATION_MOD = builder.defineInRange("sausageSaturationMod", 0.5, 0.0, Double.MAX_VALUE);
+        PRETZEL_NUTRITION = builder.defineInRange("pretzelNutrition", 3, 0, Integer.MAX_VALUE);
+        PRETZEL_SATURATION_MOD = builder.defineInRange("pretzelSaturationMod", 0.4, 0.0, Double.MAX_VALUE);
+        PORK_KNUCKLE_NUTRITION = builder.defineInRange("porkKnuckleNutrition", 6, 0, Integer.MAX_VALUE);
+        PORK_KNUCKLE_SATURATION_MOD = builder.defineInRange("porkKnuckleSaturationMod", 0.6, 0.0, Double.MAX_VALUE);
+        FRIED_CHICKEN_NUTRITION = builder.defineInRange("friedChickenNutrition", 6, 0, Integer.MAX_VALUE);
+        FRIED_CHICKEN_SATURATION_MOD = builder.defineInRange("friedChickenSaturationMod", 0.6, 0.0, Double.MAX_VALUE);
+        HALF_CHICKEN_NUTRITION = builder.defineInRange("halfChickenNutrition", 6, 0, Integer.MAX_VALUE);
+        HALF_CHICKEN_SATURATION_MOD = builder.defineInRange("halfChickenSaturationMod", 0.6, 0.0, Double.MAX_VALUE);
+        MASHED_POTATOES_NUTRITION = builder.defineInRange("mashedPotatoesNutrition", 3, 0, Integer.MAX_VALUE);
+        MASHED_POTATOES_SATURATION_MOD = builder.defineInRange("mashedPotatoesSaturationMod", 0.5, 0.0, Double.MAX_VALUE);
+        POTATO_SALAD_NUTRITION = builder.defineInRange("potatoSaladNutrition", 6, 0, Integer.MAX_VALUE);
+        POTATO_SALAD_SATURATION_MOD = builder.defineInRange("potatoSaladSaturationMod", 0.7, 0.0, Double.MAX_VALUE);
+        DUMPLINGS_NUTRITION = builder.defineInRange("dumplingsNutrition", 6, 0, Integer.MAX_VALUE);
+        DUMPLINGS_SATURATION_MOD = builder.defineInRange("dumplingsSaturationMod", 0.5, 0.0, Double.MAX_VALUE);
+        builder.pop();
+        COMMON_CONFIG = builder.build();
+    }
+
+    public static void onLoad(ModConfigEvent.Loading event) {
+        bake();
+    }
+
+    public static void onReload(ModConfigEvent.Reloading event) {
+        bake();
+    }
+
+    private static void bake() {
+        brewTime = BREW_TIME.get();
+        enableBrewEvents = ENABLE_BREW_EVENTS.get();
+        minBrewEventInterval = MIN_BREW_EVENT_INTERVAL.get();
+        maxBrewEventInterval = MAX_BREW_EVENT_INTERVAL.get();
+        enableBeerElementals = ENABLE_BEER_ELEMENTALS.get();
+        enableDrunkenness = ENABLE_DRUNKENNESS.get();
+        enableDrunkSway = ENABLE_DRUNK_SWAY.get();
+        enableDrunkSlowness = ENABLE_DRUNK_SLOWNESS.get();
+        enableBlackout = ENABLE_BLACKOUT.get();
+        blackoutChance = BLACKOUT_CHANCE.get();
+        enableBlackoutTeleport = ENABLE_BLACKOUT_TELEPORT.get();
+        blackoutTeleportRange = BLACKOUT_TELEPORT_RANGE.get();
+        combustionEffectRadius = COMBUSTION_EFFECT_RADIUS.get();
+        combustionEffectIgniteChance = COMBUSTION_EFFECT_IGNITE_CHANCE.get();
+        repulsionEffectRadius = REPULSION_EFFECT_RADIUS.get();
+        repulsionEffectStrength = REPULSION_EFFECT_STRENGTH.get();
+        stoutHeartEffectHealthCap = STOUT_HEART_EFFECT_HEALTH_CAP.get();
+        stoutHeartEffectHealAmount = STOUT_HEART_EFFECT_HEAL_AMOUNT.get();
+        miningEffectHasteOneHeight = MINING_EFFECT_HASTE_ONE_HEIGHT.get();
+        miningEffectHasteTwoHeight = MINING_EFFECT_HASTE_TWO_HEIGHT.get();
+        miningEffectHasteThreeHeight = MINING_EFFECT_HASTE_THREE_HEIGHT.get();
+        miningEffectHasteFourHeight = MINING_EFFECT_HASTE_FOUR_HEIGHT.get();
+        pacifyEffectRange = PACIFY_EFFECT_RANGE.get();
+        haleyEffectFlight = HALEY_EFFECT_FLIGHT.get();
+        showBrewingstationInfo = SHOW_BREWINGSTATION_INFO.get();
+        infoTooltipsNeedDungarees = INFO_TOOLTIPS_NEED_DUNGAREES.get();
+        sausageNutrition = SAUSAGE_NUTRITION.get();
+        sausageSaturationMod = SAUSAGE_SATURATION_MOD.get();
+        pretzelNutrition = PRETZEL_NUTRITION.get();
+        pretzelSaturationMod = PRETZEL_SATURATION_MOD.get();
+        porkKnuckleNutrition = PORK_KNUCKLE_NUTRITION.get();
+        porkKnuckleSaturationMod = PORK_KNUCKLE_SATURATION_MOD.get();
+        friedChickenNutrition = FRIED_CHICKEN_NUTRITION.get();
+        friedChickenSaturationMod = FRIED_CHICKEN_SATURATION_MOD.get();
+        halfChickenNutrition = HALF_CHICKEN_NUTRITION.get();
+        halfChickenSaturationMod = HALF_CHICKEN_SATURATION_MOD.get();
+        mashedPotatoesNutrition = MASHED_POTATOES_NUTRITION.get();
+        mashedPotatoesSaturationMod = MASHED_POTATOES_SATURATION_MOD.get();
+        potatoSaladNutrition = POTATO_SALAD_NUTRITION.get();
+        potatoSaladSaturationMod = POTATO_SALAD_SATURATION_MOD.get();
+        dumplingsNutrition = DUMPLINGS_NUTRITION.get();
+        dumplingsSaturationMod = DUMPLINGS_SATURATION_MOD.get();
+    }
+}

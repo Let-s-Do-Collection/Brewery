@@ -87,11 +87,13 @@ public class BrewingstationBlock extends HorizontalDirectionalBlock {
     }
 
     private <T extends BlockGetter> BrewstationBlockEntity findController(BlockPos centerPos, T blockGetter) {
-        for (int x = -1; x <= 1; x++) {
-            for (int y = -1; y <= 1; y++) {
-                BlockEntity blockEntity = blockGetter.getBlockEntity(centerPos.offset(x, 0, y));
-                if (blockEntity instanceof BrewstationBlockEntity brewstationEntity && brewstationEntity.isPartOf(centerPos)) {
-                    return brewstationEntity;
+        for (int dy = 0; dy >= -1; dy--) {
+            for (int x = -1; x <= 1; x++) {
+                for (int z = -1; z <= 1; z++) {
+                    BlockEntity blockEntity = blockGetter.getBlockEntity(centerPos.offset(x, dy, z));
+                    if (blockEntity instanceof BrewstationBlockEntity brewstationEntity && brewstationEntity.isPartOf(centerPos)) {
+                        return brewstationEntity;
+                    }
                 }
             }
         }

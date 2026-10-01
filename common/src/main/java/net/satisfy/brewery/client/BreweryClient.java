@@ -11,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.satisfy.brewery.client.gui.overlay.BrewingstationInfoProvider;
 import net.satisfy.brewery.client.gui.WallDecorationEditGui;
 import net.satisfy.brewery.client.model.BeerElementalModel;
 import net.satisfy.brewery.client.model.BrewfestBootsModel;
@@ -21,7 +22,7 @@ import net.satisfy.brewery.client.renderer.block.BeerMugRenderer;
 import net.satisfy.brewery.client.renderer.block.BeverageRenderer;
 import net.satisfy.brewery.client.renderer.block.BrewingstationRenderer;
 import net.satisfy.brewery.client.renderer.block.CompletionistBannerRenderer;
-import net.satisfy.brewery.client.renderer.block.StorageBlockEntityRenderer;
+import net.satisfy.foundation.storage.StorageBlockEntityRenderer;
 import net.satisfy.brewery.client.renderer.block.WallDecorationBlockRenderer;
 import net.satisfy.brewery.client.renderer.entity.BeerElementalAttackRenderer;
 import net.satisfy.brewery.client.renderer.entity.BeerElementalRenderer;
@@ -30,6 +31,7 @@ import net.satisfy.brewery.core.registry.EntityTypeRegistry;
 import net.satisfy.brewery.core.registry.StorageTypeRegistry;
 
 import static net.satisfy.brewery.core.registry.ObjectRegistry.*;
+import net.satisfy.foundation.overlay.BlockInfoOverlay;
 
 @Environment(EnvType.CLIENT)
 public class BreweryClient {
@@ -64,7 +66,13 @@ public class BreweryClient {
 
     public static void preInitClient() {
         registerEntityRenderers();
+        registerBlockInfo();
         registerEntityModelLayers();
+    }
+
+    private static void registerBlockInfo() {
+        BlockInfoOverlay.init();
+        BlockInfoOverlay.registerProvider(new BrewingstationInfoProvider());
     }
 
     private static void registerEntityRenderers() {

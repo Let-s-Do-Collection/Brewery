@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.item.ItemStack;
 import net.satisfy.brewery.core.block.BrewingstationBlock;
 import net.satisfy.brewery.core.block.entity.BrewstationBlockEntity;
-import net.satisfy.farm_and_charm.client.util.ClientUtil;
+import net.satisfy.foundation.render.ClientUtil;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 

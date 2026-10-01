@@ -1,5 +1,8 @@
 package net.satisfy.brewery.core.block;
 
+import net.satisfy.foundation.block.LineConnectingBlock;
+import net.satisfy.foundation.block.LineConnectingType;
+import net.satisfy.foundation.util.ShapeUtil;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -35,7 +38,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.satisfy.brewery.core.block.entity.CabinetBlockEntity;
-import net.satisfy.farm_and_charm.core.util.GeneralUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -45,11 +47,11 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class SideBoardBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
-    private static final Map<GeneralUtil.LineConnectingType, Supplier<VoxelShape>> SHAPES_SUPPLIERS = new HashMap<>();
-    private static final Map<Direction, Map<GeneralUtil.LineConnectingType, VoxelShape>> SHAPES = new EnumMap<>(Direction.class);
+    private static final Map<LineConnectingType, Supplier<VoxelShape>> SHAPES_SUPPLIERS = new HashMap<>();
+    private static final Map<Direction, Map<LineConnectingType, VoxelShape>> SHAPES = new EnumMap<>(Direction.class);
     public static final BooleanProperty WATERLOGGED;
     public static final DirectionProperty FACING;
-    public static final EnumProperty<GeneralUtil.LineConnectingType> TYPE;
+    public static final EnumProperty<LineConnectingType> TYPE;
     private final Supplier<SoundEvent> openSound;
     private final Supplier<SoundEvent> closeSound;
 
@@ -61,7 +63,7 @@ public class SideBoardBlock extends BaseEntityBlock implements SimpleWaterlogged
         super(settings);
         this.openSound = openSound;
         this.closeSound = closeSound;
-        this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false).setValue(FACING, Direction.NORTH).setValue(TYPE, GeneralUtil.LineConnectingType.NONE));
+        this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false).setValue(FACING, Direction.NORTH).setValue(TYPE, LineConnectingType.NONE));
     }
 
     @Override
@@ -147,18 +149,18 @@ public class SideBoardBlock extends BaseEntityBlock implements SimpleWaterlogged
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
-    public GeneralUtil.LineConnectingType getType(BlockState state, BlockState left, BlockState right) {
+    public LineConnectingType getType(BlockState state, BlockState left, BlockState right) {
         boolean shape_left_same = isConnectable(left, state);
         boolean shape_right_same = isConnectable(right, state);
 
         if (shape_left_same && shape_right_same) {
-            return GeneralUtil.LineConnectingType.MIDDLE;
+            return LineConnectingType.MIDDLE;
         } else if (shape_left_same) {
-            return GeneralUtil.LineConnectingType.LEFT;
+            return LineConnectingType.LEFT;
         } else if (shape_right_same) {
-            return GeneralUtil.LineConnectingType.RIGHT;
+            return LineConnectingType.RIGHT;
         }
-        return GeneralUtil.LineConnectingType.NONE;
+        return LineConnectingType.NONE;
     }
 
     protected boolean isConnectable(BlockState state1, BlockState state2) {
@@ -170,7 +172,7 @@ public class SideBoardBlock extends BaseEntityBlock implements SimpleWaterlogged
         if (world.isClientSide) return;
 
         Direction facing = state.getValue(FACING);
-        GeneralUtil.LineConnectingType type;
+        LineConnectingType type;
         switch (facing) {
             case EAST -> type = getType(state, world.getBlockState(pos.south()), world.getBlockState(pos.north()));
             case SOUTH -> type = getType(state, world.getBlockState(pos.west()), world.getBlockState(pos.east()));
@@ -186,7 +188,7 @@ public class SideBoardBlock extends BaseEntityBlock implements SimpleWaterlogged
     @Override
     public @NotNull VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         Direction direction = state.getValue(FACING);
-        GeneralUtil.LineConnectingType type = state.getValue(TYPE);
+        LineConnectingType type = state.getValue(TYPE);
         return SHAPES.get(direction).get(type);
     }
 
@@ -229,16 +231,16 @@ public class SideBoardBlock extends BaseEntityBlock implements SimpleWaterlogged
     static {
         WATERLOGGED = BlockStateProperties.WATERLOGGED;
         FACING = BlockStateProperties.HORIZONTAL_FACING;
-        TYPE = GeneralUtil.LINE_CONNECTING_TYPE;
-        SHAPES_SUPPLIERS.put(GeneralUtil.LineConnectingType.NONE, SideBoardBlock::makeSingleShape);
-        SHAPES_SUPPLIERS.put(GeneralUtil.LineConnectingType.MIDDLE, SideBoardBlock::makeMiddleShape);
-        SHAPES_SUPPLIERS.put(GeneralUtil.LineConnectingType.RIGHT, SideBoardBlock::makeRightShape);
-        SHAPES_SUPPLIERS.put(GeneralUtil.LineConnectingType.LEFT, SideBoardBlock::makeLeftShape);
+        TYPE = LineConnectingBlock.TYPE;
+        SHAPES_SUPPLIERS.put(LineConnectingType.NONE, SideBoardBlock::makeSingleShape);
+        SHAPES_SUPPLIERS.put(LineConnectingType.MIDDLE, SideBoardBlock::makeMiddleShape);
+        SHAPES_SUPPLIERS.put(LineConnectingType.RIGHT, SideBoardBlock::makeRightShape);
+        SHAPES_SUPPLIERS.put(LineConnectingType.LEFT, SideBoardBlock::makeLeftShape);
 
         for (Direction direction : Direction.Plane.HORIZONTAL) {
             SHAPES.put(direction, new HashMap<>());
-            for (Map.Entry<GeneralUtil.LineConnectingType, Supplier<VoxelShape>> entry : SHAPES_SUPPLIERS.entrySet()) {
-                SHAPES.get(direction).put(entry.getKey(), GeneralUtil.rotateShape(Direction.NORTH, direction, entry.getValue().get()));
+            for (Map.Entry<LineConnectingType, Supplier<VoxelShape>> entry : SHAPES_SUPPLIERS.entrySet()) {
+                SHAPES.get(direction).put(entry.getKey(), ShapeUtil.rotateShape(Direction.NORTH, direction, entry.getValue().get()));
             }
         }
     }

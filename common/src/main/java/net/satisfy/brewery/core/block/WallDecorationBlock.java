@@ -29,7 +29,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.satisfy.brewery.client.BreweryClient;
 import net.satisfy.brewery.core.block.entity.WallDecorationBlockEntity;
-import net.satisfy.farm_and_charm.core.block.FacingBlock;
+import net.satisfy.foundation.block.FacingBlock;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
