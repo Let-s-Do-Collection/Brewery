@@ -11,7 +11,8 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "brewery:patterned_carpet"
+          "name": "brewery:patterned_carpet",
+          "functions": [{"function": "minecraft:copy_state", "block": "brewery:patterned_carpet_block", "properties": ["color"]}]
         }
       ],
       "rolls": 1.0

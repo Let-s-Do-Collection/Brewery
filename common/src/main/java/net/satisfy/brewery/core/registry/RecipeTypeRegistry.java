@@ -8,12 +8,14 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.satisfy.brewery.Brewery;
 import net.satisfy.brewery.core.recipe.BrewingRecipe;
+import net.satisfy.brewery.core.recipe.PatternedCarpetRecipe;
 
 import java.util.function.Supplier;
 
 public class RecipeTypeRegistry {
     private static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(Brewery.MOD_ID, Registries.RECIPE_SERIALIZER);
     public static final RegistrySupplier<RecipeSerializer<BrewingRecipe>> BREWING_RECIPE_SERIALIZER = create(BrewingRecipe.Serializer::new);
+    public static final RegistrySupplier<RecipeSerializer<PatternedCarpetRecipe>> PATTERNED_CARPET_RECIPE_SERIALIZER = RECIPE_SERIALIZERS.register("patterned_carpet", PatternedCarpetRecipe.Serializer::new);
     private static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(Brewery.MOD_ID, Registries.RECIPE_TYPE);
     public static final RegistrySupplier<RecipeType<BrewingRecipe>> BREWING_RECIPE_TYPE = create();
 

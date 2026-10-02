@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "brewery:patterned_carpet",
   "group": "carpet",
   "key": {
     "#": {

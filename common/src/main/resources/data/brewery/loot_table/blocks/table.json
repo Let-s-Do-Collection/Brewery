@@ -15,6 +15,37 @@
         }
       ],
       "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        },
+        {
+          "condition": "minecraft:block_state_property",
+          "block": "brewery:table",
+          "properties": {
+            "has_tablecloth": "true"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "brewery:patterned_carpet",
+          "functions": [
+            {
+              "function": "minecraft:copy_state",
+              "block": "brewery:table",
+              "properties": [
+                "color"
+              ]
+            }
+          ]
+        }
+      ],
+      "rolls": 1.0
     }
   ]
 }

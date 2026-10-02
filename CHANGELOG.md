@@ -9,14 +9,18 @@
   * Info Tooltips: turn off the Brewing Station info tooltip or only show it while wearing Dungarees from Farm & Charm
   * Food: hunger and saturation of all food items
 * VanillaBlend: an optional built-in resource pack with muted, vanilla-friendly colors for beers, whiskeys, food, the Brewing Station, Breathalyzer, Mob Effect icons and more. 
+* Patterned Wool, Patterned Carpet and the Tablecloth can be dyed: right-click with any dye. Dyed Wool crafts into Carpet of the same color, and a Carpet placed on a Table keeps its color
 
 **Changed**
 * The Kettle of the Brewing Station is now two blocks tall and has a collision box at its back wall. Needs one more free block above the Kettle when placing
 * Beer and Whiskey quality is now shown with three beer barrel icons instead of a number
+* Patterned Wool, Patterned Carpet and the Tablecloth are now light blue by default
+* Wild Hops item now uses the top part of the plant as its texture, like vanilla tall plants
 
 **Fixed**
 * Placed Beer and Whiskey can be stacked again: right-click with another bottle to add it, right-click with an empty hand to take one
 * German tooltip of the Brewery Banner now correctly says it grants Haste II
+* Breaking a Table with a Tablecloth now also drops the Carpet
 
 ***
 

@@ -7,6 +7,8 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -18,6 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
@@ -26,6 +29,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.satisfy.brewery.core.registry.ObjectRegistry;
 import net.satisfy.foundation.block.LineConnectingBlock;
+import net.satisfy.foundation.util.DyeHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -33,6 +37,7 @@ import java.util.Objects;
 public class TableBlock extends LineConnectingBlock implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED;
     public static final BooleanProperty HAS_TABLECLOTH = BooleanProperty.create("has_tablecloth");
+    public static final EnumProperty<DyeColor> COLOR = PatternedWoolBlock.COLOR;
     public static final VoxelShape TOP_SHAPE;
     public static final VoxelShape[] LEG_SHAPES;
 
@@ -49,14 +54,17 @@ public class TableBlock extends LineConnectingBlock implements SimpleWaterlogged
 
     public TableBlock(BlockBehaviour.Properties settings) {
         super(settings);
-        this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false).setValue(HAS_TABLECLOTH, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false).setValue(HAS_TABLECLOTH, false).setValue(COLOR, DyeColor.LIGHT_BLUE));
     }
 
     @Override
     protected @NotNull ItemInteractionResult useItemOn(ItemStack itemStack, BlockState state, Level world, BlockPos pos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
+        if (state.getValue(HAS_TABLECLOTH) && itemStack.getItem() instanceof DyeItem dyeItem) {
+            return DyeHelper.dye(itemStack, dyeItem.getDyeColor(), state, COLOR, world, pos, player);
+        }
         if (itemStack.getItem().equals(ObjectRegistry.PATTERNED_CARPET.get())) {
             if (!state.getValue(HAS_TABLECLOTH)) {
-                world.setBlock(pos, state.setValue(HAS_TABLECLOTH, true), 3);
+                world.setBlock(pos, state.setValue(HAS_TABLECLOTH, true).setValue(COLOR, PatternedWoolBlock.getColor(itemStack)), 3);
                 if (!player.isCreative()) {
                     itemStack.shrink(1);
                 }
@@ -75,7 +83,7 @@ public class TableBlock extends LineConnectingBlock implements SimpleWaterlogged
         level.setBlock(pos, state.setValue(HAS_TABLECLOTH, false), 3);
 
         if (!level.isClientSide) {
-            ItemStack returnedCarpet = new ItemStack(ObjectRegistry.PATTERNED_CARPET.get());
+            ItemStack returnedCarpet = PatternedWoolBlock.withColor(new ItemStack(ObjectRegistry.PATTERNED_CARPET.get()), state.getValue(COLOR));
             if (!player.addItem(returnedCarpet)) {
                 player.drop(returnedCarpet, false);
             }
@@ -115,7 +123,7 @@ public class TableBlock extends LineConnectingBlock implements SimpleWaterlogged
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(WATERLOGGED, HAS_TABLECLOTH);
+        builder.add(WATERLOGGED, HAS_TABLECLOTH, COLOR);
     }
 
     @Override

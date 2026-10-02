@@ -11,7 +11,8 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "brewery:patterned_wool"
+          "name": "brewery:patterned_wool",
+          "functions": [{"function": "minecraft:copy_state", "block": "brewery:patterned_wool", "properties": ["color"]}]
         }
       ],
       "rolls": 1.0
