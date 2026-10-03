@@ -52,6 +52,15 @@ public class DrinkBlockItem extends BlockItem {
         this.baseDuration = duration;
     }
 
+    /** Whiskeys are served in bottles, everything else in mugs. */
+    public static boolean isBottled(ItemStack stack) {
+        return BuiltInRegistries.ITEM.getKey(stack.getItem()).getPath().startsWith("whiskey_");
+    }
+
+    public static Item getContainer(ItemStack stack) {
+        return isBottled(stack) ? Items.GLASS_BOTTLE : ObjectRegistry.BEER_MUG.get().asItem();
+    }
+
     public static void addQuality(ItemStack itemStack, int quality) {
         CustomData customData = itemStack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
         CompoundTag tag = customData.copyTag();
@@ -86,7 +95,10 @@ public class DrinkBlockItem extends BlockItem {
     public @NotNull ItemStack finishUsingItem(ItemStack itemStack, Level level, LivingEntity livingEntity) {
         ItemStack returnStack = super.finishUsingItem(itemStack, level, livingEntity);
         if (livingEntity instanceof Player player && !player.isCreative()) {
-            player.addItem(new ItemStack(ObjectRegistry.BEER_MUG.get()));
+            ItemStack container = new ItemStack(getContainer(itemStack));
+            if (!player.addItem(container)) {
+                player.drop(container, false);
+            }
         }
         if (livingEntity instanceof ServerPlayer serverPlayer) {
             int quality = itemStack.has(DataComponents.CUSTOM_DATA) && Objects.requireNonNull(itemStack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)).contains("brewery.beer_quality")

@@ -129,6 +129,7 @@
   "entity.brewery.beer_elemental": "Booze",
   "hud.brewery.brewing": "Braut …",
   "hud.brewery.fill_hint": "Mit einem Bierkrug abfüllen",
+  "hud.brewery.fill_hint_bottle": "Mit einer Glasflasche abfüllen",
   "hud.brewery.in_kettle": "Im Kessel",
   "hud.brewery.missing_ingredient": "Fehlende Zutat",
   "hud.brewery.missing_ingredients": "Fehlende Zutaten",

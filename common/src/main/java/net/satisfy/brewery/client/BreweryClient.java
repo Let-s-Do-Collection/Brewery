@@ -21,6 +21,7 @@ import net.satisfy.brewery.client.model.BrewfestLeggingsModel;
 import net.satisfy.brewery.client.renderer.block.BeerMugRenderer;
 import net.satisfy.brewery.client.renderer.block.BeverageRenderer;
 import net.satisfy.brewery.client.renderer.block.BrewingstationRenderer;
+import net.satisfy.brewery.core.block.entity.BrewstationBlockEntity;
 import net.satisfy.foundation.storage.StorageBlockEntityRenderer;
 import net.satisfy.brewery.client.renderer.entity.BeerElementalAttackRenderer;
 import net.satisfy.brewery.client.renderer.entity.BeerElementalRenderer;
@@ -47,17 +48,18 @@ public class BreweryClient {
             if (world == null || pos == null) {
                 return -1;
             }
-            return BiomeColors.getAverageWaterColor(world, pos);
+            int water = BiomeColors.getAverageWaterColor(world, pos);
+            return world.getBlockEntity(pos) instanceof BrewstationBlockEntity station ? station.getLiquidColor(water) : water;
         }, WOODEN_BREWINGSTATION, COPPER_BREWINGSTATION, NETHERITE_BREWINGSTATION);
 
         ColorHandlerRegistry.registerBlockColors((state, world, pos, tintIndex) ->
-                tintIndex == 0 ? state.getValue(PatternedWoolBlock.COLOR).getTextureDiffuseColor() : -1,
+                tintIndex == 0 ? PatternedWoolBlock.getTint(state.getValue(PatternedWoolBlock.COLOR)) : -1,
                 PATTERNED_WOOL, PATTERNED_CARPET_BLOCK, TABLE);
         ColorHandlerRegistry.registerItemColors((stack, tintIndex) -> {
             if (tintIndex != 0) {
                 return -1;
             }
-            return PatternedWoolBlock.getColor(stack).getTextureDiffuseColor();
+            return PatternedWoolBlock.getTint(PatternedWoolBlock.getColor(stack));
         }, PATTERNED_WOOL, PATTERNED_CARPET_BLOCK, PATTERNED_CARPET);
 
         BlockEntityRendererRegistry.register(EntityTypeRegistry.BREWERY_BANNER.get(), CompletionistBannerRenderer::new);

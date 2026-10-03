@@ -53,6 +53,15 @@ public class BrewstationBlockEntity extends BlockEntity implements ImplementedIn
     @NotNull
     private Set<BlockPos> components = new HashSet<>(4);
     private static final int SOUND_DURATION = 3 * 20;
+    private static final int WATER_PHASE = 200;
+    private static final int FADE_TIME = 200;
+    private static final int WHISKEY_COLOR = 0xD08A3A;
+    private static final int BEER_COLOR = 0xE8B923;
+
+    private long brewStart = -1;
+    private boolean brewWhiskey;
+    private int clientTintStep = -1;
+    private long clientParticleTick = -1;
     private int soundTime;
     private int brewTime;
     private int timeToNextEvent = Integer.MIN_VALUE;
@@ -131,6 +140,11 @@ public class BrewstationBlockEntity extends BlockEntity implements ImplementedIn
         if (active == null) {
             endBrewing();
             return;
+        }
+        if (brewStart < 0) {
+            brewStart = level.getGameTime() - brewTime;
+            brewWhiskey = DrinkBlockItem.isBottled(active.value().getResultItem(level.registryAccess()));
+            setChanged();
         }
 
         BrewMaterial material = this.getBlockState().getValue(BlockStateRegistry.MATERIAL);
@@ -336,6 +350,10 @@ public class BrewstationBlockEntity extends BlockEntity implements ImplementedIn
     }
 
     public void endBrewing() {
+        if (this.brewStart >= 0) {
+            this.brewStart = -1;
+            this.setChanged();
+        }
         BrewHelper.finishEvents(this);
         this.brewTime = 0;
         this.solved = 0;
@@ -360,6 +378,8 @@ public class BrewstationBlockEntity extends BlockEntity implements ImplementedIn
         if (!this.beer.isEmpty()) {
             compoundTag.put("beer", this.beer.save(provider, new CompoundTag()));
         }
+        compoundTag.putLong("brewStart", this.brewStart);
+        compoundTag.putBoolean("brewWhiskey", this.brewWhiskey);
         compoundTag.putInt("solved", this.solved);
         compoundTag.putInt("brewTime", this.brewTime);
         compoundTag.putInt("totalEvents", this.totalEvents);
@@ -375,9 +395,9 @@ public class BrewstationBlockEntity extends BlockEntity implements ImplementedIn
         this.components = LibUtil.readBlockPoses(compoundTag);
         this.ingredients = NonNullList.withSize(3, ItemStack.EMPTY);
         ContainerHelper.loadAllItems(compoundTag, this.ingredients, provider);
-        if (compoundTag.contains("beer")) {
-            this.beer = ItemStack.parseOptional(provider, compoundTag.getCompound("beer"));
-        }
+        this.beer = compoundTag.contains("beer") ? ItemStack.parseOptional(provider, compoundTag.getCompound("beer")) : ItemStack.EMPTY;
+        this.brewStart = compoundTag.contains("brewStart") ? compoundTag.getLong("brewStart") : -1;
+        this.brewWhiskey = compoundTag.getBoolean("brewWhiskey");
         this.solved = compoundTag.getInt("solved");
         this.brewTime = compoundTag.getInt("brewTime");
         this.totalEvents = compoundTag.getInt("totalEvents");
@@ -407,6 +427,45 @@ public class BrewstationBlockEntity extends BlockEntity implements ImplementedIn
         if (this.level != null && !this.level.isClientSide) {
             this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), Block.UPDATE_CLIENTS);
         }
+    }
+
+    /** Water blue for the first seconds of brewing, then fades to brown (whiskey) or yellow (beer). Client side. */
+    public int getLiquidColor(int waterColor) {
+        if (!this.beer.isEmpty()) {
+            return DrinkBlockItem.isBottled(this.beer) ? WHISKEY_COLOR : BEER_COLOR;
+        }
+        if (this.brewStart < 0 || this.level == null) return waterColor;
+        long elapsed = this.level.getGameTime() - this.brewStart - WATER_PHASE;
+        if (elapsed <= 0) return waterColor;
+        float progress = Math.min(1f, elapsed / (float) FADE_TIME);
+        return mix(waterColor, this.brewWhiskey ? WHISKEY_COLOR : BEER_COLOR, progress);
+    }
+
+    private static int mix(int from, int to, float t) {
+        int r = Math.round(((from >> 16) & 0xFF) * (1 - t) + ((to >> 16) & 0xFF) * t);
+        int g = Math.round(((from >> 8) & 0xFF) * (1 - t) + ((to >> 8) & 0xFF) * t);
+        int b = Math.round((from & 0xFF) * (1 - t) + (to & 0xFF) * t);
+        return (r << 16) | (g << 8) | b;
+    }
+
+    public boolean isBrewingClient() {
+        return this.brewStart >= 0;
+    }
+
+    public int getClientTintStep() {
+        return this.clientTintStep;
+    }
+
+    public void setClientTintStep(int step) {
+        this.clientTintStep = step;
+    }
+
+    public long getClientParticleTick() {
+        return this.clientParticleTick;
+    }
+
+    public void setClientParticleTick(long tick) {
+        this.clientParticleTick = tick;
     }
 
     public void growSolved() {

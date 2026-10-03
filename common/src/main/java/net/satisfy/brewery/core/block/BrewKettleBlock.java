@@ -34,6 +34,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.satisfy.brewery.core.block.entity.BrewstationBlockEntity;
+import net.satisfy.brewery.core.item.DrinkBlockItem;
 import net.satisfy.brewery.core.block.property.BrewMaterial;
 import net.satisfy.brewery.core.block.property.Liquid;
 import net.satisfy.brewery.core.registry.BlockStateRegistry;
@@ -102,22 +103,22 @@ public class BrewKettleBlock extends BrewingstationBlock implements EntityBlock 
                 }
                 return ItemInteractionResult.CONSUME;
             }
-            if (itemStack.getItem() == ObjectRegistry.BEER_MUG.get().asItem()) {
+            if (itemStack.getItem() == ObjectRegistry.BEER_MUG.get().asItem() || itemStack.is(Items.GLASS_BOTTLE)) {
                 if (blockState.getValue(LIQUID) == Liquid.BEER) {
-                    ItemStack beerStack = brewKettleEntity.getBeer();
-                    if (beerStack != null) {
-                        player.addItem(beerStack);
-                        if (!player.isCreative()) {
-                            itemStack.shrink(1);
-                            if (itemStack.isEmpty()) {
-                                player.getInventory().removeItem(itemStack);
-                            }
-                            level.playSound(null, blockPos, SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 1.0F, 1.0F);
-                            level.sendBlockUpdated(blockPos, blockState, blockState, UPDATE_CLIENTS);
-                        }
-                        return ItemInteractionResult.SUCCESS;
+                    ItemStack preview = brewKettleEntity.peekBeer();
+                    if (preview == null || DrinkBlockItem.getContainer(preview) != itemStack.getItem()) {
+                        return ItemInteractionResult.CONSUME;
                     }
-                    return ItemInteractionResult.CONSUME;
+                    ItemStack beerStack = brewKettleEntity.getBeer();
+                    if (!player.addItem(beerStack)) {
+                        player.drop(beerStack, false);
+                    }
+                    if (!player.isCreative()) {
+                        itemStack.shrink(1);
+                    }
+                    level.playSound(null, blockPos, SoundEvents.BOTTLE_FILL, SoundSource.PLAYERS, 1.0F, 1.0F);
+                    level.sendBlockUpdated(blockPos, blockState, blockState, UPDATE_CLIENTS);
+                    return ItemInteractionResult.SUCCESS;
                 }
                 return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
             }

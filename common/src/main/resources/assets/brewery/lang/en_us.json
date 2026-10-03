@@ -131,6 +131,7 @@
   "entity.brewery.beer_elemental_attack": "Brew Burst",
   "hud.brewery.brewing": "Brewing…",
   "hud.brewery.fill_hint": "Fill with a Beer Mug",
+  "hud.brewery.fill_hint_bottle": "Fill with a Glass Bottle",
   "hud.brewery.in_kettle": "In the Kettle",
   "hud.brewery.missing_ingredient": "Missing Ingredient",
   "hud.brewery.missing_ingredients": "Missing Ingredients",

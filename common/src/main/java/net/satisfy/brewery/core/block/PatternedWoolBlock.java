@@ -20,6 +20,8 @@ import net.satisfy.foundation.util.DyeHelper;
 public class PatternedWoolBlock extends Block {
     public static final EnumProperty<DyeColor> COLOR = EnumProperty.create("color", DyeColor.class);
 
+    private static final int BAVARIAN_BLUE = 0x68A0C7;
+
     public PatternedWoolBlock(Properties properties) {
         super(properties);
         registerDefaultState(defaultBlockState().setValue(COLOR, DyeColor.LIGHT_BLUE));
@@ -35,6 +37,11 @@ public class PatternedWoolBlock extends Block {
             return DyeHelper.dye(stack, dyeItem.getDyeColor(), state, COLOR, level, pos, player);
         }
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+    }
+
+    /** Light blue is the default and renders as the Bavarian blue instead of vanilla light blue. */
+    public static int getTint(DyeColor color) {
+        return color == DyeColor.LIGHT_BLUE ? BAVARIAN_BLUE : color.getTextureDiffuseColor();
     }
 
     public static DyeColor getColor(ItemStack stack) {

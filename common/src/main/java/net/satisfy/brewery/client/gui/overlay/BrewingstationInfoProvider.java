@@ -19,6 +19,7 @@ import net.satisfy.brewery.core.block.BrewKettleTopBlock;
 import net.satisfy.brewery.core.block.entity.BrewstationBlockEntity;
 import net.satisfy.brewery.core.block.property.Heat;
 import net.satisfy.brewery.core.block.property.Liquid;
+import net.satisfy.brewery.core.item.DrinkBlockItem;
 import net.satisfy.brewery.core.event.brew_event.BrewHelper;
 import net.satisfy.brewery.core.recipe.BrewingRecipe;
 import net.satisfy.brewery.core.registry.BlockStateRegistry;
@@ -53,7 +54,7 @@ public class BrewingstationInfoProvider implements BlockInfoProvider {
             ItemStack beer = station.peekBeer();
             if (beer != null) {
                 sections.add(InfoSection.icons(Component.translatable("hud.brewery.ready").withStyle(ChatFormatting.GREEN), List.of(beer), InfoSection.ROW_COLUMNS));
-                sections.add(InfoSection.title(Component.translatable("hud.brewery.fill_hint").withStyle(ChatFormatting.GRAY)));
+                sections.add(InfoSection.title(Component.translatable(DrinkBlockItem.isBottled(beer) ? "hud.brewery.fill_hint_bottle" : "hud.brewery.fill_hint").withStyle(ChatFormatting.GRAY)));
             }
             return sections;
         }
