@@ -1,6 +1,7 @@
 [2.1.12]
 
 **Added**
+* Brewfest Garb set bonus Harddrinking: wearing the full set makes you immune to Drunkenness. The set tooltip shows every piece and lights up the bonus once the set is complete
 * Brewing Station now shows an info tooltip once something is in the Kettle: the ingredients, the next valid or missing ingredients, the possible drinks and what is still needed to start brewing (water, heat or a better Brewing Station)
 * New config with the categories Effects, Brewing, Drunkenness, Info Tooltips and Food:
   * Effects: fine-tuning of Combustion, Repulsion, Stoutheart, Mining and Pacify, and flying with Amorous Glide on or off

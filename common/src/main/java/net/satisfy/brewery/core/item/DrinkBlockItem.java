@@ -1,5 +1,6 @@
 package net.satisfy.brewery.core.item;
 
+import net.satisfy.brewery.core.registry.ArmorSetRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
@@ -99,7 +100,7 @@ public class DrinkBlockItem extends BlockItem {
             int newAmp = Mth.clamp(Math.max(mainEffect.getAmplifier(), currentAmp + 1), 0, 5);
             serverPlayer.addEffect(new MobEffectInstance(holder, mainEffect.getDuration(), newAmp));
 
-            if (PlatformHelper.isDrunkennessEnabled()) {
+            if (PlatformHelper.isDrunkennessEnabled() && !ArmorSetRegistry.hasHarddrinking(serverPlayer)) {
                 var drunkHolder = MobEffectRegistry.holder(MobEffectRegistry.DRUNK);
                 var drunkCurrent = serverPlayer.getEffect(drunkHolder);
                 int drunkAmp = drunkCurrent != null ? drunkCurrent.getAmplifier() : -1;

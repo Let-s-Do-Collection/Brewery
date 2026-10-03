@@ -1,5 +1,12 @@
 package net.satisfy.brewery.core.registry;
 
+import net.satisfy.foundation.armor.TexturedArmorItem;
+import net.minecraft.world.effect.MobEffects;
+import net.satisfy.foundation.banner.CompletionistWallBannerBlock;
+import net.satisfy.foundation.banner.CompletionistBannerBlock;
+import net.satisfy.foundation.banner.BannerSettings;
+import net.satisfy.foundation.block.WallDecorationBlock;
+import net.satisfy.foundation.block.CabinetBlock;
 import net.satisfy.foundation.util.RegistryUtil;
 import dev.architectury.core.item.ArchitecturySpawnEggItem;
 import dev.architectury.registry.registries.DeferredRegister;
@@ -22,7 +29,6 @@ import net.satisfy.brewery.core.block.*;
 import net.satisfy.brewery.core.block.property.BrewMaterial;
 import net.satisfy.brewery.core.item.*;
 import net.satisfy.foundation.block.BenchBlock;
-import net.satisfy.foundation.block.BonemealableFlowerBlock;
 import net.satisfy.foundation.block.BonemealableTallFlowerBlock;
 import net.satisfy.foundation.food.FoodBlock;
 import net.satisfy.foundation.food.PlaceableEffectFoodItem;
@@ -43,15 +49,15 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Item> SAUSAGE = registerItem("sausage", () -> new EffectFoodItem(getFoodItemSettings(PlatformHelper.getNutrition("sausage"), PlatformHelper.getSaturationMod("sausage"), MobEffectRegistry.STOUTHEART, 6000), 6000, true));
     public static final RegistrySupplier<Item> PRETZEL = registerItem("pretzel", () -> new EffectFoodItem(getFoodItemSettings(PlatformHelper.getNutrition("pretzel"), PlatformHelper.getSaturationMod("pretzel"), MobEffectRegistry.STOUTHEART, 2000), 2000, false));
     public static final RegistrySupplier<Item> BEER_ELEMENTAL_SPAWN_EGG = registerItem("beer_elemental_spawn_egg", () -> new ArchitecturySpawnEggItem(EntityTypeRegistry.BEER_ELEMENTAL, -1, -1, getSettings()));
-    public static final RegistrySupplier<Item> BREWFEST_HAT = registerItem("brewfest_hat", () -> new BrewfestHatItem(ArmorMaterialRegistry.withTextureNoOverlay(ArmorMaterialRegistry.CLOTH, Brewery.identifier("models/armor/brewfest_hat")), ArmorItem.Type.HELMET, getSettings().rarity(Rarity.EPIC), Brewery.identifier("models/armor/brewfest_hat")));
-    public static final RegistrySupplier<Item> BREWFEST_HAT_RED = registerItem("brewfest_hat_red", () -> new BrewfestHatItem(ArmorMaterialRegistry.withTextureNoOverlay(ArmorMaterialRegistry.CLOTH, Brewery.identifier("models/armor/brewfest_hat_red")), ArmorItem.Type.HELMET, getSettings().rarity(Rarity.EPIC), Brewery.identifier("models/armor/brewfest_hat_red")));
-    public static final RegistrySupplier<Item> BREWFEST_REGALIA = registerItem("brewfest_regalia", () -> new BrewfestChestItem(ArmorMaterialRegistry.withTextureNoOverlay(ArmorMaterialRegistry.CLOTH, Brewery.identifier("models/armor/lederhosen")), ArmorItem.Type.CHESTPLATE, getSettings().rarity(Rarity.EPIC), Brewery.identifier("models/armor/lederhosen")));
+    public static final RegistrySupplier<Item> BREWFEST_HAT = registerItem("brewfest_hat", () -> new TexturedArmorItem(ArmorMaterialRegistry.withTextureNoOverlay(ArmorMaterialRegistry.CLOTH, Brewery.identifier("models/armor/brewfest_hat")), ArmorItem.Type.HELMET, getSettings().rarity(Rarity.EPIC), Brewery.identifier("models/armor/brewfest_hat")));
+    public static final RegistrySupplier<Item> BREWFEST_HAT_RED = registerItem("brewfest_hat_red", () -> new TexturedArmorItem(ArmorMaterialRegistry.withTextureNoOverlay(ArmorMaterialRegistry.CLOTH, Brewery.identifier("models/armor/brewfest_hat_red")), ArmorItem.Type.HELMET, getSettings().rarity(Rarity.EPIC), Brewery.identifier("models/armor/brewfest_hat_red")));
+    public static final RegistrySupplier<Item> BREWFEST_REGALIA = registerItem("brewfest_regalia", () -> new TexturedArmorItem(ArmorMaterialRegistry.withTextureNoOverlay(ArmorMaterialRegistry.CLOTH, Brewery.identifier("models/armor/lederhosen")), ArmorItem.Type.CHESTPLATE, getSettings().rarity(Rarity.EPIC), Brewery.identifier("models/armor/lederhosen")));
 
-    public static final RegistrySupplier<Item> BREWFEST_TROUSERS = registerItem("brewfest_trousers", () -> new BrewfestLegsItem(ArmorMaterialRegistry.withTextureNoOverlay(ArmorMaterialRegistry.CLOTH, Brewery.identifier("models/armor/lederhosen")), ArmorItem.Type.LEGGINGS, getSettings().rarity(Rarity.EPIC), Brewery.identifier("models/armor/lederhosen")));
-    public static final RegistrySupplier<Item> BREWFEST_BOOTS = registerItem("brewfest_boots", () -> new BrewfestBootsItem(ArmorMaterialRegistry.withTextureNoOverlay(ArmorMaterialRegistry.CLOTH, Brewery.identifier("models/armor/lederhosen")), ArmorItem.Type.BOOTS, getSettings().rarity(Rarity.RARE), Brewery.identifier("models/armor/lederhosen")));
-    public static final RegistrySupplier<Item> BREWFEST_DRESS = registerItem("brewfest_dress", () -> new BrewfestLegsItem(ArmorMaterialRegistry.withTextureNoOverlay(ArmorMaterialRegistry.CLOTH, Brewery.identifier("models/armor/dirndl")), ArmorItem.Type.LEGGINGS, getSettings().rarity(Rarity.RARE), Brewery.identifier("models/armor/dirndl")));
-    public static final RegistrySupplier<Item> BREWFEST_BLOUSE = registerItem("brewfest_blouse", () -> new BrewfestChestItem(ArmorMaterialRegistry.withTextureNoOverlay(ArmorMaterialRegistry.CLOTH, Brewery.identifier("models/armor/dirndl")), ArmorItem.Type.CHESTPLATE, getSettings().rarity(Rarity.EPIC), Brewery.identifier("models/armor/dirndl")));
-    public static final RegistrySupplier<Item> BREWFEST_SHOES = registerItem("brewfest_shoes", () -> new BrewfestBootsItem(ArmorMaterialRegistry.withTextureNoOverlay(ArmorMaterialRegistry.CLOTH, Brewery.identifier("models/armor/dirndl")), ArmorItem.Type.BOOTS, getSettings().rarity(Rarity.RARE), Brewery.identifier("models/armor/dirndl")));
+    public static final RegistrySupplier<Item> BREWFEST_TROUSERS = registerItem("brewfest_trousers", () -> new TexturedArmorItem(ArmorMaterialRegistry.withTextureNoOverlay(ArmorMaterialRegistry.CLOTH, Brewery.identifier("models/armor/lederhosen")), ArmorItem.Type.LEGGINGS, getSettings().rarity(Rarity.EPIC), Brewery.identifier("models/armor/lederhosen")));
+    public static final RegistrySupplier<Item> BREWFEST_BOOTS = registerItem("brewfest_boots", () -> new TexturedArmorItem(ArmorMaterialRegistry.withTextureNoOverlay(ArmorMaterialRegistry.CLOTH, Brewery.identifier("models/armor/lederhosen")), ArmorItem.Type.BOOTS, getSettings().rarity(Rarity.RARE), Brewery.identifier("models/armor/lederhosen")));
+    public static final RegistrySupplier<Item> BREWFEST_DRESS = registerItem("brewfest_dress", () -> new TexturedArmorItem(ArmorMaterialRegistry.withTextureNoOverlay(ArmorMaterialRegistry.CLOTH, Brewery.identifier("models/armor/dirndl")), ArmorItem.Type.LEGGINGS, getSettings().rarity(Rarity.RARE), Brewery.identifier("models/armor/dirndl")));
+    public static final RegistrySupplier<Item> BREWFEST_BLOUSE = registerItem("brewfest_blouse", () -> new TexturedArmorItem(ArmorMaterialRegistry.withTextureNoOverlay(ArmorMaterialRegistry.CLOTH, Brewery.identifier("models/armor/dirndl")), ArmorItem.Type.CHESTPLATE, getSettings().rarity(Rarity.EPIC), Brewery.identifier("models/armor/dirndl")));
+    public static final RegistrySupplier<Item> BREWFEST_SHOES = registerItem("brewfest_shoes", () -> new TexturedArmorItem(ArmorMaterialRegistry.withTextureNoOverlay(ArmorMaterialRegistry.CLOTH, Brewery.identifier("models/armor/dirndl")), ArmorItem.Type.BOOTS, getSettings().rarity(Rarity.RARE), Brewery.identifier("models/armor/dirndl")));
     public static final RegistrySupplier<Block> WILD_HOPS = registerWithItem("wild_hops", () -> new BonemealableTallFlowerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ROSE_BUSH)));
     public static final RegistrySupplier<Block> HOPS_CROP = registerWithoutItem("hops_crop", () -> new HopsCropHeadBlock(getBushSettings().randomTicks()));
     public static final RegistrySupplier<Block> HOPS_CROP_BODY = registerWithoutItem("hops_crop_body", () -> new HopsCropBodyBlock(getBushSettings().randomTicks()));
@@ -66,8 +72,8 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Block> PATTERNED_WOOL = registerWithItem("patterned_wool", () -> new PatternedWoolBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL)));
     public static final RegistrySupplier<Block> PATTERNED_CARPET_BLOCK = registerWithItem("patterned_carpet_block", () -> new PatternedCarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET)));
     public static final RegistrySupplier<Item> PATTERNED_CARPET = registerItem("patterned_carpet", () -> new BlockItem(PATTERNED_CARPET_BLOCK.get(), getSettings()));
-    public static final RegistrySupplier<Block> CABINET = registerWithItem("cabinet", () -> new CabinetBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F).sound(SoundType.WOOD), SoundEventRegistry.CABINET_OPEN.get(), SoundEventRegistry.CABINET_CLOSE.get()));
-    public static final RegistrySupplier<Block> DRAWER = registerWithItem("drawer", () -> new CabinetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).strength(2.0F, 3.0F).sound(SoundType.WOOD), SoundEventRegistry.DRAWER_OPEN.get(), SoundEventRegistry.DRAWER_CLOSE.get()));
+    public static final RegistrySupplier<Block> CABINET = registerWithItem("cabinet", () -> new CabinetBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F).sound(SoundType.WOOD), EntityTypeRegistry.CABINET_BLOCK_ENTITY, SoundEventRegistry.CABINET_OPEN.get(), SoundEventRegistry.CABINET_CLOSE.get()));
+    public static final RegistrySupplier<Block> DRAWER = registerWithItem("drawer", () -> new CabinetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).strength(2.0F, 3.0F).sound(SoundType.WOOD), EntityTypeRegistry.CABINET_BLOCK_ENTITY, SoundEventRegistry.DRAWER_OPEN.get(), SoundEventRegistry.DRAWER_CLOSE.get()));
     public static final RegistrySupplier<Block> BAR_COUNTER = registerWithItem("bar_counter", () -> new BarCounterBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F).sound(SoundType.WOOD).noOcclusion()));
     public static final RegistrySupplier<Block> SIDEBOARD = registerWithItem("sideboard", () -> new SideBoardBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F).sound(SoundType.WOOD), SoundEventRegistry.CABINET_OPEN, SoundEventRegistry.CABINET_CLOSE));
     public static final RegistrySupplier<Block> WALL_CABINET = registerWithItem("wall_cabinet", () -> new CabinetWallBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).strength(2.0F, 3.0F).sound(SoundType.WOOD), SoundEventRegistry.CABINET_OPEN.get(), SoundEventRegistry.CABINET_CLOSE.get()));
@@ -110,9 +116,15 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Item> POTATO_SALAD = registerItem("potato_salad", () -> new PlaceableEffectFoodItem(POTATO_SALAD_BLOCK.get(), getFoodItemSettings(PlatformHelper.getNutrition("potato_salad"), PlatformHelper.getSaturationMod("potato_salad"), MobEffectRegistry.STOUTHEART, 6000)));
     public static final RegistrySupplier<Block> DUMPLINGS_BLOCK = registerWithoutItem("dumplings", () -> new FoodBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CAKE), 4, new FoodProperties.Builder().nutrition(7).saturationModifier(0.8F).build()));
     public static final RegistrySupplier<Item> DUMPLINGS = registerItem("dumplings", () -> new PlaceableEffectFoodItem(DUMPLINGS_BLOCK.get(), getFoodItemSettings(PlatformHelper.getNutrition("dumplings"), PlatformHelper.getSaturationMod("dumplings"), MobEffectRegistry.STOUTHEART, 6000)));
-    public static final RegistrySupplier<Block> GINGERBREAD = registerWithItem("gingerbread", () -> new WallDecorationBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FLOWER_POT)));
-    public static final RegistrySupplier<Block> BREWERY_BANNER = registerWithItem("brewery_banner", () -> new CompletionistBannerBlock(BlockBehaviour.Properties.of().strength(1F).instrument(NoteBlockInstrument.BASS).noCollission().sound(SoundType.WOOD)));
-    public static final RegistrySupplier<Block> BREWERY_WALL_BANNER = registerWithoutItem("brewery_wall_banner", () -> new CompletionistWallBannerBlock(BlockBehaviour.Properties.of().strength(1F).instrument(NoteBlockInstrument.BASS).noCollission().sound(SoundType.WOOD)));
+    public static final RegistrySupplier<Block> GINGERBREAD = registerWithItem("gingerbread", () -> new WallDecorationBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FLOWER_POT), EntityTypeRegistry.WALL_DECORATION, Brewery.identifier("textures/block/gingerbread_heart.png"), 8));
+    private static final BannerSettings BANNER_SETTINGS = new BannerSettings(
+            () -> EntityTypeRegistry.BREWERY_BANNER.get(),
+            () -> ObjectRegistry.BREWERY_WALL_BANNER.get(),
+            Brewery.identifier("textures/banner/brewery_banner.png"),
+            "tooltip.brewery.banner",
+            MobEffects.DIG_SPEED);
+    public static final RegistrySupplier<Block> BREWERY_BANNER = registerWithItem("brewery_banner", () -> new CompletionistBannerBlock(BlockBehaviour.Properties.of().strength(1F).instrument(NoteBlockInstrument.BASS).noCollission().sound(SoundType.WOOD), BANNER_SETTINGS));
+    public static final RegistrySupplier<Block> BREWERY_WALL_BANNER = registerWithoutItem("brewery_wall_banner", () -> new CompletionistWallBannerBlock(BlockBehaviour.Properties.of().strength(1F).instrument(NoteBlockInstrument.BASS).noCollission().sound(SoundType.WOOD), BANNER_SETTINGS));
 
     public static void init() {
         ITEMS.register();

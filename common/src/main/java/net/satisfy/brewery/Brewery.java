@@ -1,5 +1,6 @@
 package net.satisfy.brewery;
 
+import net.satisfy.brewery.core.registry.ArmorSetRegistry;
 import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.event.events.common.PlayerEvent;
 import dev.architectury.registry.fuel.FuelRegistry;
@@ -22,6 +23,7 @@ public class Brewery {
     public static void init() {
         MobEffectRegistry.init();
         ObjectRegistry.init();
+        ArmorSetRegistry.init();
         EntityTypeRegistry.init();
         SoundEventRegistry.init();
         RecipeTypeRegistry.init();

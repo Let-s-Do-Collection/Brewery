@@ -241,10 +241,6 @@
   "text.autoconfig.brewery.option.infoTooltips.showBrewingstationInfo.@Tooltip": "Shows an info tooltip when looking at the kettle of a Brewing Station.",
   "text.autoconfig.brewery.title": "Brewery",
   "tooltip.brewery.armor.brewfest_set": "Brewfest Garb",
-  "tooltip.brewery.armor.brewfestboots": "[Brewfest Boots]",
-  "tooltip.brewery.armor.brewfestbreastplate": "[Brewfest Garment]",
-  "tooltip.brewery.armor.brewfesthelmet": "[Brewfest Hat]",
-  "tooltip.brewery.armor.brewfestleggings": "[Brewfest Pants]",
   "tooltip.brewery.banner.thankyou_1": "A reward for crafting a Netherite Brewing Station",
   "tooltip.brewery.banner.thankyou_2": "When placed:",
   "tooltip.brewery.banner.thankyou_3": "Thank you for playing Brewery!",
@@ -268,5 +264,6 @@
   "gui.brewery.wall_decoration.edit": "Edit Gingerbread Lettering",
   "gui.brewery.wall_decoration.done": "Done",
   "pack.brewery.vanilla_blend": "Brewery: VanillaBlend",
-  "pack.brewery.vanilla_blend.description": "Muted colors inspired by Vanilla and Vanilla-Style-Mods"
+  "pack.brewery.vanilla_blend.description": "Muted colors inspired by Vanilla and Vanilla-Style-Mods",
+  "tooltip.brewery.armor.brewfest_set.bonus": "Harddrinking: immune to Drunkenness"
 }

@@ -1,5 +1,8 @@
 package net.satisfy.brewery.core.event;
 
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.core.Holder;
+import net.satisfy.brewery.core.registry.ArmorSetRegistry;
 import dev.architectury.event.EventResult;
 import dev.architectury.event.events.common.LootEvent;
 import dev.architectury.event.events.common.PlayerEvent;
@@ -31,6 +34,17 @@ public class CommonEvents {
         LootEvent.MODIFY_LOOT_TABLE.register(CommonEvents::onModifyLootTable);
         PlayerEvent.ATTACK_ENTITY.register(CommonEvents::onPlayerAttack);
         TickEvent.PLAYER_PRE.register(CommonEvents::tickHaley);
+        TickEvent.PLAYER_POST.register(CommonEvents::tickHarddrinking);
+    }
+
+    private static void tickHarddrinking(Player player) {
+        if (player.level().isClientSide() || !ArmorSetRegistry.hasHarddrinking(player)) {
+            return;
+        }
+        Holder<MobEffect> drunk = MobEffectRegistry.holder(MobEffectRegistry.DRUNK);
+        if (player.hasEffect(drunk)) {
+            player.removeEffect(drunk);
+        }
     }
 
     public static void onModifyLootTable(ResourceKey<LootTable> key, LootEvent.LootTableModificationContext context, boolean builtin) {

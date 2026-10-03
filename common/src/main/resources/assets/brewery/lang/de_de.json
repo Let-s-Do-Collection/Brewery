@@ -240,10 +240,6 @@
   "text.autoconfig.brewery.option.infoTooltips.showBrewingstationInfo.@Tooltip": "Zeigt ein Info-Tooltip, wenn man auf den Kessel einer Braustation schaut.",
   "text.autoconfig.brewery.title": "Brewery",
   "tooltip.brewery.armor.brewfest_set": "Braufest-Gewand",
-  "tooltip.brewery.armor.brewfestboots": "[Braufest-Stiefel]",
-  "tooltip.brewery.armor.brewfestbreastplate": "[Braufest-Gewand]",
-  "tooltip.brewery.armor.brewfesthelmet": "[Braufest-Hut]",
-  "tooltip.brewery.armor.brewfestleggings": "[Braufest-Hose]",
   "tooltip.brewery.banner.thankyou_1": "Eine Belohnung für das Abschließen aller Fortschritte",
   "tooltip.brewery.banner.thankyou_2": "Wenn platziert:",
   "tooltip.brewery.banner.thankyou_3": "Danke, dass du Brauerei spiest!",
@@ -267,5 +263,6 @@
   "gui.brewery.wall_decoration.edit": "Lebkuchenherzbeschriftung bearbeiten",
   "gui.brewery.wall_decoration.done": "Fertig",
   "pack.brewery.vanilla_blend": "Brewery: VanillaBlend",
-  "pack.brewery.vanilla_blend.description": "Gedämpfte Farben, inspiriert von Vanilla und Vanilla-Style-Mods"
+  "pack.brewery.vanilla_blend.description": "Gedämpfte Farben, inspiriert von Vanilla und Vanilla-Style-Mods",
+  "tooltip.brewery.armor.brewfest_set.bonus": "Trinkfest: immun gegen Trunkenheit"
 }

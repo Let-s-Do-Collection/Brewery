@@ -1,5 +1,7 @@
 package net.satisfy.brewery.core.block;
 
+import net.satisfy.brewery.core.registry.EntityTypeRegistry;
+import net.satisfy.foundation.block.CabinetBlockEntity;
 import net.satisfy.foundation.block.LineConnectingBlock;
 import net.satisfy.foundation.block.LineConnectingType;
 import net.satisfy.foundation.util.ShapeUtil;
@@ -37,7 +39,6 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.satisfy.brewery.core.block.entity.CabinetBlockEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -119,7 +120,7 @@ public class SideBoardBlock extends BaseEntityBlock implements SimpleWaterlogged
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new CabinetBlockEntity(pos, state);
+        return new CabinetBlockEntity(EntityTypeRegistry.CABINET_BLOCK_ENTITY.get(), pos, state);
     }
 
     public static final MapCodec<SideBoardBlock> CODEC = simpleCodec(SideBoardBlock::new);
