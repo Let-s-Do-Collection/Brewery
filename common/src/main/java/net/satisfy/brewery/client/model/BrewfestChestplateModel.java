@@ -54,10 +54,4 @@ public class BrewfestChestplateModel<T extends LivingEntity> extends HumanoidMod
         rightArm.visible = true;
         super.renderToBuffer(poseStack, buffer, packedLight, packedOverlay, packedColor);
     }
-
-    public void copyBody(ModelPart baseBody, ModelPart leftArmModel, ModelPart rightArmModel) {
-        body.copyFrom(baseBody);
-        leftArm.copyFrom(leftArmModel);
-        rightArm.copyFrom(rightArmModel);
-    }
 }

@@ -17,67 +17,67 @@
       "y": 90
     },
     "liquid=drained,facing=north": {
-      "model": "brewery:block/netherite_brewingstation_drained",
+      "model": "brewery:block/netherite_brewingstation_empty",
       "y": 0
     },
     "liquid=drained,facing=south": {
-      "model": "brewery:block/netherite_brewingstation_drained",
+      "model": "brewery:block/netherite_brewingstation_empty",
       "y": 180
     },
     "liquid=drained,facing=west": {
-      "model": "brewery:block/netherite_brewingstation_drained",
+      "model": "brewery:block/netherite_brewingstation_empty",
       "y": 270
     },
     "liquid=drained,facing=east": {
-      "model": "brewery:block/netherite_brewingstation_drained",
+      "model": "brewery:block/netherite_brewingstation_empty",
       "y": 90
     },
     "liquid=overflowing,facing=north": {
-      "model": "brewery:block/netherite_brewingstation_overflowing",
+      "model": "brewery:block/netherite_brewingstation_empty",
       "y": 0
     },
     "liquid=overflowing,facing=south": {
-      "model": "brewery:block/netherite_brewingstation_overflowing",
+      "model": "brewery:block/netherite_brewingstation_empty",
       "y": 180
     },
     "liquid=overflowing,facing=west": {
-      "model": "brewery:block/netherite_brewingstation_overflowing",
+      "model": "brewery:block/netherite_brewingstation_empty",
       "y": 270
     },
     "liquid=overflowing,facing=east": {
-      "model": "brewery:block/netherite_brewingstation_overflowing",
+      "model": "brewery:block/netherite_brewingstation_empty",
       "y": 90
     },
     "liquid=filled,facing=north": {
-      "model": "brewery:block/netherite_brewingstation_filled",
+      "model": "brewery:block/netherite_brewingstation_empty",
       "y": 0
     },
     "liquid=filled,facing=south": {
-      "model": "brewery:block/netherite_brewingstation_filled",
+      "model": "brewery:block/netherite_brewingstation_empty",
       "y": 180
     },
     "liquid=filled,facing=west": {
-      "model": "brewery:block/netherite_brewingstation_filled",
+      "model": "brewery:block/netherite_brewingstation_empty",
       "y": 270
     },
     "liquid=filled,facing=east": {
-      "model": "brewery:block/netherite_brewingstation_filled",
+      "model": "brewery:block/netherite_brewingstation_empty",
       "y": 90
     },
     "liquid=beer,facing=north": {
-      "model": "brewery:block/netherite_brewingstation_beer",
+      "model": "brewery:block/netherite_brewingstation_empty",
       "y": 0
     },
     "liquid=beer,facing=south": {
-      "model": "brewery:block/netherite_brewingstation_beer",
+      "model": "brewery:block/netherite_brewingstation_empty",
       "y": 180
     },
     "liquid=beer,facing=west": {
-      "model": "brewery:block/netherite_brewingstation_beer",
+      "model": "brewery:block/netherite_brewingstation_empty",
       "y": 270
     },
     "liquid=beer,facing=east": {
-      "model": "brewery:block/netherite_brewingstation_beer",
+      "model": "brewery:block/netherite_brewingstation_empty",
       "y": 90
     }
   }

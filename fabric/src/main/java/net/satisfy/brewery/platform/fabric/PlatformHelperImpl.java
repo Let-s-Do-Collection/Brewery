@@ -28,6 +28,10 @@ public class PlatformHelperImpl {
         return config().brewing.enableBeerElementals;
     }
 
+    public static boolean animationsEnabled() {
+        return config().brewing.animations;
+    }
+
     public static boolean isDrunkennessEnabled() {
         return config().drunkenness.enableDrunkenness;
     }

@@ -41,6 +41,9 @@ public class BreweryFabricConfig implements ConfigData {
 
         @ConfigEntry.Gui.Tooltip
         public boolean enableBeerElementals = true;
+
+        @ConfigEntry.Gui.Tooltip
+        public boolean animations = true;
     }
 
     public static class DrunkennessSettings {

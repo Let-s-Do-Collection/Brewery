@@ -1,5 +1,8 @@
 package net.satisfy.brewery.core.registry;
 
+import net.satisfy.brewery.core.block.entity.BrewTimerBlockEntity;
+import net.satisfy.brewery.core.block.entity.BrewWhistleBlockEntity;
+import net.satisfy.brewery.core.block.entity.BigBarrelBlockEntity;
 import net.satisfy.foundation.banner.CompletionistBannerEntity;
 import net.satisfy.foundation.block.WallDecorationBlockEntity;
 import net.satisfy.foundation.block.CabinetBlockEntity;
@@ -32,6 +35,9 @@ public class EntityTypeRegistry {
     public static final RegistrySupplier<EntityType<BeerElementalAttackEntity>> BEER_ELEMENTAL_ATTACK = registerEntityType("beer_elemental_attack", () -> EntityType.Builder.<BeerElementalAttackEntity>of(BeerElementalAttackEntity::new, MobCategory.MISC).sized(0.3125F, 0.3125F).clientTrackingRange(4).updateInterval(10).build(Brewery.identifier("beer_elemental_attack").toString()));
 
     public static final RegistrySupplier<BlockEntityType<BrewstationBlockEntity>> BREWINGSTATION_BLOCK_ENTITY = registerBlockEntity("brewingstation", () -> BlockEntityType.Builder.of(BrewstationBlockEntity::new, ObjectRegistry.WOODEN_BREWINGSTATION.get(), ObjectRegistry.COPPER_BREWINGSTATION.get(), ObjectRegistry.NETHERITE_BREWINGSTATION.get()).build(null));
+    public static final RegistrySupplier<BlockEntityType<BrewTimerBlockEntity>> BREW_TIMER_BLOCK_ENTITY = registerBlockEntity("brew_timer", () -> BlockEntityType.Builder.of(BrewTimerBlockEntity::new, ObjectRegistry.BREW_TIMER.get()).build(null));
+    public static final RegistrySupplier<BlockEntityType<BrewWhistleBlockEntity>> BREW_WHISTLE_BLOCK_ENTITY = registerBlockEntity("brew_whistle", () -> BlockEntityType.Builder.of(BrewWhistleBlockEntity::new, ObjectRegistry.BREW_WHISTLE.get()).build(null));
+    public static final RegistrySupplier<BlockEntityType<BigBarrelBlockEntity>> BIG_BARREL_BLOCK_ENTITY = registerBlockEntity("big_barrel", () -> BlockEntityType.Builder.of(BigBarrelBlockEntity::new, ObjectRegistry.BARREL_MAIN.get()).build(null));
     public static final RegistrySupplier<BlockEntityType<BeerMugBlockEntity>> BEER_MUG_BLOCK_ENTITY = registerBlockEntity("beer_mug", () -> BlockEntityType.Builder.of(BeerMugBlockEntity::new, ObjectRegistry.BEER_MUG.get()).build(null));
     public static final RegistrySupplier<BlockEntityType<StorageBlockEntity>> STORAGE_ENTITY = registerBlockEntity("storage", () -> BlockEntityType.Builder.of((pos, state) -> new StorageBlockEntity(EntityTypeRegistry.STORAGE_ENTITY.get(), pos, state), StorageTypeRegistry.registerBlocks(new HashSet<>()).toArray(new Block[0])).build(null));
     public static final RegistrySupplier<BlockEntityType<CabinetBlockEntity>> CABINET_BLOCK_ENTITY = registerBlockEntity("cabinet", () -> BlockEntityType.Builder.of((pos, state) -> new CabinetBlockEntity(EntityTypeRegistry.CABINET_BLOCK_ENTITY.get(), pos, state), addCabinet(new HashSet<>()).toArray(new Block[0])).build(null));

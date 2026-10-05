@@ -71,9 +71,12 @@
   "brewstation_whistle": {
     "subtitle": "sound.brewery.brewstation_whistle",
     "sounds": [
-      "brewery:brewstation_whistle1",
-      "brewery:brewstation_whistle2",
-      "brewery:brewstation_whistle3"
+      {
+        "name": "minecraft:item/goat_horn/call6",
+        "pitch": 2.0,
+        "volume": 1.0,
+        "attenuation_distance": 48
+      }
     ]
   },
   "drawer_open": {

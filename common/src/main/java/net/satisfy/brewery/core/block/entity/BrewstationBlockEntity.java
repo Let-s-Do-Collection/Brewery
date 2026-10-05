@@ -1,7 +1,9 @@
 package net.satisfy.brewery.core.block.entity;
 
+import net.satisfy.brewery.core.block.BrewWhistleBlock;
 import net.satisfy.foundation.util.LibUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
@@ -59,6 +61,9 @@ public class BrewstationBlockEntity extends BlockEntity implements ImplementedIn
     private static final int BEER_COLOR = 0xE8B923;
 
     private long brewStart = -1;
+    private float lidAngle = 15.0F;
+    private float liquidHeight = -1.0F;
+    private boolean started;
     private boolean brewWhiskey;
     private int clientTintStep = -1;
     private long clientParticleTick = -1;
@@ -134,11 +139,24 @@ public class BrewstationBlockEntity extends BlockEntity implements ImplementedIn
     @Override
     public void tick(Level level, BlockPos blockPos, BlockState blockState, BrewstationBlockEntity blockEntity) {
         if (level.isClientSide) return;
+        BlockPos whistlePos = BrewHelper.getBlock(ObjectRegistry.BREW_WHISTLE.get(), this.components, level);
+        if (whistlePos != null && level.getBlockState(whistlePos).getValue(BlockStateRegistry.WHISTLE)) {
+            BrewWhistleBlock.playSounds(level, whistlePos);
+        }
+        if (whistlePos != null && level instanceof ServerLevel serverLevel && level.getGameTime() % 30L == 0L) {
+            BlockPos timerPos = BrewHelper.getBlock(ObjectRegistry.BREW_TIMER.get(), this.components, level);
+            if (timerPos != null && level.getBlockState(timerPos).getValue(BlockStateRegistry.TIME)) {
+                BrewWhistleBlock.puff(serverLevel, whistlePos);
+            }
+        }
         if (!this.beer.isEmpty()) return;
 
         RecipeHolder<BrewingRecipe> active = findActiveRecipe(level);
         if (active == null) {
             endBrewing();
+            return;
+        }
+        if (brewStart < 0 && !started) {
             return;
         }
         if (brewStart < 0) {
@@ -253,11 +271,12 @@ public class BrewstationBlockEntity extends BlockEntity implements ImplementedIn
                 quality = -1;
                 count = 2;
             } else {
+                int failedEvents = Math.max(0, totalBrewEvents - solvedEvents);
                 if (solvedEvents <= 0) {
                     quality = 0;
-                } else if (totalBrewEvents > 0 && solvedEvents >= totalBrewEvents) {
+                } else if (solvedEvents >= 4 && failedEvents == 0) {
                     quality = 3;
-                } else if (solvedEvents >= 2 && solvedEvents <= 4) {
+                } else if (solvedEvents >= 3 && failedEvents <= 1) {
                     quality = 2;
                 } else {
                     quality = 1;
@@ -349,7 +368,21 @@ public class BrewstationBlockEntity extends BlockEntity implements ImplementedIn
         };
     }
 
+    public boolean tryStart() {
+        if (this.level == null || !this.beer.isEmpty() || this.brewStart >= 0 || this.started || findActiveRecipe(this.level) == null) {
+            return false;
+        }
+        this.started = true;
+        this.setChanged();
+        return true;
+    }
+
+    public boolean isStarted() {
+        return this.started;
+    }
+
     public void endBrewing() {
+        this.started = false;
         if (this.brewStart >= 0) {
             this.brewStart = -1;
             this.setChanged();
@@ -381,6 +414,7 @@ public class BrewstationBlockEntity extends BlockEntity implements ImplementedIn
         compoundTag.putLong("brewStart", this.brewStart);
         compoundTag.putBoolean("brewWhiskey", this.brewWhiskey);
         compoundTag.putInt("solved", this.solved);
+        compoundTag.putBoolean("started", this.started);
         compoundTag.putInt("brewTime", this.brewTime);
         compoundTag.putInt("totalEvents", this.totalEvents);
         compoundTag.putInt("timeToNextEvent", this.timeToNextEvent);
@@ -399,6 +433,7 @@ public class BrewstationBlockEntity extends BlockEntity implements ImplementedIn
         this.brewStart = compoundTag.contains("brewStart") ? compoundTag.getLong("brewStart") : -1;
         this.brewWhiskey = compoundTag.getBoolean("brewWhiskey");
         this.solved = compoundTag.getInt("solved");
+        this.started = compoundTag.getBoolean("started");
         this.brewTime = compoundTag.getInt("brewTime");
         this.totalEvents = compoundTag.getInt("totalEvents");
         this.timeToNextEvent = compoundTag.getInt("timeToNextEvent");
@@ -446,6 +481,23 @@ public class BrewstationBlockEntity extends BlockEntity implements ImplementedIn
         int g = Math.round(((from >> 8) & 0xFF) * (1 - t) + ((to >> 8) & 0xFF) * t);
         int b = Math.round((from & 0xFF) * (1 - t) + (to & 0xFF) * t);
         return (r << 16) | (g << 8) | b;
+    }
+
+    public float updateLiquidHeight(float target, float speed) {
+        this.liquidHeight = this.liquidHeight < 0.0F ? target : this.liquidHeight + (target - this.liquidHeight) * speed;
+        return this.liquidHeight;
+    }
+
+    public float updateLid(float target, float speed) {
+        this.lidAngle += (target - this.lidAngle) * speed;
+        return this.lidAngle;
+    }
+
+    public float getBrewProgress() {
+        if (this.brewStart < 0 || this.level == null) {
+            return -1.0F;
+        }
+        return Math.min(1.0F, Math.max(0.0F, (this.level.getGameTime() - this.brewStart) / (float) maxBrewTime()));
     }
 
     public boolean isBrewingClient() {

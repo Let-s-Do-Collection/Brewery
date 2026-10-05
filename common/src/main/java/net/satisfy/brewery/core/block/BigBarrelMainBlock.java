@@ -1,5 +1,9 @@
 package net.satisfy.brewery.core.block;
 
+import net.minecraft.world.Containers;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.satisfy.brewery.core.block.entity.BigBarrelBlockEntity;
 import net.satisfy.foundation.util.ShapeUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
@@ -33,7 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public class BigBarrelMainBlock extends BigBarrelBlock {
+public class BigBarrelMainBlock extends BigBarrelBlock implements EntityBlock {
     public static final EnumProperty<DoubleBlockHalf> HALF;
     private static final Supplier<VoxelShape> bottomVoxelShapeSupplier = () -> {
         VoxelShape shape = Shapes.empty();
@@ -92,6 +96,9 @@ public class BigBarrelMainBlock extends BigBarrelBlock {
 
     @Override
     public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState blockState2, boolean bl) {
+        if (!blockState2.is(this) && level.getBlockEntity(blockPos) instanceof BigBarrelBlockEntity barrel) {
+            Containers.dropContents(level, blockPos, barrel.takeAll());
+        }
         Direction facing = blockState.getValue(FACING);
         BlockPos backPos = blockPos.relative(facing.getOpposite());
         BlockPos sidePos = blockPos.relative(facing.getCounterClockWise());
@@ -144,6 +151,12 @@ public class BigBarrelMainBlock extends BigBarrelBlock {
             }
         }
         return true;
+    }
+
+    @Nullable
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return state.getValue(HALF) == DoubleBlockHalf.LOWER ? new BigBarrelBlockEntity(pos, state) : null;
     }
 
     @Override

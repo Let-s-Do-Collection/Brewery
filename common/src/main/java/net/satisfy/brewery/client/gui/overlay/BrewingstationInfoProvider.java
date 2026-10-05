@@ -127,6 +127,9 @@ public class BrewingstationInfoProvider implements BlockInfoProvider {
         if (oven == null || level.getBlockState(oven).getValue(BlockStateRegistry.HEAT) == Heat.OFF) {
             return InfoSection.icons(Component.translatable("hud.brewery.needs_heat").withStyle(ChatFormatting.GOLD), List.of(new ItemStack(Items.COAL)), InfoSection.ROW_COLUMNS);
         }
+        if (!station.isBrewingClient() && !station.isStarted()) {
+            return InfoSection.title(Component.translatable("hud.brewery.press_start").withStyle(ChatFormatting.GOLD));
+        }
         return InfoSection.title(Component.translatable("hud.brewery.brewing").withStyle(ChatFormatting.GRAY));
     }
 

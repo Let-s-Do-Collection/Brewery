@@ -45,6 +45,8 @@ public class DrinkBlockItem extends BlockItem {
     private static final ResourceLocation QUALITY_FONT = Brewery.identifier("quality");
     private static final String QUALITY_FULL = "\uE000";
     private static final String QUALITY_EMPTY = "\uE001";
+    private static final String QUALITY_AGED = "\uE002";
+    public static final int AGED_QUALITY = 4;
 
     public DrinkBlockItem(MobEffect effect, int duration, Block block, Properties settings) {
         super(block, settings);
@@ -64,8 +66,13 @@ public class DrinkBlockItem extends BlockItem {
     public static void addQuality(ItemStack itemStack, int quality) {
         CustomData customData = itemStack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
         CompoundTag tag = customData.copyTag();
-        tag.putInt("brewery.beer_quality", Mth.clamp(quality, 0, MAX_QUALITY));
+        tag.putInt("brewery.beer_quality", Mth.clamp(quality, 0, AGED_QUALITY));
         itemStack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
+    }
+
+    public static int getQuality(ItemStack itemStack) {
+        CustomData customData = itemStack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
+        return customData.contains("brewery.beer_quality") ? customData.copyTag().getInt("brewery.beer_quality") : MAX_QUALITY;
     }
 
     @Override
@@ -124,6 +131,8 @@ public class DrinkBlockItem extends BlockItem {
                     max = 9600;
                 } else if (quality == 2) {
                     max = 6000;
+                } else if (quality >= AGED_QUALITY) {
+                    max = 2400;
                 } else {
                     max = 3600;
                 }
@@ -153,6 +162,10 @@ public class DrinkBlockItem extends BlockItem {
             case 3 -> {
                 durationMultiplier = 5;
                 amplifier = 2;
+            }
+            case 4 -> {
+                durationMultiplier = 7;
+                amplifier = 3;
             }
             default -> {
                 durationMultiplier = 1;
@@ -189,7 +202,7 @@ public class DrinkBlockItem extends BlockItem {
         CustomData customData = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
         if (customData.contains("brewery.beer_quality")) {
             beerQuality = customData.copyTag().getInt("brewery.beer_quality");
-            String mugs = QUALITY_FULL.repeat(beerQuality) + QUALITY_EMPTY.repeat(Math.max(0, MAX_QUALITY - beerQuality));
+            String mugs = beerQuality >= AGED_QUALITY ? QUALITY_FULL.repeat(MAX_QUALITY) + QUALITY_AGED : QUALITY_FULL.repeat(beerQuality) + QUALITY_EMPTY.repeat(Math.max(0, MAX_QUALITY - beerQuality));
             Component icons = Component.literal(mugs).withStyle(Style.EMPTY.withFont(QUALITY_FONT).withColor(ChatFormatting.WHITE));
             tooltip.add(Component.translatable("tooltip.brewery.beer_quality", icons).withStyle(ChatFormatting.GOLD));
         }

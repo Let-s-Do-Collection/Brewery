@@ -1,5 +1,15 @@
 package net.satisfy.brewery.core.block;
 
+import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
+import net.satisfy.brewery.core.block.entity.BigBarrelBlockEntity;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
@@ -47,6 +57,51 @@ public class BigBarrelBlock extends HorizontalDirectionalBlock {
         return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
+
+    public static BlockPos mainPos(BlockState state, BlockPos pos) {
+        BlockPos lower = state.hasProperty(HALF) && state.getValue(HALF) == DoubleBlockHalf.UPPER ? pos.below() : pos;
+        Direction facing = state.getValue(FACING);
+        Block block = state.getBlock();
+        if (block instanceof BigBarrelMainHeadBlock) {
+            return lower.relative(facing);
+        }
+        if (block instanceof BigBarrelRightBlock) {
+            return lower.relative(facing.getClockWise());
+        }
+        if (block instanceof BigBarrelRightHeadBlock) {
+            return lower.relative(facing).relative(facing.getClockWise());
+        }
+        return lower;
+    }
+
+    @Override
+    protected @NotNull ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        if (!BigBarrelBlockEntity.canAge(stack)) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        }
+        if (!level.isClientSide && level.getBlockEntity(mainPos(state, pos)) instanceof BigBarrelBlockEntity barrel) {
+            ItemStack inserted = player.isCreative() ? stack.copy() : stack;
+            if (barrel.insert(inserted)) {
+                level.playSound(null, pos, SoundEvents.BARREL_CLOSE, SoundSource.BLOCKS, 0.7F, 1.2F);
+            }
+        }
+        return ItemInteractionResult.sidedSuccess(level.isClientSide);
+    }
+
+    @Override
+    protected @NotNull InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+        if (!player.isShiftKeyDown() || !(level.getBlockEntity(mainPos(state, pos)) instanceof BigBarrelBlockEntity barrel) || barrel.isEmpty()) {
+            return InteractionResult.PASS;
+        }
+        if (!level.isClientSide) {
+            ItemStack taken = barrel.takeLast();
+            if (!player.addItem(taken)) {
+                player.drop(taken, false);
+            }
+            level.playSound(null, pos, SoundEvents.BARREL_OPEN, SoundSource.BLOCKS, 0.7F, 1.2F);
+        }
+        return InteractionResult.sidedSuccess(level.isClientSide);
+    }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {

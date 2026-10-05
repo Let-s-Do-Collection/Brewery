@@ -61,8 +61,4 @@ public class BrewfestHatModel<T extends LivingEntity> extends HumanoidModel<T> {
         hat.copyFrom(head);
         super.renderToBuffer(poseStack, buffer, packedLight, packedOverlay, packedColor);
     }
-
-    public void copyHead(ModelPart headModel) {
-        head.copyFrom(headModel);
-    }
 }

@@ -8,6 +8,7 @@ import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
+import net.satisfy.brewery.platform.PlatformHelper;
 import net.satisfy.foundation.registry.FoundationParticles;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -41,6 +42,8 @@ public class BrewingstationRenderer implements BlockEntityRenderer<BrewstationBl
         if (!entity.hasLevel() || !(entity.getBlockState().getBlock() instanceof BrewingstationBlock)) return;
 
         updateLiquid(entity);
+        BrewingstationLiquid.render(entity, partialTicks, matrixStack, bufferSource, combinedLight, combinedOverlay);
+        BrewingstationLid.render(entity, partialTicks, matrixStack, bufferSource, combinedLight, combinedOverlay);
 
         List<ItemStack> ingredients = new ArrayList<>();
         for (ItemStack stack : entity.getIngredient()) {
@@ -49,7 +52,7 @@ public class BrewingstationRenderer implements BlockEntityRenderer<BrewstationBl
         if (ingredients.isEmpty()) return;
 
         float surface = surfaceHeight(entity.getBlockState());
-        float time = entity.getLevel().getGameTime() + partialTicks;
+        float time = PlatformHelper.animationsEnabled() ? entity.getLevel().getGameTime() + partialTicks : 0.0F;
         boolean floating = surface > 2f / 16f;
         Random random = new Random(entity.getBlockPos().hashCode());
         int count = ingredients.size();
@@ -81,7 +84,6 @@ public class BrewingstationRenderer implements BlockEntityRenderer<BrewstationBl
         }
     }
 
-    /** The tint is baked into the chunk mesh, so rebuild it whenever the liquid color moved a step and spawn colored bubbles while brewing. */
     private void updateLiquid(BrewstationBlockEntity entity) {
         Level level = entity.getLevel();
         BlockState state = entity.getBlockState();
@@ -90,35 +92,24 @@ public class BrewingstationRenderer implements BlockEntityRenderer<BrewstationBl
         if (liquid == Liquid.EMPTY || liquid == Liquid.DRAINED) return;
 
         int color = entity.getLiquidColor(BiomeColors.getAverageWaterColor(level, entity.getBlockPos()));
-        int step = (color & 0xFFFFFF) >> 2 & 0x3F3F3F;
-        if (step != entity.getClientTintStep()) {
-            boolean first = entity.getClientTintStep() == -1;
-            entity.setClientTintStep(step);
-            if (!first) level.sendBlockUpdated(entity.getBlockPos(), state, state, 8);
-        }
-
         boolean active = entity.isBrewingClient() || liquid == Liquid.OVERFLOWING;
         long now = level.getGameTime();
         if (!active || now == entity.getClientParticleTick()) return;
         entity.setClientParticleTick(now);
         RandomSource random = level.getRandom();
-        if (random.nextFloat() > 0.25f) return;
+        boolean overflowing = liquid == Liquid.OVERFLOWING;
+        if (!overflowing && random.nextFloat() > 0.25f) return;
         BlockPos pos = entity.getBlockPos();
-        double x = pos.getX() + 0.2 + random.nextDouble() * 0.6;
-        double z = pos.getZ() + 0.2 + random.nextDouble() * 0.6;
-        double y = pos.getY() + surfaceHeight(state) + 0.02;
-        level.addParticle(ColorParticleOption.create(FoundationParticles.COLORED_SOUP_BUBBLE.get(), FastColor.ARGB32.opaque(color)), x, y, z, 0, 0.01, 0);
+        int bubbles = overflowing ? 4 : 1;
+        for (int i = 0; i < bubbles; i++) {
+            double x = pos.getX() + 0.15 + random.nextDouble() * 0.7;
+            double z = pos.getZ() + 0.15 + random.nextDouble() * 0.7;
+            double y = pos.getY() + surfaceHeight(state) + 0.02;
+            level.addParticle(ColorParticleOption.create(FoundationParticles.COLORED_SOUP_BUBBLE.get(), FastColor.ARGB32.opaque(color)), x, y, z, 0, overflowing ? 0.03 : 0.01, 0);
+        }
     }
 
     private float surfaceHeight(BlockState state) {
-        if (!state.hasProperty(BlockStateRegistry.LIQUID)) return 2f / 16f;
-        Liquid liquid = state.getValue(BlockStateRegistry.LIQUID);
-        return switch (liquid) {
-            case EMPTY -> 2f / 16f;
-            case DRAINED -> 4f / 16f;
-            case FILLED -> 9f / 16f;
-            case BEER -> 10f / 16f;
-            case OVERFLOWING -> 15f / 16f;
-        };
+        return state.hasProperty(BlockStateRegistry.LIQUID) ? BrewingstationLiquid.surfaceHeight(state.getValue(BlockStateRegistry.LIQUID)) : 2f / 16f;
     }
 }

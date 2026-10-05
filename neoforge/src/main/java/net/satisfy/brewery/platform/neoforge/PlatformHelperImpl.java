@@ -23,6 +23,10 @@ public class PlatformHelperImpl {
         return BreweryNeoForgeConfig.enableBeerElementals;
     }
 
+    public static boolean animationsEnabled() {
+        return BreweryNeoForgeConfig.animations;
+    }
+
     public static boolean isDrunkennessEnabled() {
         return BreweryNeoForgeConfig.enableDrunkenness;
     }

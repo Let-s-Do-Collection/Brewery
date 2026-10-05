@@ -10,6 +10,7 @@ public class BreweryNeoForgeConfig {
     public static final ModConfigSpec.IntValue MIN_BREW_EVENT_INTERVAL;
     public static final ModConfigSpec.IntValue MAX_BREW_EVENT_INTERVAL;
     public static final ModConfigSpec.BooleanValue ENABLE_BEER_ELEMENTALS;
+    public static final ModConfigSpec.BooleanValue ANIMATIONS;
     public static final ModConfigSpec.BooleanValue ENABLE_DRUNKENNESS;
     public static final ModConfigSpec.BooleanValue ENABLE_DRUNK_SWAY;
     public static final ModConfigSpec.BooleanValue ENABLE_DRUNK_SLOWNESS;
@@ -52,6 +53,7 @@ public class BreweryNeoForgeConfig {
     public static int minBrewEventInterval = 5;
     public static int maxBrewEventInterval = 15;
     public static boolean enableBeerElementals = true;
+    public static boolean animations = true;
     public static boolean enableDrunkenness = true;
     public static boolean enableDrunkSway = true;
     public static boolean enableDrunkSlowness = true;
@@ -125,6 +127,7 @@ public class BreweryNeoForgeConfig {
         MIN_BREW_EVENT_INTERVAL = builder.comment("Shortest time in seconds between two brew events.").defineInRange("minBrewEventInterval", 5, 1, 120);
         MAX_BREW_EVENT_INTERVAL = builder.comment("Longest time in seconds between two brew events.").defineInRange("maxBrewEventInterval", 15, 1, 120);
         ENABLE_BEER_ELEMENTALS = builder.comment("Badly brewed beer can spawn Beer Elementals.").define("enableBeerElementals", true);
+        ANIMATIONS = builder.comment("Blocks of this mod are animated.").define("animations", true);
         builder.pop();
 
         builder.comment("Drunk effects of beer and whiskey.").push("Drunkenness");
@@ -177,6 +180,7 @@ public class BreweryNeoForgeConfig {
         minBrewEventInterval = MIN_BREW_EVENT_INTERVAL.get();
         maxBrewEventInterval = MAX_BREW_EVENT_INTERVAL.get();
         enableBeerElementals = ENABLE_BEER_ELEMENTALS.get();
+        animations = ANIMATIONS.get();
         enableDrunkenness = ENABLE_DRUNKENNESS.get();
         enableDrunkSway = ENABLE_DRUNK_SWAY.get();
         enableDrunkSlowness = ENABLE_DRUNK_SLOWNESS.get();

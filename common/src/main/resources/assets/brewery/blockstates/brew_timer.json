@@ -91,48 +91,48 @@
       "y": 270
     },
     "material=wood,facing=east,activated=true,pressed=true,time=true": {
-      "model": "brewery:block/wooden_brewingstation_timer_pressed",
+      "model": "brewery:block/wooden_brewingstation_timer_activated",
       "y": 90
     },
     "material=wood,facing=north,activated=true,pressed=true,time=true": {
-      "model": "brewery:block/wooden_brewingstation_timer_pressed"
+      "model": "brewery:block/wooden_brewingstation_timer_activated"
     },
     "material=wood,facing=south,activated=true,pressed=true,time=true": {
-      "model": "brewery:block/wooden_brewingstation_timer_pressed",
+      "model": "brewery:block/wooden_brewingstation_timer_activated",
       "y": 180
     },
     "material=wood,facing=west,activated=true,pressed=true,time=true": {
-      "model": "brewery:block/wooden_brewingstation_timer_pressed",
+      "model": "brewery:block/wooden_brewingstation_timer_activated",
       "y": 270
     },
     "material=copper,facing=east,activated=true,pressed=true,time=true": {
-      "model": "brewery:block/copper_brewingstation_timer_pressed",
+      "model": "brewery:block/copper_brewingstation_timer_activated",
       "y": 90
     },
     "material=copper,facing=north,activated=true,pressed=true,time=true": {
-      "model": "brewery:block/copper_brewingstation_timer_pressed"
+      "model": "brewery:block/copper_brewingstation_timer_activated"
     },
     "material=copper,facing=south,activated=true,pressed=true,time=true": {
-      "model": "brewery:block/copper_brewingstation_timer_pressed",
+      "model": "brewery:block/copper_brewingstation_timer_activated",
       "y": 180
     },
     "material=copper,facing=west,activated=true,pressed=true,time=true": {
-      "model": "brewery:block/copper_brewingstation_timer_pressed",
+      "model": "brewery:block/copper_brewingstation_timer_activated",
       "y": 270
     },
     "material=netherite,facing=east,activated=true,pressed=true,time=true": {
-      "model": "brewery:block/netherite_brewingstation_timer_pressed",
+      "model": "brewery:block/netherite_brewingstation_timer_activated",
       "y": 90
     },
     "material=netherite,facing=north,activated=true,pressed=true,time=true": {
-      "model": "brewery:block/netherite_brewingstation_timer_pressed"
+      "model": "brewery:block/netherite_brewingstation_timer_activated"
     },
     "material=netherite,facing=south,activated=true,pressed=true,time=true": {
-      "model": "brewery:block/netherite_brewingstation_timer_pressed",
+      "model": "brewery:block/netherite_brewingstation_timer_activated",
       "y": 180
     },
     "material=netherite,facing=west,activated=true,pressed=true,time=true": {
-      "model": "brewery:block/netherite_brewingstation_timer_pressed",
+      "model": "brewery:block/netherite_brewingstation_timer_activated",
       "y": 270
     },
     "material=wood,facing=east,activated=false,pressed=false,time=false,time=false": {
@@ -226,138 +226,138 @@
       "y": 270
     },
     "material=wood,facing=east,activated=true,pressed=true,time=false": {
-      "model": "brewery:block/wooden_brewingstation_timer_pressed",
+      "model": "brewery:block/wooden_brewingstation_timer_activated",
       "y": 90
     },
     "material=wood,facing=north,activated=true,pressed=true,time=false": {
-      "model": "brewery:block/wooden_brewingstation_timer_pressed"
+      "model": "brewery:block/wooden_brewingstation_timer_activated"
     },
     "material=wood,facing=south,activated=true,pressed=true,time=false": {
-      "model": "brewery:block/wooden_brewingstation_timer_pressed",
+      "model": "brewery:block/wooden_brewingstation_timer_activated",
       "y": 180
     },
     "material=wood,facing=west,activated=true,pressed=true,time=false": {
-      "model": "brewery:block/wooden_brewingstation_timer_pressed",
+      "model": "brewery:block/wooden_brewingstation_timer_activated",
       "y": 270
     },
     "material=copper,facing=east,activated=true,pressed=true,time=false": {
-      "model": "brewery:block/copper_brewingstation_timer_pressed",
+      "model": "brewery:block/copper_brewingstation_timer_activated",
       "y": 90
     },
     "material=copper,facing=north,activated=true,pressed=true,time=false": {
-      "model": "brewery:block/copper_brewingstation_timer_pressed"
+      "model": "brewery:block/copper_brewingstation_timer_activated"
     },
     "material=copper,facing=south,activated=true,pressed=true,time=false": {
-      "model": "brewery:block/copper_brewingstation_timer_pressed",
+      "model": "brewery:block/copper_brewingstation_timer_activated",
       "y": 180
     },
     "material=copper,facing=west,activated=true,pressed=true,time=false": {
-      "model": "brewery:block/copper_brewingstation_timer_pressed",
+      "model": "brewery:block/copper_brewingstation_timer_activated",
       "y": 270
     },
     "material=netherite,facing=east,activated=true,pressed=true,time=false": {
-      "model": "brewery:block/netherite_brewingstation_timer_pressed",
+      "model": "brewery:block/netherite_brewingstation_timer_activated",
       "y": 90
     },
     "material=netherite,facing=north,activated=true,pressed=true,time=false": {
-      "model": "brewery:block/netherite_brewingstation_timer_pressed"
+      "model": "brewery:block/netherite_brewingstation_timer_activated"
     },
     "material=netherite,facing=south,activated=true,pressed=true,time=false": {
-      "model": "brewery:block/netherite_brewingstation_timer_pressed",
+      "model": "brewery:block/netherite_brewingstation_timer_activated",
       "y": 180
     },
     "material=netherite,facing=west,activated=true,pressed=true,time=false": {
-      "model": "brewery:block/netherite_brewingstation_timer_pressed",
+      "model": "brewery:block/netherite_brewingstation_timer_activated",
       "y": 270
     },
     "material=copper,facing=east,activated=false,pressed=true,time=false": {
-      "model": "brewery:block/copper_brewingstation_timer_pressed",
+      "model": "brewery:block/copper_brewingstation_timer",
       "y": 90
     },
     "material=copper,facing=north,activated=false,pressed=true,time=false": {
-      "model": "brewery:block/copper_brewingstation_timer_pressed"
+      "model": "brewery:block/copper_brewingstation_timer"
     },
     "material=copper,facing=south,activated=false,pressed=true,time=false": {
-      "model": "brewery:block/copper_brewingstation_timer_pressed",
+      "model": "brewery:block/copper_brewingstation_timer",
       "y": 180
     },
     "material=copper,facing=west,activated=false,pressed=true,time=false": {
-      "model": "brewery:block/copper_brewingstation_timer_pressed",
+      "model": "brewery:block/copper_brewingstation_timer",
       "y": 270
     },
     "material=wood,facing=east,activated=false,pressed=true,time=false": {
-      "model": "brewery:block/wooden_brewingstation_timer_pressed",
+      "model": "brewery:block/wooden_brewingstation_timer",
       "y": 90
     },
     "material=wood,facing=north,activated=false,pressed=true,time=false": {
-      "model": "brewery:block/wooden_brewingstation_timer_pressed"
+      "model": "brewery:block/wooden_brewingstation_timer"
     },
     "material=wood,facing=south,activated=false,pressed=true,time=false": {
-      "model": "brewery:block/wooden_brewingstation_timer_pressed",
+      "model": "brewery:block/wooden_brewingstation_timer",
       "y": 180
     },
     "material=wood,facing=west,activated=false,pressed=true,time=false": {
-      "model": "brewery:block/wooden_brewingstation_timer_pressed",
+      "model": "brewery:block/wooden_brewingstation_timer",
       "y": 270
     },
     "material=netherite,facing=east,activated=false,pressed=true,time=false": {
-      "model": "brewery:block/netherite_brewingstation_timer_pressed",
+      "model": "brewery:block/netherite_brewingstation_timer",
       "y": 90
     },
     "material=netherite,facing=north,activated=false,pressed=true,time=false": {
-      "model": "brewery:block/netherite_brewingstation_timer_pressed"
+      "model": "brewery:block/netherite_brewingstation_timer"
     },
     "material=netherite,facing=south,activated=false,pressed=true,time=false": {
-      "model": "brewery:block/netherite_brewingstation_timer_pressed",
+      "model": "brewery:block/netherite_brewingstation_timer",
       "y": 180
     },
     "material=netherite,facing=west,activated=false,pressed=true,time=false": {
-      "model": "brewery:block/netherite_brewingstation_timer_pressed",
+      "model": "brewery:block/netherite_brewingstation_timer",
       "y": 270
     },
     "material=copper,facing=east,activated=false,pressed=true,time=true": {
-      "model": "brewery:block/copper_brewingstation_timer_pressed",
+      "model": "brewery:block/copper_brewingstation_timer",
       "y": 90
     },
     "material=copper,facing=north,activated=false,pressed=true,time=true": {
-      "model": "brewery:block/copper_brewingstation_timer_pressed"
+      "model": "brewery:block/copper_brewingstation_timer"
     },
     "material=copper,facing=south,activated=false,pressed=true,time=true": {
-      "model": "brewery:block/copper_brewingstation_timer_pressed",
+      "model": "brewery:block/copper_brewingstation_timer",
       "y": 180
     },
     "material=copper,facing=west,activated=false,pressed=true,time=true": {
-      "model": "brewery:block/copper_brewingstation_timer_pressed",
+      "model": "brewery:block/copper_brewingstation_timer",
       "y": 270
     },
     "material=wood,facing=east,activated=false,pressed=true,time=true": {
-      "model": "brewery:block/wooden_brewingstation_timer_pressed",
+      "model": "brewery:block/wooden_brewingstation_timer",
       "y": 90
     },
     "material=wood,facing=north,activated=false,pressed=true,time=true": {
-      "model": "brewery:block/wooden_brewingstation_timer_pressed"
+      "model": "brewery:block/wooden_brewingstation_timer"
     },
     "material=wood,facing=south,activated=false,pressed=true,time=true": {
-      "model": "brewery:block/wooden_brewingstation_timer_pressed",
+      "model": "brewery:block/wooden_brewingstation_timer",
       "y": 180
     },
     "material=wood,facing=west,activated=false,pressed=true,time=true": {
-      "model": "brewery:block/wooden_brewingstation_timer_pressed",
+      "model": "brewery:block/wooden_brewingstation_timer",
       "y": 270
     },
     "material=netherite,facing=east,activated=false,pressed=true,time=true": {
-      "model": "brewery:block/netherite_brewingstation_timer_pressed",
+      "model": "brewery:block/netherite_brewingstation_timer",
       "y": 90
     },
     "material=netherite,facing=north,activated=false,pressed=true,time=true": {
-      "model": "brewery:block/netherite_brewingstation_timer_pressed"
+      "model": "brewery:block/netherite_brewingstation_timer"
     },
     "material=netherite,facing=south,activated=false,pressed=true,time=true": {
-      "model": "brewery:block/netherite_brewingstation_timer_pressed",
+      "model": "brewery:block/netherite_brewingstation_timer",
       "y": 180
     },
     "material=netherite,facing=west,activated=false,pressed=true,time=true": {
-      "model": "brewery:block/netherite_brewingstation_timer_pressed",
+      "model": "brewery:block/netherite_brewingstation_timer",
       "y": 270
     }
   }

@@ -29,6 +29,11 @@ public class PlatformHelper {
     }
 
     @ExpectPlatform
+    public static boolean animationsEnabled() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
     public static boolean isDrunkennessEnabled() {
         throw new AssertionError();
     }

@@ -1,7 +1,7 @@
 package net.satisfy.brewery.core.event.brew_event;
 
+import net.satisfy.foundation.registry.FoundationParticles;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -49,7 +49,7 @@ public class WhistleEvent extends BrewEvent {
                 level.playLocalSound(x, y, z, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.8F, 0.5F, false);
             }
             double j = randomSource.nextDouble() * 12.0D / 16.0D;
-            level.addParticle(ParticleTypes.SMOKE, x, y + j, z, 0.0, 0.0, 0.0);
+            level.addParticle(FoundationParticles.SOUP_STEAM.get(), x, y + j, z, 0.0, 0.0, 0.0);
         }
     }
 

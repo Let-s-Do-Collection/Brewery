@@ -53,13 +53,4 @@ public class BrewfestLeggingsModel<T extends LivingEntity> extends HumanoidModel
         leftLeg.visible = true;
         super.renderToBuffer(poseStack, buffer, packedLight, packedOverlay, packedColor);
     }
-
-    public void copyBody(ModelPart bodyModel) {
-        body.copyFrom(bodyModel);
-    }
-
-    public void copyLegs(ModelPart rightLegModel, ModelPart leftLegModel) {
-        rightLeg.copyFrom(rightLegModel);
-        leftLeg.copyFrom(leftLegModel);
-    }
 }

@@ -1,5 +1,7 @@
 package net.satisfy.brewery.core.block;
 
+import net.minecraft.core.particles.ColorParticleOption;
+import net.satisfy.foundation.registry.FoundationParticles;
 import net.satisfy.foundation.util.ShapeUtil;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -107,19 +109,34 @@ public class BrewOvenBlock extends BrewingstationBlock {
             double k = axis == Direction.Axis.Z ? direction.getStepZ() * 0.62D : h;
 
             if (blockState.getValue(HEAT) == Heat.WEAK) {
+                ColorParticleOption blackSteam = ColorParticleOption.create(FoundationParticles.COLORED_STEAM.get(), 0xFF000000);
                 long currentTime = System.currentTimeMillis();
                 if (currentTime - lastSoundTime >= 9500) {
                     level.playLocalSound(x, y, z, SoundEventRegistry.BREWSTATION_OVEN.get(), SoundSource.BLOCKS, 0.70F, 1.0F, false);
                     lastSoundTime = currentTime;
                 }
-                if (randomSource.nextDouble() < 0.2D) {
-                    for (int l = 0; l < 5; l++) {
-                        level.addParticle(ParticleTypes.CAMPFIRE_SIGNAL_SMOKE, x + i, y + j, z + k, 0.0, 0.01, 0.0);
-                    }
+                for (int l = 0; l < 4; l++) {
+                    double spread = randomSource.nextDouble() * 0.3D - 0.15D;
+                    level.addParticle(blackSteam, x + i + (axis == Direction.Axis.Z ? spread : 0.0), y + j * 0.5, z + k + (axis == Direction.Axis.X ? spread : 0.0), 0.0, 0.03, 0.0);
+                }
+                if (randomSource.nextDouble() < 0.3D) {
+                    level.addParticle(ParticleTypes.SMALL_FLAME, x + i, y - 0.1 + j * 0.2, z + k, 0.0, 0.0, 0.0);
+                }
+                if (randomSource.nextDouble() < 0.15D) {
+                    level.addParticle(ParticleTypes.WHITE_ASH, x + i, y + j * 0.5, z + k, 0.0, 0.02, 0.0);
+                }
+                for (int l = 0; l < 3; l++) {
+                    level.addParticle(blackSteam, x + (randomSource.nextDouble() - 0.5D) * 0.6D, y + 0.35, z + (randomSource.nextDouble() - 0.5D) * 0.6D, 0.0, 0.04, 0.0);
                 }
             } else {
+                for (int l = 0; l < 2; l++) {
+                    double spread = randomSource.nextDouble() * 0.2D - 0.1D;
+                    level.addParticle(ParticleTypes.FLAME, x + i + (axis == Direction.Axis.Z ? spread : 0.0), y + j, z + k + (axis == Direction.Axis.X ? spread : 0.0), 0.0, 0.01, 0.0);
+                }
                 level.addParticle(ParticleTypes.SMOKE, x + i, y + j, z + k, 0.0, 0.07, 0.0);
-                level.addParticle(ParticleTypes.FLAME, x + i, y + j, z + k, 0.0, 0.0, 0.0);
+                if (randomSource.nextDouble() < 0.08D) {
+                    level.addParticle(ParticleTypes.LAVA, x + i, y + j, z + k, 0.0, 0.0, 0.0);
+                }
             }
         }
     }

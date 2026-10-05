@@ -1,6 +1,7 @@
 modLoader = "javafml"
 loaderVersion = "[4,)"
 license = "Custom"
+issueTrackerURL = "https://github.com/satisfyu/Let-s-Do-Hub"
 
 [[mixins]]
 config = "brewery-common.mixins.json"
@@ -13,7 +14,8 @@ authors = "satisfy"
 credits = "MissLilitu, CR-055"
 description = '''
 Ozapft is! Brau Bier, beiss in a Bretzn – willkomme zum Braufescht!'''
-logoFile = "pack.png"
+logoFile = "logo.png"
+displayURL = "https://www.lets-do.ch"
 
 [[dependencies.brewery]]
 modId = "neoforge"

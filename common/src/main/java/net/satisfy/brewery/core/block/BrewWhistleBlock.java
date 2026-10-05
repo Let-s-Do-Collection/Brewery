@@ -1,10 +1,17 @@
 package net.satisfy.brewery.core.block;
 
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.sounds.SoundEvents;
+import net.satisfy.foundation.registry.FoundationParticles;
+import net.satisfy.brewery.core.block.entity.BrewWhistleBlockEntity;
+import org.jetbrains.annotations.Nullable;
 import net.satisfy.foundation.util.ShapeUtil;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
@@ -33,7 +40,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public class BrewWhistleBlock extends BrewingstationBlock {
+public class BrewWhistleBlock extends BrewingstationBlock implements EntityBlock {
     public static final BooleanProperty WHISTLE;
     public static final EnumProperty<DoubleBlockHalf> HALF;
     public static final Map<Direction, VoxelShape> BOTTOM_SHAPE;
@@ -72,8 +79,6 @@ public class BrewWhistleBlock extends BrewingstationBlock {
             }
         });
     }
-
-    private long lastSoundTime = 0;
 
     public BrewWhistleBlock(Properties properties) {
         super(properties);
@@ -118,6 +123,21 @@ public class BrewWhistleBlock extends BrewingstationBlock {
         return shapeMap.get(state.getValue(FACING));
     }
 
+    public static boolean isVibrating(BlockState state) {
+        return state.getValue(WHISTLE) && state.getValue(HALF) == DoubleBlockHalf.UPPER;
+    }
+
+    @Override
+    protected @NotNull RenderShape getRenderShape(BlockState state) {
+        return isVibrating(state) ? RenderShape.ENTITYBLOCK_ANIMATED : RenderShape.MODEL;
+    }
+
+    @Nullable
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return state.getValue(HALF) == DoubleBlockHalf.UPPER ? new BrewWhistleBlockEntity(pos, state) : null;
+    }
+
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
@@ -149,13 +169,32 @@ public class BrewWhistleBlock extends BrewingstationBlock {
         double speedY = 0.5;
         double speedZ = direction.getStepZ() * 0.1 + (rand.nextFloat() - 0.5) * 0.05;
 
-        for (int i = 0; i < 5; i++) {
-            world.addParticle(ParticleTypes.LARGE_SMOKE, x, y, z, speedX, speedY, speedZ);
+        for (int i = 0; i < 3; i++) {
+            world.addParticle(FoundationParticles.SOUP_STEAM.get(), x + (rand.nextDouble() - 0.5) * 0.1, y + rand.nextDouble() * 0.1, z + (rand.nextDouble() - 0.5) * 0.1, speedX * 4.0, speedY, speedZ * 4.0);
         }
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - lastSoundTime >= 3000) {
-            world.playLocalSound(x, y, z, SoundEventRegistry.BREWSTATION_WHISTLE.get(), SoundSource.BLOCKS, 1.0F, 1.0F, false);
-            lastSoundTime = currentTime;
+    }
+
+    public static void puff(ServerLevel level, BlockPos pos) {
+        BlockState state = level.getBlockState(pos);
+        if (!(state.getBlock() instanceof BrewWhistleBlock)) {
+            return;
+        }
+        BlockPos top = state.getValue(HALF) == DoubleBlockHalf.LOWER ? pos.above() : pos;
+        Direction direction = state.getValue(FACING);
+        double x = top.getX() + 0.5 + direction.getStepX() * 0.6;
+        double y = top.getY() + 0.8;
+        double z = top.getZ() + 0.5 + direction.getStepZ() * 0.6;
+        level.sendParticles(FoundationParticles.SOUP_STEAM.get(), x, y, z, 14, 0.08, 0.1, 0.08, 0.02);
+        level.playSound(null, top, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.6F, 1.4F);
+    }
+
+    public static void playSounds(Level level, BlockPos pos) {
+        long time = level.getGameTime();
+        if (time % 60L == 0L) {
+            level.playSound(null, pos, SoundEventRegistry.BREWSTATION_WHISTLE.get(), SoundSource.BLOCKS, 2.5F, 1.0F);
+        }
+        if (time % 20L == 0L) {
+            level.playSound(null, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.3F, 0.6F + level.random.nextFloat() * 0.2F);
         }
     }
 }

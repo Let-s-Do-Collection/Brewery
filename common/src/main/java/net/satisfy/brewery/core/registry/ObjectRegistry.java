@@ -1,5 +1,8 @@
 package net.satisfy.brewery.core.registry;
 
+import net.satisfy.foundation.block.DresserBlock;
+import net.satisfy.foundation.block.CabinetWallBlock;
+import net.satisfy.farm_and_charm.core.registry.ArmorMaterialRegistry;
 import net.satisfy.foundation.armor.TexturedArmorItem;
 import net.minecraft.world.effect.MobEffects;
 import net.satisfy.foundation.banner.CompletionistWallBannerBlock;
@@ -21,6 +24,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.satisfy.brewery.core.block.FoodShapes;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.PushReaction;
 import net.satisfy.brewery.platform.PlatformHelper;
@@ -33,7 +37,6 @@ import net.satisfy.foundation.block.BonemealableTallFlowerBlock;
 import net.satisfy.foundation.food.FoodBlock;
 import net.satisfy.foundation.food.PlaceableEffectFoodItem;
 import net.satisfy.foundation.food.EffectFoodItem;
-import net.satisfy.farm_and_charm.core.registry.ArmorMaterialRegistry;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -75,8 +78,8 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Block> CABINET = registerWithItem("cabinet", () -> new CabinetBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F).sound(SoundType.WOOD), EntityTypeRegistry.CABINET_BLOCK_ENTITY, SoundEventRegistry.CABINET_OPEN.get(), SoundEventRegistry.CABINET_CLOSE.get()));
     public static final RegistrySupplier<Block> DRAWER = registerWithItem("drawer", () -> new CabinetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).strength(2.0F, 3.0F).sound(SoundType.WOOD), EntityTypeRegistry.CABINET_BLOCK_ENTITY, SoundEventRegistry.DRAWER_OPEN.get(), SoundEventRegistry.DRAWER_CLOSE.get()));
     public static final RegistrySupplier<Block> BAR_COUNTER = registerWithItem("bar_counter", () -> new BarCounterBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F).sound(SoundType.WOOD).noOcclusion()));
-    public static final RegistrySupplier<Block> SIDEBOARD = registerWithItem("sideboard", () -> new SideBoardBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F).sound(SoundType.WOOD), SoundEventRegistry.CABINET_OPEN, SoundEventRegistry.CABINET_CLOSE));
-    public static final RegistrySupplier<Block> WALL_CABINET = registerWithItem("wall_cabinet", () -> new CabinetWallBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).strength(2.0F, 3.0F).sound(SoundType.WOOD), SoundEventRegistry.CABINET_OPEN.get(), SoundEventRegistry.CABINET_CLOSE.get()));
+    public static final RegistrySupplier<Block> SIDEBOARD = registerWithItem("sideboard", () -> new DresserBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F).sound(SoundType.WOOD), EntityTypeRegistry.CABINET_BLOCK_ENTITY, SoundEventRegistry.CABINET_OPEN, SoundEventRegistry.CABINET_CLOSE));
+    public static final RegistrySupplier<Block> WALL_CABINET = registerWithItem("wall_cabinet", () -> new CabinetWallBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).strength(2.0F, 3.0F).sound(SoundType.WOOD), EntityTypeRegistry.CABINET_BLOCK_ENTITY, SoundEventRegistry.CABINET_OPEN.get(), SoundEventRegistry.CABINET_CLOSE.get()));
     public static final RegistrySupplier<Block> WOODEN_BREWINGSTATION = registerWithItem("wooden_brewingstation", () -> new BrewKettleBlock(BrewMaterial.WOOD, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).noOcclusion().pushReaction(PushReaction.BLOCK)));
     public static final RegistrySupplier<Block> COPPER_BREWINGSTATION = registerWithItem("copper_brewingstation", () -> new BrewKettleBlock(BrewMaterial.COPPER, BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).noOcclusion().pushReaction(PushReaction.BLOCK)));
     public static final RegistrySupplier<Block> NETHERITE_BREWINGSTATION = registerWithItem("netherite_brewingstation", () -> new BrewKettleBlock(BrewMaterial.NETHERITE, BlockBehaviour.Properties.ofFullCopy(Blocks.NETHERITE_BLOCK).noOcclusion().pushReaction(PushReaction.BLOCK)));
@@ -104,17 +107,17 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Block> WHISKEY_HIGHLAND_HEARTH = registerWithItemeverage("whiskey_highland_hearth", () -> new BeverageBlock(getBeverageSettings(), 1), MobEffectRegistry.REPULSION);
     public static final RegistrySupplier<Block> WHISKEY_JAMESONS_MALT = registerWithItemeverage("whiskey_jamesons_malt", () -> new BeverageBlock(getBeverageSettings(), 1), MobEffectRegistry.EXPLOSION);
     public static final RegistrySupplier<Block> WHISKEY_SMOKEY_REVERIE = registerWithItemeverage("whiskey_smokey_reverie", () -> new BeverageBlock(getBeverageSettings(), 2), MobEffectRegistry.COMBUSTION);
-    public static final RegistrySupplier<Block> PORK_KNUCKLE_BLOCK = registerWithoutItem("pork_knuckle", () -> new FoodBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CAKE), 4, new FoodProperties.Builder().nutrition(9).saturationModifier(0.9F).build()));
+    public static final RegistrySupplier<Block> PORK_KNUCKLE_BLOCK = registerWithoutItem("pork_knuckle", () -> new FoodBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CAKE), 4, new FoodProperties.Builder().nutrition(9).saturationModifier(0.9F).build(), FoodShapes.PORK_KNUCKLE));
     public static final RegistrySupplier<Item> PORK_KNUCKLE = registerItem("pork_knuckle", () -> new PlaceableEffectFoodItem(PORK_KNUCKLE_BLOCK.get(), getFoodItemSettings(PlatformHelper.getNutrition("pork_knuckle"), PlatformHelper.getSaturationMod("pork_knuckle"), MobEffectRegistry.STOUTHEART, 2000)));
-    public static final RegistrySupplier<Block> FRIED_CHICKEN_BLOCK = registerWithoutItem("fried_chicken", () -> new FoodBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CAKE), 4, new FoodProperties.Builder().nutrition(7).saturationModifier(0.7F).build()));
+    public static final RegistrySupplier<Block> FRIED_CHICKEN_BLOCK = registerWithoutItem("fried_chicken", () -> new FoodBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CAKE), 4, new FoodProperties.Builder().nutrition(7).saturationModifier(0.7F).build(), FoodShapes.FRIED_CHICKEN));
     public static final RegistrySupplier<Item> FRIED_CHICKEN = registerItem("fried_chicken", () -> new PlaceableEffectFoodItem(FRIED_CHICKEN_BLOCK.get(), getFoodItemSettings(PlatformHelper.getNutrition("fried_chicken"), PlatformHelper.getSaturationMod("fried_chicken"), MobEffectRegistry.STOUTHEART, 1500)));
-    public static final RegistrySupplier<Block> HALF_CHICKEN_BLOCK = registerWithoutItem("half_chicken", () -> new FoodBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CAKE), 4, new FoodProperties.Builder().nutrition(3).saturationModifier(0.4F).build()));
+    public static final RegistrySupplier<Block> HALF_CHICKEN_BLOCK = registerWithoutItem("half_chicken", () -> new FoodBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CAKE), 4, new FoodProperties.Builder().nutrition(3).saturationModifier(0.4F).build(), FoodShapes.HALF_CHICKEN));
     public static final RegistrySupplier<Item> HALF_CHICKEN = registerItem("half_chicken", () -> new PlaceableEffectFoodItem(HALF_CHICKEN_BLOCK.get(), getFoodItemSettings(PlatformHelper.getNutrition("half_chicken"), PlatformHelper.getSaturationMod("half_chicken"), MobEffectRegistry.STOUTHEART, 900)));
-    public static final RegistrySupplier<Block> MASHED_POTATOES_BLOCK = registerWithoutItem("mashed_potatoes", () -> new FoodBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CAKE), 4, new FoodProperties.Builder().nutrition(4).saturationModifier(0.5F).build()));
+    public static final RegistrySupplier<Block> MASHED_POTATOES_BLOCK = registerWithoutItem("mashed_potatoes", () -> new FoodBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CAKE), 4, new FoodProperties.Builder().nutrition(4).saturationModifier(0.5F).build(), FoodShapes.MASHED_POTATOES));
     public static final RegistrySupplier<Item> MASHED_POTATOES = registerItem("mashed_potatoes", () -> new PlaceableEffectFoodItem(MASHED_POTATOES_BLOCK.get(), getFoodItemSettings(PlatformHelper.getNutrition("mashed_potatoes"), PlatformHelper.getSaturationMod("mashed_potatoes"), MobEffectRegistry.STOUTHEART, 4000)));
-    public static final RegistrySupplier<Block> POTATO_SALAD_BLOCK = registerWithoutItem("potato_salad", () -> new FoodBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CAKE), 4, new FoodProperties.Builder().nutrition(8).saturationModifier(0.8F).build()));
+    public static final RegistrySupplier<Block> POTATO_SALAD_BLOCK = registerWithoutItem("potato_salad", () -> new FoodBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CAKE), 4, new FoodProperties.Builder().nutrition(8).saturationModifier(0.8F).build(), FoodShapes.POTATO_SALAD));
     public static final RegistrySupplier<Item> POTATO_SALAD = registerItem("potato_salad", () -> new PlaceableEffectFoodItem(POTATO_SALAD_BLOCK.get(), getFoodItemSettings(PlatformHelper.getNutrition("potato_salad"), PlatformHelper.getSaturationMod("potato_salad"), MobEffectRegistry.STOUTHEART, 6000)));
-    public static final RegistrySupplier<Block> DUMPLINGS_BLOCK = registerWithoutItem("dumplings", () -> new FoodBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CAKE), 4, new FoodProperties.Builder().nutrition(7).saturationModifier(0.8F).build()));
+    public static final RegistrySupplier<Block> DUMPLINGS_BLOCK = registerWithoutItem("dumplings", () -> new FoodBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CAKE), 4, new FoodProperties.Builder().nutrition(7).saturationModifier(0.8F).build(), FoodShapes.DUMPLINGS));
     public static final RegistrySupplier<Item> DUMPLINGS = registerItem("dumplings", () -> new PlaceableEffectFoodItem(DUMPLINGS_BLOCK.get(), getFoodItemSettings(PlatformHelper.getNutrition("dumplings"), PlatformHelper.getSaturationMod("dumplings"), MobEffectRegistry.STOUTHEART, 6000)));
     public static final RegistrySupplier<Block> GINGERBREAD = registerWithItem("gingerbread", () -> new WallDecorationBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FLOWER_POT), EntityTypeRegistry.WALL_DECORATION, Brewery.identifier("textures/block/gingerbread_heart.png"), 8));
     private static final BannerSettings BANNER_SETTINGS = new BannerSettings(
