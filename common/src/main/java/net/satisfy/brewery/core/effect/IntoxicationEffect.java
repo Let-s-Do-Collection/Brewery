@@ -39,7 +39,7 @@ public class IntoxicationEffect extends MobEffect {
                 Holder<MobEffect> intox = BuiltInRegistries.MOB_EFFECT.wrapAsHolder(MobEffectRegistry.DRUNK.get());
                 Holder<MobEffect> blackout = BuiltInRegistries.MOB_EFFECT.wrapAsHolder(MobEffectRegistry.BLACKOUT.get());
                 entity.removeEffect(intox);
-                entity.addEffect(new MobEffectInstance(blackout, BLACKOUT_DURATION, 0));
+                entity.addEffect(new MobEffectInstance(blackout, BLACKOUT_DURATION, 0, false, false));
                 return true;
             }
         }

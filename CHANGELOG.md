@@ -2,12 +2,11 @@
 
 **Added**
 * Brewing now starts with the button on the Brew Timer. The info tooltip of the Brewing Station tells you when everything is ready
-* The liquid in the Brew Kettle now rises and sinks smoothly and changes color without flickering, and the kettle needs 16 fewer models
+* The liquid in the Brew Kettle now rises and sinks smoothly 
 * The lid of the Brew Kettle moves now: it stands open while idle, lowers when brewing starts, rattles up and down when the kettle overflows and opens up a bit when the water runs low, all with smooth transitions
 * The Brew Timer came to life: the needle of the tachometer follows the brewing progress and jitters wildly when the timer rings, and the button springs in with a click when pressed
 * The steam event of the Brew Whistle got an overhaul: thick steam clouds instead of smoke, a steady hiss under the whistle and the whistle shakes while the steam is up
 * The Big Barrel now ages drinks: right-click with a beer or whiskey to store it (9 spots), shift + right-click to take the last one out. Every 7 in-game days in the barrel raise the quality by one, up to the new fourth level shown as a golden barrel. Barrel-aged drinks last longer, hit harder and make you less drunk. The info tooltip shows what is inside and how far it has aged
-* Brewfest Garb set bonus Harddrinking: wearing the full set makes you immune to Drunkenness. The set tooltip shows every piece and lights up the bonus once the set is complete
 * Brewing Station now shows an info tooltip once something is in the Kettle: the ingredients, the next valid or missing ingredients, the possible drinks and what is still needed to start brewing (water, heat or a better Brewing Station)
 * New config with the categories Effects, Brewing, Drunkenness, Info Tooltips and Food:
   * Effects: fine-tuning of Combustion, Repulsion, Stoutheart, Mining and Pacify, and flying with Amorous Glide on or off
@@ -19,14 +18,11 @@
 * Patterned Wool, Patterned Carpet and the Tablecloth can be dyed: right-click with any dye. Dyed Wool crafts into Carpet of the same color, and a Carpet placed on a Table keeps its color
 
 **Changed**
-* The Kettle of the Brewing Station is now two blocks tall and has a collision box at its back wall. Needs one more free block above the Kettle when placing
+* The Kettle of the Brewing Station is now two blocks tall. Needs one more free block above the Kettle when placing
 * Beer and Whiskey quality is now shown with three beer barrel icons instead of a number
-* Patterned Wool, Patterned Carpet and the Tablecloth are now light blue by default
-* Wild Hops item now uses the top part of the plant as its texture, like vanilla tall plants
 
 **Fixed**
 * Beer quality is harder to get: quality 2 needs at least 3 solved brew events with at most one missed, quality 3 needs at least 4 solved events and none missed. Before, a single solved event could already give the best quality
-* The Brew Oven shows clearly when the fire is dying: only small flames, ash and smoke while it is weak, a lively fire with sparks while it is hot
 * Placed Beer and Whiskey can be stacked again: right-click with another bottle to add it, right-click with an empty hand to take one
 * German tooltip of the Brewery Banner now correctly says it grants Haste II
 * Breaking a Table with a Tablecloth now also drops the Carpet

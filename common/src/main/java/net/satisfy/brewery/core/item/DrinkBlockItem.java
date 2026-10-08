@@ -117,7 +117,7 @@ public class DrinkBlockItem extends BlockItem {
             var current = serverPlayer.getEffect(holder);
             int currentAmp = current != null ? current.getAmplifier() : -1;
             int newAmp = Mth.clamp(Math.max(mainEffect.getAmplifier(), currentAmp + 1), 0, 5);
-            serverPlayer.addEffect(new MobEffectInstance(holder, mainEffect.getDuration(), newAmp));
+            serverPlayer.addEffect(new MobEffectInstance(holder, mainEffect.getDuration(), newAmp, false, false));
 
             if (PlatformHelper.isDrunkennessEnabled() && !ArmorSetRegistry.hasHarddrinking(serverPlayer)) {
                 var drunkHolder = MobEffectRegistry.holder(MobEffectRegistry.DRUNK);
@@ -138,7 +138,7 @@ public class DrinkBlockItem extends BlockItem {
                 }
 
                 int drunkDuration = Mth.nextInt(level.getRandom(), min, max);
-                serverPlayer.addEffect(new MobEffectInstance(drunkHolder, drunkDuration, newDrunkAmp));
+                serverPlayer.addEffect(new MobEffectInstance(drunkHolder, drunkDuration, newDrunkAmp, false, false));
             }
         }
         return returnStack;
@@ -178,7 +178,9 @@ public class DrinkBlockItem extends BlockItem {
         return new MobEffectInstance(
                 BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect),
                 duration,
-                amplifier
+                amplifier,
+                false,
+                false
         );
     }
 

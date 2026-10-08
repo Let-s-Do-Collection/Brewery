@@ -3,7 +3,7 @@
   "id": "brewery",
   "version": "${version}",
   "name": "[Let's Do] Brewery",
-  "description": "Ozapft is! Brau Bier, beiss in a Bretzn – willkomme zum Braufescht!",
+  "description": "Foaming mugs, copper kettles and the smell of fresh pretzels. Brew your own beer, cook hearty food and throw an Oktoberfest to remember.",
   "authors": [
     "satisfy"
   ],
@@ -30,6 +30,9 @@
     "rei_client": [
       "net.satisfy.brewery.fabric.core.rei.BreweryREIClientPluginFabric"
     ],
+    "emi": [
+      "net.satisfy.brewery.core.compat.emi.BreweryEMIPlugin"
+    ],
     "jei_mod_plugin": [
       "net.satisfy.brewery.core.compat.jei.BreweryJEIClientPlugin"
     ],
@@ -41,9 +44,11 @@
     "brewery-common.mixins.json"
   ],
   "depends": {
-    "foundation": ">=1.0.0",
-    "fabric": "*",
-    "minecraft": ">=1.21.1",
-    "architectury": ">=6.5.82"
+    "fabricloader": ">=0.16.14",
+    "fabric-api": "*",
+    "minecraft": ">=1.21.1 <1.22",
+    "architectury": ">=13.0.8",
+    "foundation": ">=1.0.3",
+    "farm_and_charm": ">=1.1.27"
   }
 }

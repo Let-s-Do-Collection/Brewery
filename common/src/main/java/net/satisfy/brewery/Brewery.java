@@ -11,6 +11,13 @@ import net.satisfy.brewery.core.event.brew_event.BrewEvents;
 import net.satisfy.brewery.core.network.BreweryNetworking;
 import net.satisfy.brewery.core.registry.*;
 
+import dev.architectury.registry.registries.RegistrySupplier;
+import net.minecraft.world.item.Item;
+import net.satisfy.foundation.rarity.FoundationRarities;
+import net.satisfy.foundation.rarity.FoundationRarity;
+
+import java.util.List;
+
 import static net.satisfy.brewery.core.registry.ObjectRegistry.*;
 
 public class Brewery {
@@ -23,6 +30,7 @@ public class Brewery {
     public static void init() {
         MobEffectRegistry.init();
         ObjectRegistry.init();
+        FlammableBlockRegistry.init();
         ArmorSetRegistry.init();
         EntityTypeRegistry.init();
         SoundEventRegistry.init();
@@ -30,6 +38,7 @@ public class Brewery {
         TabRegistry.init();
 
         LifecycleEvent.SETUP.register(Brewery::registerFuels);
+        LifecycleEvent.SETUP.register(Brewery::registerRarities);
 
         BrewEvents.loadClass();
         CommonEvents.init();
@@ -40,6 +49,13 @@ public class Brewery {
     private static void registerEvents() {
         PartyStarterEvent partyStarterEvent = new PartyStarterEvent();
         PlayerEvent.ATTACK_ENTITY.register(partyStarterEvent);
+    }
+
+    private static void registerRarities() {
+        FoundationRarities.register(BREWERY_BANNER.get(), FoundationRarity.LEGENDARY);
+        for (RegistrySupplier<Item> piece : List.of(BREWFEST_HAT, BREWFEST_HAT_RED, BREWFEST_REGALIA, BREWFEST_TROUSERS, BREWFEST_BOOTS, BREWFEST_DRESS, BREWFEST_BLOUSE, BREWFEST_SHOES)) {
+            FoundationRarities.register(piece.get(), FoundationRarity.RARE);
+        }
     }
 
     public static void registerFuels() {

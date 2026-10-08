@@ -13,41 +13,41 @@ displayName = "[Let's Do] Brewery"
 authors = "satisfy"
 credits = "MissLilitu, CR-055"
 description = '''
-Ozapft is! Brau Bier, beiss in a Bretzn – willkomme zum Braufescht!'''
-logoFile = "logo.png"
+Foaming mugs, copper kettles and the smell of fresh pretzels. Brew your own beer, cook hearty food and throw an Oktoberfest to remember.'''
+logoFile = "pack.png"
 displayURL = "https://www.lets-do.ch"
 
 [[dependencies.brewery]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21.0,)"
+versionRange = "[21.1,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.brewery]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21,)"
+versionRange = "[1.21.1,1.22)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.brewery]]
 modId = "architectury"
-mandatory = true
-versionRange = "[9.0.8,)"
+type = "required"
+versionRange = "[13.0.8,)"
 ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.brewery]]
 modId = "farm_and_charm"
-mandatory = true
-versionRange = "[1.1.0,)"
+type = "required"
+versionRange = "[1.1.27,)"
 ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.brewery]]
 modId = "foundation"
 type = "required"
-versionRange = "[1.0.0,)"
+versionRange = "[1.0.3,)"
 ordering = "AFTER"
 side = "BOTH"

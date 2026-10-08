@@ -109,21 +109,21 @@ public class CommonEvents {
 
     private static void handleRenewingTouch(Level level, Entity target) {
         if (target instanceof LivingEntity entity) {
-            entity.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 200, 1));
+            entity.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 200, 1, false, false));
             spawnParticles(level, entity, ParticleTypes.COMPOSTER);
         }
     }
 
     private static void handleProtectiveTouch(Level level, Entity target) {
         if (target instanceof LivingEntity entity) {
-            entity.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 200, 1));
+            entity.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 200, 1, false, false));
             spawnParticles(level, entity, ParticleTypes.GLOW_SQUID_INK);
         }
     }
 
     private static void handleToxicTouch(Level level, Entity target) {
         if (target instanceof LivingEntity entity) {
-            entity.addEffect(new MobEffectInstance(MobEffects.POISON, 300, 2));
+            entity.addEffect(new MobEffectInstance(MobEffects.POISON, 300, 2, false, false));
             spawnParticles(level, entity, ParticleTypes.SCRAPE);
         }
     }

@@ -96,7 +96,7 @@ public class BlackoutEffect extends MobEffect {
             }
             if (remaining == 1) {
                 if (!livingEntity.level().isClientSide()) {
-                    livingEntity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 600, 0));
+                    livingEntity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 600, 0, false, false));
                 }
                 livingEntity.setPose(Pose.STANDING);
                 LOCK_YAW.remove(livingEntity.getUUID());
