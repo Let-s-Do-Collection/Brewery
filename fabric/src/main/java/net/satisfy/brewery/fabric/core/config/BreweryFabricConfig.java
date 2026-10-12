@@ -7,6 +7,22 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 @Config(name = "brewery")
 @Config.Gui.Background("brewery:textures/block/barrel_top.png")
 public class BreweryFabricConfig implements ConfigData {
+    @Override
+    public void validatePostLoad() {
+        food.sausageSaturation = clampSaturation(food.sausageSaturation);
+        food.pretzelSaturation = clampSaturation(food.pretzelSaturation);
+        food.porkKnuckleSaturation = clampSaturation(food.porkKnuckleSaturation);
+        food.friedChickenSaturation = clampSaturation(food.friedChickenSaturation);
+        food.halfChickenSaturation = clampSaturation(food.halfChickenSaturation);
+        food.mashedPotatoesSaturation = clampSaturation(food.mashedPotatoesSaturation);
+        food.potatoSaladSaturation = clampSaturation(food.potatoSaladSaturation);
+        food.dumplingsSaturation = clampSaturation(food.dumplingsSaturation);
+    }
+
+    private static float clampSaturation(float value) {
+        return Math.max(0.0f, Math.min(2.0f, value));
+    }
+
 
     @ConfigEntry.Gui.CollapsibleObject
     public EffectsSettings effects = new EffectsSettings();
@@ -73,6 +89,9 @@ public class BreweryFabricConfig implements ConfigData {
     public static class InfoTooltipSettings {
         @ConfigEntry.Gui.Tooltip
         public boolean showBrewingstationInfo = true;
+
+        @ConfigEntry.Gui.Tooltip
+        public boolean showBigBarrelInfo = true;
 
         @ConfigEntry.Gui.Tooltip
         public boolean needDungarees = false;
@@ -156,21 +175,45 @@ public class BreweryFabricConfig implements ConfigData {
     }
 
     public static class FoodSettings {
-        public int sausageNutrition = 6;
-        public float sausageSaturationMod = 0.5f;
+        @ConfigEntry.Gui.Tooltip
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 20)
+        public int sausageNutrition = 12;
+        @ConfigEntry.Gui.Tooltip
+        public float sausageSaturation = 0.9f;
+        @ConfigEntry.Gui.Tooltip
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 20)
         public int pretzelNutrition = 3;
-        public float pretzelSaturationMod = 0.4f;
-        public int porkKnuckleNutrition = 6;
-        public float porkKnuckleSaturationMod = 0.6f;
-        public int friedChickenNutrition = 6;
-        public float friedChickenSaturationMod = 0.6f;
-        public int halfChickenNutrition = 6;
-        public float halfChickenSaturationMod = 0.6f;
-        public int mashedPotatoesNutrition = 3;
-        public float mashedPotatoesSaturationMod = 0.5f;
-        public int potatoSaladNutrition = 6;
-        public float potatoSaladSaturationMod = 0.7f;
-        public int dumplingsNutrition = 6;
-        public float dumplingsSaturationMod = 0.5f;
+        @ConfigEntry.Gui.Tooltip
+        public float pretzelSaturation = 0.4f;
+        @ConfigEntry.Gui.Tooltip
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 20)
+        public int porkKnuckleNutrition = 4;
+        @ConfigEntry.Gui.Tooltip
+        public float porkKnuckleSaturation = 0.7f;
+        @ConfigEntry.Gui.Tooltip
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 20)
+        public int friedChickenNutrition = 3;
+        @ConfigEntry.Gui.Tooltip
+        public float friedChickenSaturation = 0.5f;
+        @ConfigEntry.Gui.Tooltip
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 20)
+        public int halfChickenNutrition = 2;
+        @ConfigEntry.Gui.Tooltip
+        public float halfChickenSaturation = 0.6f;
+        @ConfigEntry.Gui.Tooltip
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 20)
+        public int mashedPotatoesNutrition = 2;
+        @ConfigEntry.Gui.Tooltip
+        public float mashedPotatoesSaturation = 0.5f;
+        @ConfigEntry.Gui.Tooltip
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 20)
+        public int potatoSaladNutrition = 2;
+        @ConfigEntry.Gui.Tooltip
+        public float potatoSaladSaturation = 0.5f;
+        @ConfigEntry.Gui.Tooltip
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 20)
+        public int dumplingsNutrition = 3;
+        @ConfigEntry.Gui.Tooltip
+        public float dumplingsSaturation = 0.5f;
     }
 }

@@ -1,9 +1,8 @@
 package net.satisfy.brewery.core.registry;
 
 import dev.architectury.registry.registries.RegistrySupplier;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.ComposterBlock;
+import net.satisfy.foundation.compostable.FoundationCompostables;
 
 public class CompostablesRegistry {
     public static void init() {
@@ -24,9 +23,7 @@ public class CompostablesRegistry {
         registerCompostableItem(ObjectRegistry.POTATO_SALAD, 0.3F);
     }
 
-    public static <T extends ItemLike> void registerCompostableItem(RegistrySupplier<T> item, float chance) {
-        if (item.get().asItem() != Items.AIR) {
-            ComposterBlock.COMPOSTABLES.put(item.get(), chance);
-        }
+    public static void registerCompostableItem(RegistrySupplier<? extends ItemLike> item, float chance) {
+        FoundationCompostables.register(chance, item);
     }
 }

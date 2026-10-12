@@ -19,6 +19,8 @@ import net.satisfy.foundation.rarity.FoundationRarity;
 import java.util.List;
 
 import static net.satisfy.brewery.core.registry.ObjectRegistry.*;
+import net.satisfy.foundation.entity.equipment.ZombieEquipment;
+import net.minecraft.world.entity.EquipmentSlot;
 
 public class Brewery {
     public static final String MOD_ID = "brewery";
@@ -28,6 +30,8 @@ public class Brewery {
     }
 
     public static void init() {
+        ZombieEquipment.add(0.03).adultsOnly().slot(EquipmentSlot.HEAD, ObjectRegistry.BREWFEST_HAT_RED).slot(EquipmentSlot.CHEST, ObjectRegistry.BREWFEST_REGALIA).slot(EquipmentSlot.MAINHAND, ObjectRegistry.WHISKEY_AK);
+        CompostablesRegistry.init();
         MobEffectRegistry.init();
         ObjectRegistry.init();
         FlammableBlockRegistry.init();

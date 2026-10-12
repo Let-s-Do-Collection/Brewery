@@ -12,10 +12,10 @@
     "CR-055"
   ],
   "contact": {
-    "issues": "https://github.com/satisfyu/Let-s-Do-Hub",
-    "sources": "https://github.com/satisfyu/Brewery",
     "homepage": "https://www.lets-do.ch",
-    "wiki": "https://lets-do.ch/wiki/brewery/"
+    "wiki": "https://lets-do.ch/wiki/brewery/",
+    "sources": "https://github.com/Let-s-Do-Collection/Brewery",
+    "issues": "https://github.com/satisfyu/Let-s-Do-Hub"
   },
   "license": "Custom",
   "icon": "pack.png",
@@ -46,9 +46,10 @@
   "depends": {
     "fabricloader": ">=0.16.14",
     "fabric-api": "*",
-    "minecraft": ">=1.21.1 <1.22",
+    "minecraft": "~1.21.1",
     "architectury": ">=13.0.8",
-    "foundation": ">=1.0.3",
+    "foundation": ">=1.0.6",
+    "cloth-config": "*",
     "farm_and_charm": ">=1.1.27"
   }
 }

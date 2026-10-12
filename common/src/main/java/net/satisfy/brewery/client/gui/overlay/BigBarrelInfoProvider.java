@@ -53,6 +53,9 @@ public class BigBarrelInfoProvider implements BlockInfoProvider {
     }
 
     private static boolean isHidden() {
+        if (!PlatformHelper.showBigBarrelInfo()) {
+            return true;
+        }
         if (!PlatformHelper.infoTooltipsNeedDungarees()) {
             return false;
         }

@@ -134,6 +134,11 @@ public class PlatformHelper {
     }
 
     @ExpectPlatform
+    public static boolean showBigBarrelInfo() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
     public static boolean infoTooltipsNeedDungarees() {
         throw new AssertionError();
     }
@@ -144,7 +149,7 @@ public class PlatformHelper {
     }
 
     @ExpectPlatform
-    public static float getSaturationMod(String itemName) {
+    public static float getSaturation(String itemName) {
         throw new AssertionError();
     }
 }

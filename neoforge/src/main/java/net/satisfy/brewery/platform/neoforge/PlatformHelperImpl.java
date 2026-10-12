@@ -107,6 +107,10 @@ public class PlatformHelperImpl {
         return BreweryNeoForgeConfig.showBrewingstationInfo;
     }
 
+    public static boolean showBigBarrelInfo() {
+        return BreweryNeoForgeConfig.showBigBarrelInfo;
+    }
+
     public static boolean infoTooltipsNeedDungarees() {
         return BreweryNeoForgeConfig.infoTooltipsNeedDungarees;
     }
@@ -125,16 +129,16 @@ public class PlatformHelperImpl {
         };
     }
 
-    public static float getSaturationMod(String itemName) {
+    public static float getSaturation(String itemName) {
         return switch (itemName) {
-            case "sausage" -> (float) BreweryNeoForgeConfig.sausageSaturationMod;
-            case "pretzel" -> (float) BreweryNeoForgeConfig.pretzelSaturationMod;
-            case "pork_knuckle" -> (float) BreweryNeoForgeConfig.porkKnuckleSaturationMod;
-            case "fried_chicken" -> (float) BreweryNeoForgeConfig.friedChickenSaturationMod;
-            case "half_chicken" -> (float) BreweryNeoForgeConfig.halfChickenSaturationMod;
-            case "mashed_potatoes" -> (float) BreweryNeoForgeConfig.mashedPotatoesSaturationMod;
-            case "potato_salad" -> (float) BreweryNeoForgeConfig.potatoSaladSaturationMod;
-            case "dumplings" -> (float) BreweryNeoForgeConfig.dumplingsSaturationMod;
+            case "sausage" -> (float) BreweryNeoForgeConfig.sausageSaturation;
+            case "pretzel" -> (float) BreweryNeoForgeConfig.pretzelSaturation;
+            case "pork_knuckle" -> (float) BreweryNeoForgeConfig.porkKnuckleSaturation;
+            case "fried_chicken" -> (float) BreweryNeoForgeConfig.friedChickenSaturation;
+            case "half_chicken" -> (float) BreweryNeoForgeConfig.halfChickenSaturation;
+            case "mashed_potatoes" -> (float) BreweryNeoForgeConfig.mashedPotatoesSaturation;
+            case "potato_salad" -> (float) BreweryNeoForgeConfig.potatoSaladSaturation;
+            case "dumplings" -> (float) BreweryNeoForgeConfig.dumplingsSaturation;
             default -> 0;
         };
     }

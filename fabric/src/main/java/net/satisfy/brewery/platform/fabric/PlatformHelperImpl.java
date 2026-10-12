@@ -112,6 +112,10 @@ public class PlatformHelperImpl {
         return config().infoTooltips.showBrewingstationInfo;
     }
 
+    public static boolean showBigBarrelInfo() {
+        return config().infoTooltips.showBigBarrelInfo;
+    }
+
     public static boolean infoTooltipsNeedDungarees() {
         return config().infoTooltips.needDungarees;
     }
@@ -131,17 +135,17 @@ public class PlatformHelperImpl {
         };
     }
 
-    public static float getSaturationMod(String itemName) {
+    public static float getSaturation(String itemName) {
         BreweryFabricConfig.FoodSettings food = config().food;
         return switch (itemName) {
-            case "sausage" -> food.sausageSaturationMod;
-            case "pretzel" -> food.pretzelSaturationMod;
-            case "pork_knuckle" -> food.porkKnuckleSaturationMod;
-            case "fried_chicken" -> food.friedChickenSaturationMod;
-            case "half_chicken" -> food.halfChickenSaturationMod;
-            case "mashed_potatoes" -> food.mashedPotatoesSaturationMod;
-            case "potato_salad" -> food.potatoSaladSaturationMod;
-            case "dumplings" -> food.dumplingsSaturationMod;
+            case "sausage" -> food.sausageSaturation;
+            case "pretzel" -> food.pretzelSaturation;
+            case "pork_knuckle" -> food.porkKnuckleSaturation;
+            case "fried_chicken" -> food.friedChickenSaturation;
+            case "half_chicken" -> food.halfChickenSaturation;
+            case "mashed_potatoes" -> food.mashedPotatoesSaturation;
+            case "potato_salad" -> food.potatoSaladSaturation;
+            case "dumplings" -> food.dumplingsSaturation;
             default -> 0;
         };
     }

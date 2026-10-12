@@ -1,3 +1,15 @@
+[2.1.13]
+
+**Fixed**
+* Armor and clothing no longer stack, each piece takes its own slot
+
+**Changed**
+* Rebalanced all food based on what goes into it, so it fits Farm & Charm: the Sausage is now a proper meal, while placed dishes like Pork Knuckle, Fried Chicken or Potato Salad give less per bite, since every bite counted as a full meal. A whole placed dish still fills more than a single meal
+* Pork Knuckle, Half Chicken and Mashed Potatoes now come out as one dish per recipe instead of several
+* Food options in the config now have descriptions and limits. Existing config files keep their old hunger values, delete the `Food` entries to get the new ones. The saturation options were renamed and reset to the new values
+
+*** 
+
 [2.1.12]
 
 **Added**

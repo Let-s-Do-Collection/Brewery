@@ -21,7 +21,6 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
 import net.satisfy.brewery.Brewery;
-import net.satisfy.brewery.core.registry.CompostablesRegistry;
 import net.satisfy.brewery.core.registry.ObjectRegistry;
 import net.satisfy.brewery.forge.core.config.BreweryNeoForgeConfig;
 import net.satisfy.brewery.platform.neoforge.PlatformHelperImpl;
@@ -48,7 +47,6 @@ public class BreweryNeoForge {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        event.enqueueWork(CompostablesRegistry::init);
     }
 
     private static void addBuiltinPacks(AddPackFindersEvent event) {
@@ -97,7 +95,7 @@ public class BreweryNeoForge {
 
         FoodProperties updated = new FoodProperties(
                 PlatformHelperImpl.getNutrition(key),
-                PlatformHelperImpl.getSaturationMod(key),
+                PlatformHelperImpl.getSaturation(key),
                 current.canAlwaysEat(),
                 current.eatSeconds(),
                 current.usingConvertsTo(),

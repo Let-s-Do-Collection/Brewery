@@ -2,7 +2,6 @@ package net.satisfy.brewery.core.item;
 
 import net.satisfy.brewery.core.registry.ArmorSetRegistry;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -13,30 +12,23 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffectUtil;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.CustomData;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.satisfy.foundation.storage.StorageBlockEntity;
 import net.satisfy.brewery.platform.PlatformHelper;
 import net.satisfy.brewery.core.registry.MobEffectRegistry;
 import net.satisfy.brewery.core.registry.ObjectRegistry;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Objects;
+import net.satisfy.foundation.food.PlaceableDrinkItem;
 
-public class DrinkBlockItem extends BlockItem {
+public class DrinkBlockItem extends PlaceableDrinkItem {
 
     private final MobEffect effect;
     private final int baseDuration;
@@ -50,11 +42,11 @@ public class DrinkBlockItem extends BlockItem {
 
     public DrinkBlockItem(MobEffect effect, int duration, Block block, Properties settings) {
         super(block, settings);
+        crouchToPlace().drinkAnytime();
         this.effect = effect;
         this.baseDuration = duration;
     }
 
-    /** Whiskeys are served in bottles, everything else in mugs. */
     public static boolean isBottled(ItemStack stack) {
         return BuiltInRegistries.ITEM.getKey(stack.getItem()).getPath().startsWith("whiskey_");
     }
@@ -76,41 +68,14 @@ public class DrinkBlockItem extends BlockItem {
     }
 
     @Override
-    protected BlockState getPlacementState(BlockPlaceContext context) {
-        if (!Objects.requireNonNull(context.getPlayer()).isCrouching()) {
-            return null;
-        }
-
-        BlockState blockState = this.getBlock().getStateForPlacement(context);
-        return blockState != null && this.canPlace(context, blockState) ? blockState : null;
+    protected Item containerFor(ItemStack stack) {
+        return getContainer(stack);
     }
 
     @Override
-    protected boolean updateCustomBlockEntityTag(BlockPos blockPos, Level level, @Nullable Player player, ItemStack itemStack, BlockState blockState) {
-        if (level.getBlockEntity(blockPos) instanceof StorageBlockEntity beerEntity) {
-            beerEntity.setStack(0, itemStack.copyWithCount(1));
-        }
-        return super.updateCustomBlockEntityTag(blockPos, level, player, itemStack, blockState);
-    }
-
-    @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand interactionHand) {
-        return ItemUtils.startUsingInstantly(level, player, interactionHand);
-    }
-
-    @Override
-    public @NotNull ItemStack finishUsingItem(ItemStack itemStack, Level level, LivingEntity livingEntity) {
-        ItemStack returnStack = super.finishUsingItem(itemStack, level, livingEntity);
-        if (livingEntity instanceof Player player && !player.isCreative()) {
-            ItemStack container = new ItemStack(getContainer(itemStack));
-            if (!player.addItem(container)) {
-                player.drop(container, false);
-            }
-        }
+    protected void applyEffects(ItemStack itemStack, Level level, LivingEntity livingEntity) {
         if (livingEntity instanceof ServerPlayer serverPlayer) {
-            int quality = itemStack.has(DataComponents.CUSTOM_DATA) && Objects.requireNonNull(itemStack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)).contains("brewery.beer_quality")
-                    ? itemStack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().getInt("brewery.beer_quality")
-                    : MAX_QUALITY;
+            int quality = getQuality(itemStack);
 
             MobEffectInstance mainEffect = calculateEffectForQuality(quality);
             var holder = BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect);
@@ -141,9 +106,7 @@ public class DrinkBlockItem extends BlockItem {
                 serverPlayer.addEffect(new MobEffectInstance(drunkHolder, drunkDuration, newDrunkAmp, false, false));
             }
         }
-        return returnStack;
     }
-
 
     @NotNull
     private MobEffectInstance calculateEffectForQuality(int quality) {
@@ -186,11 +149,6 @@ public class DrinkBlockItem extends BlockItem {
 
     public void addCount(ItemStack resultSack, int solved) {
         resultSack.setCount(solved);
-    }
-
-    @Override
-    public @NotNull UseAnim getUseAnimation(ItemStack stack) {
-        return UseAnim.DRINK;
     }
 
     @Override

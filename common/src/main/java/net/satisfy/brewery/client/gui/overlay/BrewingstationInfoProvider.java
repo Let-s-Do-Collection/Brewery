@@ -62,7 +62,7 @@ public class BrewingstationInfoProvider implements BlockInfoProvider {
         if (present.isEmpty()) {
             return sections;
         }
-        sections.add(InfoSection.icons(Component.translatable("hud.brewery.in_kettle"), present, InfoSection.ROW_COLUMNS));
+        sections.add(InfoSection.icons(Component.translatable("hud.brewery.in_kettle"), present, InfoSection.ROW_COLUMNS).withDecorations());
 
         BrewingRecipe complete = null;
         List<ItemStack> next = new ArrayList<>();
@@ -95,7 +95,7 @@ public class BrewingstationInfoProvider implements BlockInfoProvider {
             sections.add(status(level, station, state, liquid, complete));
         } else if (!next.isEmpty()) {
             String nextKey = results.isEmpty() ? "hud.brewery.next_ingredients" : next.size() == 1 ? "hud.brewery.missing_ingredient" : "hud.brewery.missing_ingredients";
-            sections.add(InfoSection.icons(Component.translatable(nextKey), next, InfoSection.GRID_COLUMNS * 2));
+            sections.add(InfoSection.icons(Component.translatable(nextKey), next, InfoSection.GRID_COLUMNS));
             if (!results.isEmpty()) {
                 sections.add(InfoSection.rows(Component.translatable(results.size() == 1 ? "hud.brewery.result" : "hud.brewery.possible_results").withStyle(ChatFormatting.GREEN), results));
             }
