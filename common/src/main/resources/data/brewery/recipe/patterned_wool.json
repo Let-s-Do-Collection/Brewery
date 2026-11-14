@@ -6,7 +6,7 @@
       "item": "minecraft:white_wool"
     },
     "B": {
-      "item": "minecraft:blue_wool"
+      "tag": "brewery:blueish_wools"
     }
   },
   "pattern": [
