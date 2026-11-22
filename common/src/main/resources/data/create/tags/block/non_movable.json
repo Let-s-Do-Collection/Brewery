@@ -1,0 +1,15 @@
+{
+  "values": [
+    "brewery:wooden_brewingstation",
+    "brewery:copper_brewingstation",
+    "brewery:netherite_brewingstation",
+    "brewery:brew_kettle_top",
+    "brewery:brew_oven",
+    "brewery:brew_timer",
+    "brewery:brew_whistle",
+    "brewery:barrel_main",
+    "brewery:barrel_main_head",
+    "brewery:barrel_right",
+    "brewery:barrel_head_right"
+  ]
+}
