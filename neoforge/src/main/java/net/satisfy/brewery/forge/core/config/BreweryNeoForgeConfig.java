@@ -4,6 +4,9 @@ import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class BreweryNeoForgeConfig {
+    public static final ModConfigSpec.Builder STARTUP_BUILDER = new ModConfigSpec.Builder();
+    public static final ModConfigSpec STARTUP_CONFIG;
+
     public static final ModConfigSpec COMMON_CONFIG;
     public static final ModConfigSpec.IntValue BREW_TIME;
     public static final ModConfigSpec.BooleanValue ENABLE_BREW_EVENTS;
@@ -148,33 +151,39 @@ public class BreweryNeoForgeConfig {
         INFO_TOOLTIPS_NEED_DUNGAREES = builder.comment("Info tooltips only show while wearing Dungarees from Farm & Charm.").define("needDungarees", false);
         builder.pop();
 
-        builder.comment("Hunger and saturation of the food items. Changes need a game restart.").push("Food");
-        SAUSAGE_NUTRITION = builder.comment("Hunger points restored by eating Sausage. 2 points = 1 drumstick.").defineInRange("sausageNutrition", 12, 0, 20);
-        SAUSAGE_SATURATION = builder.comment("Saturation factor of Sausage. Saturation gained = hunger points Ã factor Ã 2.").defineInRange("sausageSaturation", 0.9, 0.0, 2.0);
-        PRETZEL_NUTRITION = builder.comment("Hunger points restored by eating Pretzel. 2 points = 1 drumstick.").defineInRange("pretzelNutrition", 3, 0, 20);
-        PRETZEL_SATURATION = builder.comment("Saturation factor of Pretzel. Saturation gained = hunger points Ã factor Ã 2.").defineInRange("pretzelSaturation", 0.4, 0.0, 2.0);
-        PORK_KNUCKLE_NUTRITION = builder.comment("Hunger points restored by eating Pork Knuckle or by one bite of a placed Pork Knuckle. 2 points = 1 drumstick.").defineInRange("porkKnuckleNutrition", 4, 0, 20);
-        PORK_KNUCKLE_SATURATION = builder.comment("Saturation factor of Pork Knuckle. Saturation gained = hunger points Ã factor Ã 2.").defineInRange("porkKnuckleSaturation", 0.7, 0.0, 2.0);
-        FRIED_CHICKEN_NUTRITION = builder.comment("Hunger points restored by eating Fried Chicken or by one bite of a placed Fried Chicken. 2 points = 1 drumstick.").defineInRange("friedChickenNutrition", 3, 0, 20);
-        FRIED_CHICKEN_SATURATION = builder.comment("Saturation factor of Fried Chicken. Saturation gained = hunger points Ã factor Ã 2.").defineInRange("friedChickenSaturation", 0.5, 0.0, 2.0);
-        HALF_CHICKEN_NUTRITION = builder.comment("Hunger points restored by eating Half Chicken or by one bite of a placed Half Chicken. 2 points = 1 drumstick.").defineInRange("halfChickenNutrition", 2, 0, 20);
-        HALF_CHICKEN_SATURATION = builder.comment("Saturation factor of Half Chicken. Saturation gained = hunger points Ã factor Ã 2.").defineInRange("halfChickenSaturation", 0.6, 0.0, 2.0);
-        MASHED_POTATOES_NUTRITION = builder.comment("Hunger points restored by eating Mashed Potatoes or by one bite of a placed Mashed Potatoes. 2 points = 1 drumstick.").defineInRange("mashedPotatoesNutrition", 2, 0, 20);
-        MASHED_POTATOES_SATURATION = builder.comment("Saturation factor of Mashed Potatoes. Saturation gained = hunger points Ã factor Ã 2.").defineInRange("mashedPotatoesSaturation", 0.5, 0.0, 2.0);
-        POTATO_SALAD_NUTRITION = builder.comment("Hunger points restored by eating Potato Salad or by one bite of a placed Potato Salad. 2 points = 1 drumstick.").defineInRange("potatoSaladNutrition", 2, 0, 20);
-        POTATO_SALAD_SATURATION = builder.comment("Saturation factor of Potato Salad. Saturation gained = hunger points Ã factor Ã 2.").defineInRange("potatoSaladSaturation", 0.5, 0.0, 2.0);
-        DUMPLINGS_NUTRITION = builder.comment("Hunger points restored by eating Dumplings or by one bite of a placed Dumplings. 2 points = 1 drumstick.").defineInRange("dumplingsNutrition", 3, 0, 20);
-        DUMPLINGS_SATURATION = builder.comment("Saturation factor of Dumplings. Saturation gained = hunger points Ã factor Ã 2.").defineInRange("dumplingsSaturation", 0.5, 0.0, 2.0);
-        builder.pop();
+        STARTUP_BUILDER.comment("Hunger and saturation of the food items. Changes need a game restart.").push("Food");
+        SAUSAGE_NUTRITION = STARTUP_BUILDER.comment("Hunger points restored by eating Sausage. 2 points = 1 drumstick.").defineInRange("sausageNutrition", 12, 0, 20);
+        SAUSAGE_SATURATION = STARTUP_BUILDER.comment("Saturation factor of Sausage. Saturation gained = hunger points Ã factor Ã 2.").defineInRange("sausageSaturation", 0.9, 0.0, 2.0);
+        PRETZEL_NUTRITION = STARTUP_BUILDER.comment("Hunger points restored by eating Pretzel. 2 points = 1 drumstick.").defineInRange("pretzelNutrition", 3, 0, 20);
+        PRETZEL_SATURATION = STARTUP_BUILDER.comment("Saturation factor of Pretzel. Saturation gained = hunger points Ã factor Ã 2.").defineInRange("pretzelSaturation", 0.4, 0.0, 2.0);
+        PORK_KNUCKLE_NUTRITION = STARTUP_BUILDER.comment("Hunger points restored by eating Pork Knuckle or by one bite of a placed Pork Knuckle. 2 points = 1 drumstick.").defineInRange("porkKnuckleNutrition", 4, 0, 20);
+        PORK_KNUCKLE_SATURATION = STARTUP_BUILDER.comment("Saturation factor of Pork Knuckle. Saturation gained = hunger points Ã factor Ã 2.").defineInRange("porkKnuckleSaturation", 0.7, 0.0, 2.0);
+        FRIED_CHICKEN_NUTRITION = STARTUP_BUILDER.comment("Hunger points restored by eating Fried Chicken or by one bite of a placed Fried Chicken. 2 points = 1 drumstick.").defineInRange("friedChickenNutrition", 3, 0, 20);
+        FRIED_CHICKEN_SATURATION = STARTUP_BUILDER.comment("Saturation factor of Fried Chicken. Saturation gained = hunger points Ã factor Ã 2.").defineInRange("friedChickenSaturation", 0.5, 0.0, 2.0);
+        HALF_CHICKEN_NUTRITION = STARTUP_BUILDER.comment("Hunger points restored by eating Half Chicken or by one bite of a placed Half Chicken. 2 points = 1 drumstick.").defineInRange("halfChickenNutrition", 2, 0, 20);
+        HALF_CHICKEN_SATURATION = STARTUP_BUILDER.comment("Saturation factor of Half Chicken. Saturation gained = hunger points Ã factor Ã 2.").defineInRange("halfChickenSaturation", 0.6, 0.0, 2.0);
+        MASHED_POTATOES_NUTRITION = STARTUP_BUILDER.comment("Hunger points restored by eating Mashed Potatoes or by one bite of a placed Mashed Potatoes. 2 points = 1 drumstick.").defineInRange("mashedPotatoesNutrition", 2, 0, 20);
+        MASHED_POTATOES_SATURATION = STARTUP_BUILDER.comment("Saturation factor of Mashed Potatoes. Saturation gained = hunger points Ã factor Ã 2.").defineInRange("mashedPotatoesSaturation", 0.5, 0.0, 2.0);
+        POTATO_SALAD_NUTRITION = STARTUP_BUILDER.comment("Hunger points restored by eating Potato Salad or by one bite of a placed Potato Salad. 2 points = 1 drumstick.").defineInRange("potatoSaladNutrition", 2, 0, 20);
+        POTATO_SALAD_SATURATION = STARTUP_BUILDER.comment("Saturation factor of Potato Salad. Saturation gained = hunger points Ã factor Ã 2.").defineInRange("potatoSaladSaturation", 0.5, 0.0, 2.0);
+        DUMPLINGS_NUTRITION = STARTUP_BUILDER.comment("Hunger points restored by eating Dumplings or by one bite of a placed Dumplings. 2 points = 1 drumstick.").defineInRange("dumplingsNutrition", 3, 0, 20);
+        DUMPLINGS_SATURATION = STARTUP_BUILDER.comment("Saturation factor of Dumplings. Saturation gained = hunger points Ã factor Ã 2.").defineInRange("dumplingsSaturation", 0.5, 0.0, 2.0);
+        STARTUP_BUILDER.pop();
+
+        STARTUP_CONFIG = STARTUP_BUILDER.build();
         COMMON_CONFIG = builder.build();
     }
 
     public static void onLoad(ModConfigEvent.Loading event) {
-        bake();
+        if (event.getConfig().getSpec() == COMMON_CONFIG) {
+            bake();
+        }
     }
 
     public static void onReload(ModConfigEvent.Reloading event) {
-        bake();
+        if (event.getConfig().getSpec() == COMMON_CONFIG) {
+            bake();
+        }
     }
 
     private static void bake() {
@@ -206,6 +215,9 @@ public class BreweryNeoForgeConfig {
         showBrewingstationInfo = SHOW_BREWINGSTATION_INFO.get();
         showBigBarrelInfo = SHOW_BIG_BARREL_INFO.get();
         infoTooltipsNeedDungarees = INFO_TOOLTIPS_NEED_DUNGAREES.get();
+    }
+
+    public static void syncFood() {
         sausageNutrition = SAUSAGE_NUTRITION.get();
         sausageSaturation = SAUSAGE_SATURATION.get();
         pretzelNutrition = PRETZEL_NUTRITION.get();

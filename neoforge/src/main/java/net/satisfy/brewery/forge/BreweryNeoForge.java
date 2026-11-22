@@ -39,6 +39,8 @@ public class BreweryNeoForge {
         EventBusesHooks.whenAvailable(Brewery.MOD_ID, IEventBus::start);
         Brewery.init();
         modContainer.registerConfig(ModConfig.Type.COMMON, BreweryNeoForgeConfig.COMMON_CONFIG);
+        modContainer.registerConfig(ModConfig.Type.STARTUP, BreweryNeoForgeConfig.STARTUP_CONFIG);
+        BreweryNeoForgeConfig.syncFood();
         modEventBus.addListener(BreweryNeoForgeConfig::onLoad);
         modEventBus.addListener(BreweryNeoForgeConfig::onReload);
         modEventBus.addListener(BreweryNeoForge::reapplyFoodConfig);
@@ -95,7 +97,7 @@ public class BreweryNeoForge {
 
         FoodProperties updated = new FoodProperties(
                 PlatformHelperImpl.getNutrition(key),
-                PlatformHelperImpl.getSaturation(key),
+                PlatformHelperImpl.getNutrition(key) * PlatformHelperImpl.getSaturation(key) * 2.0F,
                 current.canAlwaysEat(),
                 current.eatSeconds(),
                 current.usingConvertsTo(),

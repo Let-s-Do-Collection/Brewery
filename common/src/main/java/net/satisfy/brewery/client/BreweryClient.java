@@ -1,5 +1,8 @@
 package net.satisfy.brewery.client;
 
+import net.satisfy.foundation.client.creative.CreativeTabTooltips;
+import net.satisfy.foundation.rarity.FoundationRarity;
+import net.satisfy.brewery.core.registry.TabRegistry;
 import net.satisfy.brewery.client.renderer.block.BrewTimerRenderer;
 import net.satisfy.brewery.client.renderer.block.BrewWhistleRenderer;
 import net.satisfy.brewery.client.gui.overlay.BigBarrelInfoProvider;
@@ -38,6 +41,7 @@ import net.satisfy.foundation.overlay.BlockInfoOverlay;
 public class BreweryClient {
 
     public static void onInitializeClient() {
+        CreativeTabTooltips.register(TabRegistry.BREWERY_TAB.getKey(), FoundationRarity.solid("brewery:amber", 0xE8A33B));
         registerArmorModels();
         RenderTypeRegistry.register(RenderType.cutout(),
                 WILD_HOPS.get(), BEER_MUG.get(), BEER_WHEAT.get(), BEER_HOPS.get(), BEER_BARLEY.get(), BEER_HALEY.get(), BEER_OAT.get(), BEER_NETTLE.get(),

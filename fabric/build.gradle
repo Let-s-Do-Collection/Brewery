@@ -32,7 +32,7 @@ configurations {
 }
 
 dependencies {
-    include(modImplementation("net.satisfy.foundation:foundation-fabric:${rootProject.foundation_version}") { transitive = false })
+    modImplementation("net.satisfy.foundation:foundation-fabric:${rootProject.foundation_version}") { transitive = false }
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     modImplementation "com.terraformersmc:modmenu:${rootProject.mod_menu_version}"
     modImplementation(files(rootProject.file("local-mods/letsdo-farm_and_charm-fabric-${rootProject.farm_and_charm_version}.jar")))
@@ -112,6 +112,7 @@ modrinth {
     additionalFiles = [tasks.sourcesJar.archiveFile]
 
     dependencies {
+        required.project "lets-do-foundation"
         required.project "architectury-api"
         required.project "cloth-config"
         required.project "lets-do-farm-charm"
@@ -130,6 +131,7 @@ tasks.register("curseforge1038106", net.darkhax.curseforgegradle.TaskPublishCurs
     mainFile.addGameVersion(rootProject.minecraft_version)
     mainFile.addModLoader("Fabric")
     mainFile.addEnvironment("Client", "Server")
+    mainFile.addRequirement("lets-do-foundation")
     mainFile.addRequirement("architectury-api")
     mainFile.addRequirement("cloth-config")
     mainFile.addRequirement("lets-do-farm-charm")

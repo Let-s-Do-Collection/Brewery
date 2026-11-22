@@ -1,3 +1,14 @@
+[2.1.14]
+
+**Fixed**
+* On NeoForge, food and drinks give their full saturation again instead of almost none
+
+**Changed**
+* Foundation is no longer bundled inside the mod. It is now a separate required download, Modrinth and CurseForge install it automatically
+* The creative tab tooltip now has a colored frame and shows the mod id, like the other Let's Do mods
+
+***
+
 [2.1.13]
 
 **Fixed**

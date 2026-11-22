@@ -12,11 +12,13 @@ import net.satisfy.brewery.core.network.BreweryNetworking;
 import net.satisfy.brewery.core.registry.*;
 
 import dev.architectury.registry.registries.RegistrySupplier;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 import net.satisfy.foundation.rarity.FoundationRarities;
 import net.satisfy.foundation.rarity.FoundationRarity;
 
-import java.util.List;
 
 import static net.satisfy.brewery.core.registry.ObjectRegistry.*;
 import net.satisfy.foundation.entity.equipment.ZombieEquipment;
@@ -56,9 +58,34 @@ public class Brewery {
     }
 
     private static void registerRarities() {
-        FoundationRarities.register(BREWERY_BANNER.get(), FoundationRarity.LEGENDARY);
-        for (RegistrySupplier<Item> piece : List.of(BREWFEST_HAT, BREWFEST_HAT_RED, BREWFEST_REGALIA, BREWFEST_TROUSERS, BREWFEST_BOOTS, BREWFEST_DRESS, BREWFEST_BLOUSE, BREWFEST_SHOES)) {
-            FoundationRarities.register(piece.get(), FoundationRarity.RARE);
+        registerRarity(FoundationRarity.COMMON,
+                HOPS, DRIED_WHEAT, DRIED_BARLEY, DRIED_CORN, DRIED_OAT,
+                BENCH, TABLE, PATTERNED_WOOL, PATTERNED_CARPET, CABINET, DRAWER, BAR_COUNTER, SIDEBOARD, WALL_CABINET, BEER_MUG);
+        registerRarity(FoundationRarity.UNCOMMON,
+                WILD_HOPS, SAUSAGE, PRETZEL, GINGERBREAD, DARK_BREW,
+                BEER_WHEAT, BEER_HOPS, BEER_BARLEY, BEER_OAT,
+                WOODEN_BREWINGSTATION, BREW_TIMER, BREW_WHISTLE, BARREL_MAIN, BREATHALYZER);
+        registerRarity(FoundationRarity.RARE,
+                BEER_NETTLE, BEER_HALEY,
+                WHISKEY_MAGGOALLAN, WHISKEY_CARRASCONLABEL, WHISKEY_LILITUSINGLEMALT, WHISKEY_JOJANNIK, WHISKEY_CRISTELWALKER,
+                MASHED_POTATOES, POTATO_SALAD, DUMPLINGS, HALF_CHICKEN,
+                COPPER_BREWINGSTATION,
+                BREWFEST_HAT, BREWFEST_HAT_RED, BREWFEST_REGALIA, BREWFEST_TROUSERS, BREWFEST_BOOTS, BREWFEST_DRESS, BREWFEST_BLOUSE, BREWFEST_SHOES);
+        registerRarity(FoundationRarity.EPIC,
+                WHISKEY_AK, WHISKEY_HIGHLAND_HEARTH, WHISKEY_JAMESONS_MALT, WHISKEY_SMOKEY_REVERIE,
+                PORK_KNUCKLE, FRIED_CHICKEN, NETHERITE_BREWINGSTATION);
+        registerRarity(FoundationRarity.LEGENDARY, BREWERY_BANNER);
+        for (Item item : BuiltInRegistries.ITEM) {
+            if (MOD_ID.equals(BuiltInRegistries.ITEM.getKey(item).getNamespace()) && FoundationRarities.get(new ItemStack(item)) == null) {
+                FoundationRarities.register(item, FoundationRarity.COMMON);
+            }
+        }
+    }
+
+    @SafeVarargs
+    private static void registerRarity(FoundationRarity rarity, RegistrySupplier<? extends ItemLike>... entries) {
+        for (RegistrySupplier<? extends ItemLike> entry : entries) {
+            FoundationRarities.register(entry.get(), rarity);
         }
     }
 
